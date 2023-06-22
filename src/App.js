@@ -1,4 +1,5 @@
 import { ARAnchor, ARView } from "react-three-mind";
+import cover from './cover.mind'
 
 function Plane(props) {
   return (
@@ -12,7 +13,7 @@ function Plane(props) {
 function App() {
   return (
     <ARView
-      imageTargets="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.4/examples/image-tracking/assets/card-example/card.mind"
+      imageTargets={cover}
       filterMinCF={1}
       filterBeta={10000}
       missTolerance={0}
