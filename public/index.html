@@ -5,6 +5,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <title>react-three-mind image-tracking</title>
+    <style>
+      body {
+	margin: 0;
+    font-family: helvetica;
+	  }
+      #container {
+		  
+	width: 100vw;
+	height: 100vh;
+	position: relative;
+	overflow: hidden;
+      }
+      #control {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 2;
+      }
+	  .header-box{
+		  background-position: center;
+		  background-image: url("MXT_CLM_Kickstarter_Title_MJ_03.gif");
+		  background-size:contain;
+		  background-repeat: no-repeat;
+		  width: 75vw;
+		  height: 200px;
+	  }
+	  .header {
+		  font-size: 36px;
+		  font-weight: 700;
+	  }
+	  .flex{
+		  justify-content: center;
+		  align-items: center;
+		  display: flex;
+		  flex-direction: column;
+		  height: 100vh;
+	  }
+	  .button{
+		  font-size: 36px;
+		  border: 0px dashed black;
+  background-color: white;
+  color: black;
+  padding: 14px 28px;
+  cursor: pointer;
+	  }
+	  .button:hover{
+		  border-color: orange;
+		  color: orange;
+	  }
+	  
+    </style>
+	<video   id="videoYellow" loop crossOrigin="anonymous" playsinline style="display:none">
+    <source src="MXT_CLM_Comp_LogoAnimtion_YellowMonster_CV_h265.mp4">
+	</video>
+	<video   id="videoOrange" loop crossOrigin="anonymous" playsinline style="display:none">
+    <source src="MXT_CLM_Comp_LogoAnimtion_OrangeMonster_CV_.mp4">
+	</video>
+	<video   id="videoPink" loop crossOrigin="anonymous" playsinline style="display:none">
+    <source src="MXT_CLM_Comp_LogoAnimtion_PinkMonster_CV_.mp4">
+	</video>
+	<video   id="videoGreen" loop crossOrigin="anonymous" playsinline style="display:none">
+    <source src="MXT_CLM_Comp_LogoAnimtion_GreenMonster_CV_.mp4">
+	</video>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
