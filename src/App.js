@@ -12,13 +12,12 @@ function Plane(props) {
 }
 
 function Foo(){
-  const {renderer, scene, camera} = useThree()
+  const {gl, scene, camera} = useThree()
   return(
     <>
   <ambientLight />
   <pointLight position={[10, 10, 10]} />
-  <ARAnchor target={0} onAnchorFound={() => renderer.setClearColor(0x272727, 0.95)} onAnchorLost={() => renderer.setClearColor(0x272727, 0.0)}>
-    {/* <Plane /> */}
+  <ARAnchor target={0} onAnchorFound={() => gl.setClearColor(0x272727, 0.95)} onAnchorLost={() => gl.setClearColor(0x272727, 0.0)}>
   </ARAnchor>
     </>
   )
