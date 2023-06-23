@@ -176,18 +176,37 @@ function degToRad(degrees) {
   var pi = Math.PI;
   return degrees * (pi / 180);
 }
+function StartUi(){
+  const [ start, setStart] = useState(false)
+  // const handleStart = ()=>{
+  //   setStart(true)
+  // }
+
+  return(<>
+  <div className={"flex"} id={"header"} style={{ display: start ? "none" : "flex"}}>
+			<div className={"header-box"}></div>
+			<div> 
+     			 <button onClick={setStart} className={"button"} id={"startButton"}>Start</button>
+			</div>
+			<div></div>
+	  	</div>
+  </>)
+}
 
 function App() {
   return (
+    <>
+    <StartUi/>
     <ARView
       imageTargets={cover}
       filterMinCF={.00005}
       filterBeta={.001}
       missTolerance={10}
       warmupTolerance={0}
-    >
+      >
    <Foo/>
     </ARView>
+      </>
   );
 }
 
