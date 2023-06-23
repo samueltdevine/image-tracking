@@ -23,13 +23,31 @@ function degToRad(degrees) {
 
 const {renderer, scene, camera} = useThree()
 
+const listener = new THREE.AudioListener();
+camera.add(listener);
+
+// create a global audio source
+const sound = new THREE.Audio(listener);
+
+// load a sound and set it as the Audio object's buffer
+const audioLoader = new THREE.AudioLoader();
+audioLoader.load("/CLM.mp3", function (buffer) {
+  sound.setBuffer(buffer);
+  sound.setLoop(false);
+  sound.setVolume(0.2);
+});
+
+let soundPlayed = false;
+
+
 scene.backgroundIntensity = 0;
 const anchor = mindarThree.addAnchor(0);
 const anchors = mindarThree.anchors;
 anchors[0].onTargetFound = () => {
-  console.log("found");
+  sound.play();
+  soundPlayed = true
+  console.log("soundPlayed", sound)
   renderer.setClearColor(0x272727, 0.95);
-  // background.backgroundIntensity = 0.01;
 };
 anchors[0].onTargetLost = () => {
   console.log("lost");
