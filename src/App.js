@@ -5,6 +5,7 @@ import * as THREE from "three";
 import {useState} from 'react'
 import { useSpring, animated, config, useTrail, useSpringRef } from '@react-spring/three'
 import { PlaneGeometry } from '@react-three/drei'
+import {NumberKeyframeTrack, ColorKeyframeTrack, AnimationClip} from 'three'
 
 
 // function Plane(props) {
@@ -116,17 +117,39 @@ audioLoader.load("/CLM.mp3", function (buffer) {
 
 const [trails, api] = useTrail(
   4,
-  () => ({ scale: 0,
+    () => ({ scale: 0,
     config: config.wobbly
   }),
   []
 )
-const [coverActive, setCoverActive] = useState(false)
-const springs = useSpring({scale: coverActive ? 0.7 : 0,
-  config: config.wobbly,
-  
-})
+// const clearColor = 
 
+
+// const timesFadeOn= [0x272727, 0xFFFFFF]
+// const valuesFadeOn= [0,0.9]
+// const valuesFadeOff= [ 0.95,0.00]
+// const fadeOnKF = new ColorKeyframeTrack(".clearColor",timesFadeOn,valuesFadeOn)
+// const fadeOffKF = new ColorKeyframeTrack(".clearColor",timesFadeOn,valuesFadeOff)
+
+// const tracks = [fadeOnKF]
+// const length = -1
+// const fadeOnClip = new AnimationClip("fadeOn", length, tracks)
+// const mixer = new THREE.AnimationMixer( gl )
+// const fadeOnAction = mixer.clipAction(fadeOnClip) 
+
+
+// const clips = gl.animations;
+// function update (){
+//   mixer.update(0.2)
+// }
+
+// const clip = THREE.AnimationClip.findByName(clips, "bgColorClip")
+// const action = mixer.clipAction(clip)
+// action.play(
+//   clips.forEach(function(clip){
+//     mixer.clipAction(clip).play()
+//   })
+// )
 
 const handleCover = (prop) => {
     api.start({scale: prop.scale})
@@ -138,7 +161,9 @@ const handleCover = (prop) => {
   <ARAnchor
   target={0}
   
-  onAnchorFound={() => {gl.setClearColor(0x272727, 0.95)
+  onAnchorFound={() => {
+    gl.setClearColor(0x272727, 0.95)
+  // fadeOnAction.play()
   videos.forEach((video) => video.play()); 
   let prop = {scale: 0.0}
   handleCover(prop)
@@ -150,7 +175,8 @@ const handleCover = (prop) => {
   sound.play()
   }
 }}
-  onAnchorLost={() => {gl.setClearColor(0x272727, 0.0)
+  onAnchorLost={() => {
+    gl.setClearColor(0x272727, 0.0)
     let prop = {scale: 0.0}
     handleCover(prop)
     }}>
@@ -171,7 +197,8 @@ const handleCover = (prop) => {
   )
 }
 
-
+const color = new THREE.Color(0x272727)
+const alpha = 0.95
 function degToRad(degrees) {
   var pi = Math.PI;
   return degrees * (pi / 180);
@@ -198,12 +225,17 @@ function App() {
     <>
     <StartUi/>
     <ARView
+
       imageTargets={cover}
       filterMinCF={.00005}
       filterBeta={.001}
       missTolerance={10}
       warmupTolerance={0}
       >
+        {/* <color attach="background" 
+        args={[color]} 
+        ler
+        /> */}
    <Foo/>
     </ARView>
       </>
