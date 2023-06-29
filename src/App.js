@@ -1,5 +1,6 @@
 import { ARAnchor, ARView } from "react-three-mind";
 import cover from './cover.mind'
+import multiTargets from './multiTargets.mind'
 import { useThree, } from "@react-three/fiber";
 import * as THREE from "three";
 import {useState} from 'react'
@@ -7,19 +8,30 @@ import { useSpring, animated, config, useTrail, useSpringRef } from '@react-spri
 import { PlaneGeometry } from '@react-three/drei'
 import {NumberKeyframeTrack, ColorKeyframeTrack, AnimationClip} from 'three'
 
+function degToRad(degrees) {
+  var pi = Math.PI;
+  return degrees * (pi / 180);
+}
 
-// function Plane(props) {
-//   return (
-//     <mesh {...props}>
-//       <boxGeometry args={[1, 1, 0.1]} />
-//       <meshStandardMaterial color="orange" />
-//     </mesh>
-//   );
-// }
+function StartUi(){
+  const [ start, setStart] = useState(false)
+
+  return(<>
+  <div className={"flex"} id={"header"} style={{ display: start ? "none" : "flex"}}>
+			<div className={"header-box"}></div>
+			<div> 
+     			 <button onClick={setStart} className={"button"} id={"startButton"}>Start</button>
+			</div>
+			<div></div>
+	  	</div>
+  </>)
+}
 
 let soundPlayed = false;
+const rotBack = degToRad(33);
 
-function Foo(){
+
+function CoverTarget(){
   const {gl, scene, camera} = useThree()
 
   const videos = [];
@@ -43,7 +55,6 @@ const idToVideoMat = (id, depthTest) => {
 
 
 
-const rotBack = degToRad(33);
 
 const coverGroup = new THREE.Group();
 
@@ -52,38 +63,21 @@ const coverGroup = new THREE.Group();
 const geoYellow = new THREE.PlaneGeometry(7.0, 6.72);
 const yellowMat = idToVideoMat("videoYellow", false);
 const planeYellow = new THREE.Mesh(geoYellow, yellowMat);
-// geoYellow.translate(-3, 2, 4);
-// geoYellow.rotateX(rotBack);
-// geoYellow.scale(0.07, 0.07, 0.07);
-// coverGroup.add(planeYellow);
+
 
 const geoPink = new THREE.PlaneGeometry(7.0, 6.72);
 const pinkMat = idToVideoMat("videoPink", true);
 const planePink = new THREE.Mesh(geoPink, pinkMat);
-// geoPink.translate(-3, 2, -3);
-// geoPink.rotateX(rotBack);
-// geoPink.scale(0.07, 0.07, 0.07);
-// coverGroup.add(planePink);
+
 
 const geoOrange = new THREE.PlaneGeometry(7.0, 6.72);
 const orangeMat = idToVideoMat("videoOrange", false);
 const planeOrange = new THREE.Mesh(geoOrange, orangeMat);
-// geoOrange.translate(3.5, 2, 2);
-// geoOrange.rotateX(rotBack);
-// geoOrange.scale(0.07, 0.07, 0.07);
-// coverGroup.add(planeOrange);
+
 
 const geoGreen = new THREE.PlaneGeometry(7.0, 6.72);
 const greenMat = idToVideoMat("videoGreen", false);
 const planeGreen = new THREE.Mesh(geoGreen, greenMat);
-// geoGreen.translate(1, 1, 3);
-// geoGreen.rotateX(rotBack);
-// geoGreen.scale(0.07, 0.07, 0.07);
-// coverGroup.add(planeGreen);
-
-coverGroup.translateY(-0.1);
-// anchor.group.add(coverGroup);
-
 
 
   const start = async () => {
@@ -94,20 +88,16 @@ coverGroup.translateY(-0.1);
   header.style.display = "none";
   const container = document.querySelector("#container");
   container.style.display = "block";
-  // await mindarThree.start();
-  // renderer.setAnimationLoop(() => {
-  //   renderer.render(scene, camera);
-  // });
 
 };
 const listener = new THREE.AudioListener();
 
 camera.add(listener);
 
-// create a global audio source
+
 const sound = new THREE.Audio(listener);
 
-// load a sound and set it as the Audio object's buffer
+
 const audioLoader = new THREE.AudioLoader();
 audioLoader.load("/CLM.mp3", function (buffer) {
   sound.setBuffer(buffer);
@@ -122,34 +112,7 @@ const [trails, api] = useTrail(
   }),
   []
 )
-// const clearColor = 
 
-
-// const timesFadeOn= [0x272727, 0xFFFFFF]
-// const valuesFadeOn= [0,0.9]
-// const valuesFadeOff= [ 0.95,0.00]
-// const fadeOnKF = new ColorKeyframeTrack(".clearColor",timesFadeOn,valuesFadeOn)
-// const fadeOffKF = new ColorKeyframeTrack(".clearColor",timesFadeOn,valuesFadeOff)
-
-// const tracks = [fadeOnKF]
-// const length = -1
-// const fadeOnClip = new AnimationClip("fadeOn", length, tracks)
-// const mixer = new THREE.AnimationMixer( gl )
-// const fadeOnAction = mixer.clipAction(fadeOnClip) 
-
-
-// const clips = gl.animations;
-// function update (){
-//   mixer.update(0.2)
-// }
-
-// const clip = THREE.AnimationClip.findByName(clips, "bgColorClip")
-// const action = mixer.clipAction(clip)
-// action.play(
-//   clips.forEach(function(clip){
-//     mixer.clipAction(clip).play()
-//   })
-// )
 
 const handleCover = (prop) => {
     api.start({scale: prop.scale})
@@ -159,7 +122,7 @@ const handleCover = (prop) => {
   <ambientLight />
   <pointLight position={[10, 10, 10]} />
   <ARAnchor
-  target={0}
+  target={1}
   
   onAnchorFound={() => {
     gl.setClearColor(0x272727, 0.95)
@@ -199,44 +162,21 @@ const handleCover = (prop) => {
 
 const color = new THREE.Color(0x272727)
 const alpha = 0.95
-function degToRad(degrees) {
-  var pi = Math.PI;
-  return degrees * (pi / 180);
-}
-function StartUi(){
-  const [ start, setStart] = useState(false)
-  // const handleStart = ()=>{
-  //   setStart(true)
-  // }
 
-  return(<>
-  <div className={"flex"} id={"header"} style={{ display: start ? "none" : "flex"}}>
-			<div className={"header-box"}></div>
-			<div> 
-     			 <button onClick={setStart} className={"button"} id={"startButton"}>Start</button>
-			</div>
-			<div></div>
-	  	</div>
-  </>)
-}
+
 
 function App() {
   return (
     <>
     <StartUi/>
     <ARView
-
-      imageTargets={cover}
+      imageTargets={multiTargets}
       filterMinCF={.00005}
       filterBeta={.001}
       missTolerance={10}
       warmupTolerance={0}
       >
-        {/* <color attach="background" 
-        args={[color]} 
-        ler
-        /> */}
-   <Foo/>
+   <CoverTarget/>
     </ARView>
       </>
   );
