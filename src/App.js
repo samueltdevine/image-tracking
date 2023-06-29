@@ -58,6 +58,7 @@ const idToVideoMat = (id, depthTest, targetIndexInt) => {
   return materialVideo;
 };
 
+
 function CoverTarget(targetIndex){
   const {gl, scene, camera} = useThree()
   
@@ -167,6 +168,99 @@ const handleCover = (prop) => {
   )
 }
 
+function CouchTarget(targetIndex){
+  const {gl, scene, camera} = useThree()
+  
+
+  const {targetIndexInt} = handleVideoLibrary(targetIndex)
+
+
+const coverGroup = new THREE.Group();
+
+
+
+const geoCouch = new THREE.PlaneGeometry(7.0, 6.72);
+const couchMat = idToVideoMat("videoCouch", true, targetIndexInt);
+const planeCouch = new THREE.Mesh(geoCouch, couchMat);
+
+
+const geoRocket = new THREE.PlaneGeometry(7.0, 6.72);
+const rocketMat = idToVideoMat("videoRocket", true, targetIndexInt);
+const planeRocket = new THREE.Mesh(geoRocket, rocketMat);
+
+
+const geoCouchText = new THREE.PlaneGeometry(26.51, 10.80);
+const couchTextMat = idToVideoMat("videoCouchText", false, targetIndexInt);
+const planeCouchText = new THREE.Mesh(geoCouchText, couchTextMat);
+
+
+const listener = new THREE.AudioListener();
+
+camera.add(listener);
+
+
+const sound = new THREE.Audio(listener);
+
+
+const audioLoader = new THREE.AudioLoader();
+audioLoader.load("/CLM.mp3", function (buffer) {
+  sound.setBuffer(buffer);
+  sound.setLoop(false);
+  sound.setVolume(0.2);
+});
+
+const [trails, api] = useTrail(
+  4,
+    () => ({ scale: 0,
+    config: config.wobbly
+  }),
+  []
+)
+console.log("videolibrary", videoLibrary)
+
+
+const handleCover = (prop) => {
+    api.start({scale: prop.scale})
+  }
+  return(
+    <>
+  <ARAnchor
+  target={targetIndexInt}
+  onAnchorFound={() => {
+    gl.setClearColor(0x272727, 0.95)
+  // fadeOnAction.play()
+  videoLibrary[targetIndexInt].forEach((video) => video.play()); 
+  let prop = {scale: 0.0}
+  handleCover(prop)
+  prop.scale = 0.7
+  handleCover(prop)
+  if (soundPlayed === false){
+  soundPlayed = true
+  console.log(soundPlayed, true)
+  sound.play()
+  }
+}}
+  onAnchorLost={() => {
+    gl.setClearColor(0x272727, 0.0)
+    let prop = {scale: 0.0}
+    handleCover(prop)
+    }}>
+    <animated.mesh position={[-0.20,0,0]} material={couchMat} scale={trails[3].scale}>
+      <planeGeometry  args={[1, 1, 1]}/>
+    </animated.mesh>
+    <animated.mesh position={[0.2,0,0.01]} material={rocketMat} scale={trails[0].scale}>
+      <planeGeometry  args={[1, 1, 1]}/>
+    </animated.mesh>
+    <animated.mesh position={[0,0,1]} material={couchTextMat} scale={trails[1].scale}>
+      <planeGeometry  args={[1, 1, 1]}/>
+    </animated.mesh>
+
+  </ARAnchor>
+    </>
+  )
+}
+
+
 const color = new THREE.Color(0x272727)
 const alpha = 0.95
 
@@ -184,6 +278,7 @@ function App() {
       warmupTolerance={0}
       >
    <CoverTarget targetIndex={0}/>
+   <CouchTarget targetIndex={1}/>
     </ARView>
       </>
   );
