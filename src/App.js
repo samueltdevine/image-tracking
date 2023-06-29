@@ -180,17 +180,17 @@ const coverGroup = new THREE.Group();
 
 
 const geoCouch = new THREE.PlaneGeometry(7.0, 6.72);
-const couchMat = idToVideoMat("videoCouch", true, targetIndexInt);
+const couchMat = idToVideoMat("videoCouch", false, targetIndexInt);
 const planeCouch = new THREE.Mesh(geoCouch, couchMat);
 
 
 const geoRocket = new THREE.PlaneGeometry(7.0, 6.72);
-const rocketMat = idToVideoMat("videoRocket", true, targetIndexInt);
+const rocketMat = idToVideoMat("videoRocket", false, targetIndexInt);
 const planeRocket = new THREE.Mesh(geoRocket, rocketMat);
 
 
 const geoCouchText = new THREE.PlaneGeometry(26.51, 10.80);
-const couchTextMat = idToVideoMat("videoCouchText", false, targetIndexInt);
+const couchTextMat = idToVideoMat("videoCouchText", true, targetIndexInt);
 const planeCouchText = new THREE.Mesh(geoCouchText, couchTextMat);
 
 
@@ -234,11 +234,11 @@ const handleCover = (prop) => {
   handleCover(prop)
   prop.scale = 0.7
   handleCover(prop)
-  if (soundPlayed === false){
-  soundPlayed = true
-  console.log(soundPlayed, true)
-  sound.play()
-  }
+  // if (soundPlayed === false){
+  // soundPlayed = true
+  // console.log(soundPlayed, true)
+  // sound.play()
+  // }
 }}
   onAnchorLost={() => {
     gl.setClearColor(0x272727, 0.0)
@@ -251,9 +251,11 @@ const handleCover = (prop) => {
     <animated.mesh position={[0.2,0,0.01]} material={rocketMat} scale={trails[0].scale}>
       <planeGeometry  args={[1, 1, 1]}/>
     </animated.mesh>
-    <animated.mesh position={[0,0,1]} material={couchTextMat} scale={trails[1].scale}>
-      <planeGeometry  args={[1, 1, 1]}/>
-    </animated.mesh>
+    {/* <animated.mesh position={[0,0, 0.1]} material={couchTextMat} 
+scale={0.5}
+    >
+      <planeGeometry  args={[2 , 1, 1]}/>
+    </animated.mesh> */}
 
   </ARAnchor>
     </>
