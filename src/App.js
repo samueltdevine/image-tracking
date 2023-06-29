@@ -30,15 +30,20 @@ function StartUi(){
 let soundPlayed = false;
 const rotBack = degToRad(33);
 
+const videoLibrary = []
 
-function CoverTarget(){
-  const {gl, scene, camera} = useThree()
+const handleVideoLibrary = (targetIndex)=>{
+  const targetIndexInt = targetIndex.targetIndex
+  const empty = []
+  videoLibrary.push(empty)
+  
+  return ({targetIndexInt})
+}
 
-  const videos = [];
-
-const idToVideoMat = (id, depthTest) => {
+const idToVideoMat = (id, depthTest, targetIndexInt) => {
   const video = document.getElementById(id);
-  videos.push(video);
+  console.log("targetIndexInt",targetIndexInt)
+  videoLibrary[targetIndexInt].push(video);
   const texture = new THREE.VideoTexture(video);
   texture.format = THREE.RGBAFormat;
   const materialVideo = new THREE.MeshBasicMaterial({
@@ -53,7 +58,11 @@ const idToVideoMat = (id, depthTest) => {
   return materialVideo;
 };
 
+function CoverTarget(targetIndex){
+  const {gl, scene, camera} = useThree()
+  
 
+  const {targetIndexInt} = handleVideoLibrary(targetIndex)
 
 
 const coverGroup = new THREE.Group();
@@ -61,22 +70,22 @@ const coverGroup = new THREE.Group();
 
 
 const geoYellow = new THREE.PlaneGeometry(7.0, 6.72);
-const yellowMat = idToVideoMat("videoYellow", false);
+const yellowMat = idToVideoMat("videoYellow", false, targetIndexInt);
 const planeYellow = new THREE.Mesh(geoYellow, yellowMat);
 
 
 const geoPink = new THREE.PlaneGeometry(7.0, 6.72);
-const pinkMat = idToVideoMat("videoPink", true);
+const pinkMat = idToVideoMat("videoPink", true, targetIndexInt);
 const planePink = new THREE.Mesh(geoPink, pinkMat);
 
 
 const geoOrange = new THREE.PlaneGeometry(7.0, 6.72);
-const orangeMat = idToVideoMat("videoOrange", false);
+const orangeMat = idToVideoMat("videoOrange", false, targetIndexInt);
 const planeOrange = new THREE.Mesh(geoOrange, orangeMat);
 
 
 const geoGreen = new THREE.PlaneGeometry(7.0, 6.72);
-const greenMat = idToVideoMat("videoGreen", false);
+const greenMat = idToVideoMat("videoGreen", false, targetIndexInt);
 const planeGreen = new THREE.Mesh(geoGreen, greenMat);
 
 
@@ -112,6 +121,7 @@ const [trails, api] = useTrail(
   }),
   []
 )
+console.log("videolibrary", videoLibrary)
 
 
 const handleCover = (prop) => {
@@ -119,15 +129,12 @@ const handleCover = (prop) => {
   }
   return(
     <>
-  <ambientLight />
-  <pointLight position={[10, 10, 10]} />
   <ARAnchor
-  target={1}
-  
+  target={targetIndexInt}
   onAnchorFound={() => {
     gl.setClearColor(0x272727, 0.95)
   // fadeOnAction.play()
-  videos.forEach((video) => video.play()); 
+  videoLibrary[targetIndexInt].forEach((video) => video.play()); 
   let prop = {scale: 0.0}
   handleCover(prop)
   prop.scale = 0.7
@@ -176,7 +183,7 @@ function App() {
       missTolerance={10}
       warmupTolerance={0}
       >
-   <CoverTarget/>
+   <CoverTarget targetIndex={0}/>
     </ARView>
       </>
   );
