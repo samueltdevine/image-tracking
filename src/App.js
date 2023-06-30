@@ -63,33 +63,21 @@ const fontPath = '/Nunito_Medium_Regular.json'
 
 const AnimatedText3D = animated(Text3D)
 
-const SpacerGroup =(props)=>{
+const SampleSpacerGroup =(props)=>{
   const {setLengths, lengths, scale} = props
   const groupRef = useRef()
 
-
-                  //[0.43150737590156496, 0.4408425014857203, 0.42332400021329525, 0.4483565018624068, 0.4158184997588396, 0.4317437809444964, 0.4103447654489428, 0.43230000016465786]
-  //const lengths = [4.2276548564903695, 5.331366157390135, 3.2596554149717774, 6.214324016556829, 2.3521651211581873, 4.2719538807628314, 1.7046851621729955, 4.331013329533302]
-  //const lengths = []
   useEffect(()=>{
     const tmpLengths = []
     const wordArray = groupRef.current.children
-    // hide words
-    wordArray.forEach((word, index)=>{
-     // debugger;
-      //const mat = new Thre
+    const multiplier = 50.0;
 
-      // word.visible = false;
-     // word.material.opacity = 0.0;
-      ///word.material.transparent = true;
-    })
-    
     wordArray.forEach((word, index)=>{
       const boundingBox = new THREE.Box3().setFromObject(word)
       const length = boundingBox.max.x - boundingBox.min.x
-      const spacing = .4
+      const spacing = 1
   
-      const lengthNormalized = length * 0.0085 + spacing
+      const lengthNormalized = length * multiplier + spacing
         tmpLengths.push(lengthNormalized)
 
         console.log('init/lengthNormalized', lengthNormalized)
@@ -98,26 +86,29 @@ const SpacerGroup =(props)=>{
 
     setLengths(tmpLengths)
     console.log("init/lengths/2", tmpLengths)
-
-    // store word spacing state
-
-    // reset word state / destroy words
-
-    // make words visible
-    // loop over words to set positions
-    //lengths
-    wordArray.forEach((word, index)=>{
-      //word.visible = true;
-      const lengthsAccum = lengths.map((elem, index) => lengths.slice(0, index + 1).reduce ((a,b) => a+b))
-      const normalizedCurrentLength = lengthsAccum[index] - lengths[index]    
-      word.position.set(normalizedCurrentLength,0,0)
-    })
   },[])
 
   console.log("init/lengths/1", lengths)
 
-  //
+  const sum = lengths.reduce((partialSum, a) => partialSum + a, 0)
+  const negSum = sum *-1.0
+  return (<group ref={groupRef} scale={props.scale}>
+    {props.children}
+  </group>)
+}
 
+const SpacerGroup =(props)=>{
+  const {lengths} = props
+  const groupRef = useRef()
+
+  useEffect(()=>{
+    const wordArray = groupRef.current.children
+    wordArray.forEach((word, index)=>{
+      const lengthsAccum = lengths.map((elem, index) => lengths.slice(0, index + 1).reduce ((a,b) => a+b))
+      const normalizedCurrentLength = lengthsAccum[index] - lengths[index]  
+      word.position.set(normalizedCurrentLength,0,0)
+    })
+  },[])
   const sum = lengths.reduce((partialSum, a) => partialSum + a, 0)
   const negSum = sum *-1.0
   return (<group ref={groupRef} scale={props.scale}>
@@ -151,20 +142,15 @@ function BouncyText(props){
 
   const [lengths, setLengths] = useState([])
 
-  console.log("init/BouncyTest/lengths", lengths)
-
-  return (<SpacerGroup scale={scale} lengths={lengths} setLengths={setLengths} >
-    {textArray.map((text, index)=> {
-        const wordScale = lengths.length == 0 ? undefined : trails[index].scale
-        console.log('inti/BouncyText/wordScale', wordScale)
-    return <AnimatedText3D
-              font={fontPath}
-              //scale={wordScale}
-            >
-      {text}
-      </AnimatedText3D>
-      })}
+  if(lengths.length == 0) {
+     return (<SampleSpacerGroup scale={scale} lengths={lengths} setLengths={setLengths}>
+        {textArray.map((text, index)=> <AnimatedText3D font={fontPath} scale={1.0} >{text}</AnimatedText3D>)}
+      </SampleSpacerGroup>)
+  } else {
+    return (<SpacerGroup scale={scale} lengths={lengths} >
+      {textArray.map((text, index)=> <AnimatedText3D font={fontPath} scale={trails[index].scale}>{text}</AnimatedText3D>)}
   </SpacerGroup>)
+  }
 }
 
 
@@ -358,7 +344,7 @@ const handleCover = (prop) => {
     <animated.mesh position={[0.2,0,0.01]} material={rocketMat} scale={trails[0].videoScale}>
       <planeGeometry  args={[1, 1, 1]}/>
     </animated.mesh>
-    <BouncyText scale={0.02}>When creative little mosnters are lonely or bored,</BouncyText>
+    <BouncyText scale={0.02}>When creative little monsters are lonely or bored,</BouncyText>
     {/* <animated.mesh position={[0,0, 0.1]} material={couchTextMat} 
 scale={0.5}
     >
