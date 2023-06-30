@@ -3,10 +3,11 @@ import cover from './cover.mind'
 import multiTargets from './multiTargets.mind'
 import { useThree, } from "@react-three/fiber";
 import * as THREE from "three";
-import {useState} from 'react'
+import {useState, useRef, useEffect, useCallback} from 'react'
 import { useSpring, animated, config, useTrail, useSpringRef } from '@react-spring/three'
-import { PlaneGeometry } from '@react-three/drei'
+import { PlaneGeometry, Text3D } from '@react-three/drei'
 import {NumberKeyframeTrack, ColorKeyframeTrack, AnimationClip} from 'three'
+
 
 function degToRad(degrees) {
   var pi = Math.PI;
@@ -57,6 +58,61 @@ const idToVideoMat = (id, depthTest, targetIndexInt) => {
   });
   return materialVideo;
 };
+
+const fontPath = '/Nunito_Medium_Regular.json'
+
+const AnimatedText3D = animated(Text3D)
+
+const SpacerGroup =(props)=>{
+  const groupRef = useRef()
+  const lengths = []
+  useEffect(()=>{
+    const wordArray = groupRef.current.children
+    wordArray.forEach((word, index)=>{
+      const boundingBox = new THREE.Box3().setFromObject(word)
+      const length = boundingBox.max.x - boundingBox.min.x
+      const spacing = .4
+      const lengthNormalized = length * 0.0085 + spacing
+        lengths.push(lengthNormalized)
+      const lengthsAccum = lengths.map((elem, index) => lengths.slice(0, index + 1).reduce ((a,b) => a+b))
+      const normalizedCurrentLength = lengthsAccum[index] - lengthNormalized     
+      word.position.set(normalizedCurrentLength,0,0)
+    })
+  },[lengths.length])
+  const sum = lengths.reduce((partialSum, a) => partialSum + a, 0)
+  const negSum = sum *-1.0
+  return (<group ref={groupRef} scale={props.scale}>
+    {props.children}
+  </group>)
+}
+
+function BouncyText(props){
+  const {scale} = props
+  
+  const startingText = props.children
+  const regex = /\S+\s*/g;
+  const textArray = startingText.match(regex);
+  const wordCount = textArray.length
+
+  const spring = useSpring({
+    from: {scale:[0,0,0], position:[0,-1.0, 0]},
+    to: {scale: [1,1,1],position:[0, 0, 0]},
+    config:{
+      friction: 10,
+    },delay:2000,
+  })
+
+  const trails = useTrail(wordCount, {
+    from: {scale:[0,0,0], position:[0,-1.0, 0]},
+    to: {scale: [1,1,1],position:[0, 0, 0]},
+    config:{
+      friction: 10,
+    },delay:2000,
+  })
+  return (<SpacerGroup scale={scale}>
+    {textArray.map((text, index)=> <AnimatedText3D font={fontPath} scale={trails[index].scale}>{text}</AnimatedText3D>)}
+  </SpacerGroup>)
+}
 
 
 function CoverTarget(targetIndex){
@@ -203,7 +259,7 @@ const sound = new THREE.Audio(listener);
 
 
 const audioLoader = new THREE.AudioLoader();
-audioLoader.load("/CLM.mp3", function (buffer) {
+audioLoader.load("/clmCouchRocket.mp3", function (buffer) {
   sound.setBuffer(buffer);
   sound.setLoop(false);
   sound.setVolume(0.2);
@@ -211,16 +267,15 @@ audioLoader.load("/CLM.mp3", function (buffer) {
 
 const [trails, api] = useTrail(
   4,
-    () => ({ scale: 0,
+    () => ({ videoScale: 0,
     config: config.wobbly
   }),
   []
 )
-console.log("videolibrary", videoLibrary)
 
 
 const handleCover = (prop) => {
-    api.start({scale: prop.scale})
+    api.start({videoScale: prop.scale})
   }
   return(
     <>
@@ -232,25 +287,26 @@ const handleCover = (prop) => {
   videoLibrary[targetIndexInt].forEach((video) => video.play()); 
   let prop = {scale: 0.0}
   handleCover(prop)
-  prop.scale = 0.7
+  prop.scale = 0.5
   handleCover(prop)
-  // if (soundPlayed === false){
-  // soundPlayed = true
-  // console.log(soundPlayed, true)
-  // sound.play()
-  // }
+  if (soundPlayed === false){
+  soundPlayed = true
+  console.log(soundPlayed, true)
+  sound.play()
+  }
 }}
   onAnchorLost={() => {
     gl.setClearColor(0x272727, 0.0)
     let prop = {scale: 0.0}
     handleCover(prop)
     }}>
-    <animated.mesh position={[-0.20,0,0]} material={couchMat} scale={trails[3].scale}>
+    <animated.mesh position={[-0.20,0,0]} material={couchMat} scale={trails[3].videoScale}>
       <planeGeometry  args={[1, 1, 1]}/>
     </animated.mesh>
-    <animated.mesh position={[0.2,0,0.01]} material={rocketMat} scale={trails[0].scale}>
+    <animated.mesh position={[0.2,0,0.01]} material={rocketMat} scale={trails[0].videoScale}>
       <planeGeometry  args={[1, 1, 1]}/>
     </animated.mesh>
+    <BouncyText scale={0.02}>When creative little mosnters are lonely or bored,</BouncyText>
     {/* <animated.mesh position={[0,0, 0.1]} material={couchTextMat} 
 scale={0.5}
     >
