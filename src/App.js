@@ -78,17 +78,11 @@ const SampleSpacerGroup =(props)=>{
       const spacing = 1
   
       const lengthNormalized = length * multiplier + spacing
-        tmpLengths.push(lengthNormalized)
-
-        console.log('init/lengthNormalized', lengthNormalized)
-     
+        tmpLengths.push(lengthNormalized)     
     })
 
     setLengths(tmpLengths)
-    console.log("init/lengths/2", tmpLengths)
   },[])
-
-  console.log("init/lengths/1", lengths)
 
   const sum = lengths.reduce((partialSum, a) => partialSum + a, 0)
   const negSum = sum *-1.0
