@@ -65,6 +65,8 @@ const AnimatedText3D = animated(Text3D)
 
 const SpacerGroup =(props)=>{
   const groupRef = useRef()
+
+
   const lengths = []
   useEffect(()=>{
     const wordArray = groupRef.current.children
@@ -78,7 +80,7 @@ const SpacerGroup =(props)=>{
       const normalizedCurrentLength = lengthsAccum[index] - lengthNormalized     
       word.position.set(normalizedCurrentLength,0,0)
     })
-  },[lengths.length])
+  },[])
   const sum = lengths.reduce((partialSum, a) => partialSum + a, 0)
   const negSum = sum *-1.0
   return (<group ref={groupRef} scale={props.scale}>
@@ -190,7 +192,6 @@ const handleCover = (prop) => {
   target={targetIndexInt}
   onAnchorFound={() => {
     gl.setClearColor(0x272727, 0.95)
-  // fadeOnAction.play()
   videoLibrary[targetIndexInt].forEach((video) => video.play()); 
   let prop = {scale: 0.0}
   handleCover(prop)
