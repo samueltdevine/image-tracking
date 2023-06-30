@@ -64,23 +64,60 @@ const fontPath = '/Nunito_Medium_Regular.json'
 const AnimatedText3D = animated(Text3D)
 
 const SpacerGroup =(props)=>{
+  const {setLengths, lengths, scale} = props
   const groupRef = useRef()
 
 
-  const lengths = []
+                  //[0.43150737590156496, 0.4408425014857203, 0.42332400021329525, 0.4483565018624068, 0.4158184997588396, 0.4317437809444964, 0.4103447654489428, 0.43230000016465786]
+  //const lengths = [4.2276548564903695, 5.331366157390135, 3.2596554149717774, 6.214324016556829, 2.3521651211581873, 4.2719538807628314, 1.7046851621729955, 4.331013329533302]
+  //const lengths = []
   useEffect(()=>{
+    const tmpLengths = []
     const wordArray = groupRef.current.children
+    // hide words
+    wordArray.forEach((word, index)=>{
+     // debugger;
+      //const mat = new Thre
+
+      // word.visible = false;
+     // word.material.opacity = 0.0;
+      ///word.material.transparent = true;
+    })
+    
     wordArray.forEach((word, index)=>{
       const boundingBox = new THREE.Box3().setFromObject(word)
       const length = boundingBox.max.x - boundingBox.min.x
       const spacing = .4
+  
       const lengthNormalized = length * 0.0085 + spacing
-        lengths.push(lengthNormalized)
+        tmpLengths.push(lengthNormalized)
+
+        console.log('init/lengthNormalized', lengthNormalized)
+     
+    })
+
+    setLengths(tmpLengths)
+    console.log("init/lengths/2", tmpLengths)
+
+    // store word spacing state
+
+    // reset word state / destroy words
+
+    // make words visible
+    // loop over words to set positions
+    //lengths
+    wordArray.forEach((word, index)=>{
+      //word.visible = true;
       const lengthsAccum = lengths.map((elem, index) => lengths.slice(0, index + 1).reduce ((a,b) => a+b))
-      const normalizedCurrentLength = lengthsAccum[index] - lengthNormalized     
+      const normalizedCurrentLength = lengthsAccum[index] - lengths[index]    
       word.position.set(normalizedCurrentLength,0,0)
     })
   },[])
+
+  console.log("init/lengths/1", lengths)
+
+  //
+
   const sum = lengths.reduce((partialSum, a) => partialSum + a, 0)
   const negSum = sum *-1.0
   return (<group ref={groupRef} scale={props.scale}>
@@ -111,8 +148,22 @@ function BouncyText(props){
       friction: 10,
     },delay:2000,
   })
-  return (<SpacerGroup scale={scale}>
-    {textArray.map((text, index)=> <AnimatedText3D font={fontPath} scale={trails[index].scale}>{text}</AnimatedText3D>)}
+
+  const [lengths, setLengths] = useState([])
+
+  console.log("init/BouncyTest/lengths", lengths)
+
+  return (<SpacerGroup scale={scale} lengths={lengths} setLengths={setLengths} >
+    {textArray.map((text, index)=> {
+        const wordScale = lengths.length == 0 ? undefined : trails[index].scale
+        console.log('inti/BouncyText/wordScale', wordScale)
+    return <AnimatedText3D
+              font={fontPath}
+              //scale={wordScale}
+            >
+      {text}
+      </AnimatedText3D>
+      })}
   </SpacerGroup>)
 }
 
@@ -232,7 +283,7 @@ function CouchTarget(targetIndex){
   const {targetIndexInt} = handleVideoLibrary(targetIndex)
 
 
-const coverGroup = new THREE.Group();
+  const coverGroup = new THREE.Group();
 
 
 
