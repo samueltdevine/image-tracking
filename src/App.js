@@ -14,6 +14,27 @@ function degToRad(degrees) {
   return degrees * (pi / 180);
 }
 
+function useTimeout(callback, delay) {
+  const savedCallback = useRef(callback)
+
+  // Remember the latest callback if it changes.
+  useEffect(() => {
+    savedCallback.current = callback
+  }, [callback])
+
+  // Set up the timeout.
+  useEffect(() => {
+    // Don't schedule if no delay is specified.
+    if (delay === null) {
+      return
+    }
+
+    const id = setTimeout(() => savedCallback.current(), delay)
+
+    return () => clearTimeout(id)
+  }, [delay])
+}
+
 function StartUi(){
   const [ start, setStart] = useState(false)
 
@@ -64,7 +85,7 @@ const fontPath = '/Nunito_Medium_Regular.json'
 const AnimatedText3D = animated(Text3D)
 
 const SampleSpacerGroup =(props)=>{
-  const {setLengths, lengths, scale} = props
+  const {setLengths, lengths, position} = props
   const groupRef = useRef()
 
   useEffect(()=>{
@@ -91,28 +112,52 @@ const SampleSpacerGroup =(props)=>{
   </group>)
 }
 
-const SpacerGroup =(props)=>{
-  const {lengths} = props
-  const groupRef = useRef()
+const SpacerGroup = (props)=>{
 
+  const {lengths, position, delayMS} = props
+  const groupRef = useRef()
   useEffect(()=>{
-    const wordArray = groupRef.current.children
-    wordArray.forEach((word, index)=>{
-      const lengthsAccum = lengths.map((elem, index) => lengths.slice(0, index + 1).reduce ((a,b) => a+b))
-      const normalizedCurrentLength = lengthsAccum[index] - lengths[index]  
-      word.position.set(normalizedCurrentLength,0,0)
-    })
-  },[])
-  const sum = lengths.reduce((partialSum, a) => partialSum + a, 0)
-  const negSum = sum *-1.0
-  return (<group ref={groupRef} scale={props.scale}>
-    {props.children}
-  </group>)
+    // async function renderDelayedText (){
+    //   await sleep(delayMS)
+    // setTimeout(()=>{
+      const wordArray = groupRef.current.children
+      wordArray.forEach((word, index)=>{
+        const lengthsAccum = lengths.map((elem, index) => lengths.slice(0, index + 1).reduce ((a,b) => a+b))
+        const normalizedCurrentLength = lengthsAccum[index] - lengths[index]  
+        word.position.set(normalizedCurrentLength,0,0)
+      })
+      // setIsDelaying(false)
+        // },delayMS)
+      // console.log("isDelaying", isDelaying)
+     
+      // }
+    },[])
+    // useEffect(()=>{
+    
+    //   setTimeout(()=>{
+    //     setIsDelaying(false)
+    //   },delayMS)
+    //   },[])
+    
+
+
+      return (<group ref={groupRef} position={position} scale={props.scale}>
+      {props.children}
+    </group>)
+    // useTimeout()
+    // console.log("yo else")
+    
 }
 
 function BouncyText(props){
-  const {scale} = props
-  
+  const {scale, position, delayMS} = props
+
+  const [isDelaying, setIsDelaying] = useState(true)
+  useEffect(()=>{
+    setTimeout(()=>{
+      setIsDelaying(false)
+    }, delayMS)
+  },[])  
   const startingText = props.children
   const regex = /\S+\s*/g;
   const textArray = startingText.match(regex);
@@ -127,22 +172,28 @@ function BouncyText(props){
   })
 
   const trails = useTrail(wordCount, {
-    from: {scale:[0,0,0], position:[0,-1.0, 0]},
+    from: {scale:[.5,0,0], position:[0,-1.0, 0]},
     to: {scale: [1,1,1],position:[0, 0, 0]},
     config:{
-      friction: 10,
+      friction: 30,
     },delay:2000,
+    pause: isDelaying
   })
 
   const [lengths, setLengths] = useState([])
+
 
   if(lengths.length == 0) {
      return (<SampleSpacerGroup scale={scale} lengths={lengths} setLengths={setLengths}>
         {textArray.map((text, index)=> <AnimatedText3D font={fontPath} scale={1.0} >{text}</AnimatedText3D>)}
       </SampleSpacerGroup>)
   } else {
-    return (<SpacerGroup scale={scale} lengths={lengths} >
-      {textArray.map((text, index)=> <AnimatedText3D font={fontPath} scale={trails[index].scale}>{text}</AnimatedText3D>)}
+      return (<SpacerGroup scale={scale} lengths={lengths} position={position} delayMS={delayMS}>
+      {textArray.map((text, index)=> <group>
+        
+      <AnimatedText3D font={fontPath} scale={isDelaying ? 0.0 : trails[index].scale} position={trails[index].position}>{text}</AnimatedText3D>
+      </group>
+      )}
   </SpacerGroup>)
   }
 }
@@ -268,12 +319,12 @@ function CouchTarget(targetIndex){
 
 
 const geoCouch = new THREE.PlaneGeometry(7.0, 6.72);
-const couchMat = idToVideoMat("videoCouch", false, targetIndexInt);
+const couchMat = idToVideoMat("videoCouch", true, targetIndexInt);
 const planeCouch = new THREE.Mesh(geoCouch, couchMat);
 
 
 const geoRocket = new THREE.PlaneGeometry(7.0, 6.72);
-const rocketMat = idToVideoMat("videoRocket", false, targetIndexInt);
+const rocketMat = idToVideoMat("videoRocket", true, targetIndexInt);
 const planeRocket = new THREE.Mesh(geoRocket, rocketMat);
 
 
@@ -338,7 +389,9 @@ const handleCover = (prop) => {
     <animated.mesh position={[0.2,0,0.01]} material={rocketMat} scale={trails[0].videoScale}>
       <planeGeometry  args={[1, 1, 1]}/>
     </animated.mesh>
-    <BouncyText scale={0.02}>When creative little monsters are lonely or bored,</BouncyText>
+    <BouncyText delayMS={1000} position={[-0.3,.20,0.1]} scale={0.02}>When creative little monsters are lonely or bored,</BouncyText>
+    <BouncyText delayMS={3000} position={[-0.3,-0.20,0.1]} scale={0.02}>They explore new worlds that money can't afford.</BouncyText>
+    
     {/* <animated.mesh position={[0,0, 0.1]} material={couchTextMat} 
 scale={0.5}
     >
