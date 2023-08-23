@@ -1,6 +1,6 @@
 import { ARAnchor, ARView } from "react-three-mind";
 import cover from "./cover.mind";
-import multiTargets from "./multiTargets.mind";
+import multiTargets from "./CLM_targets.mind";
 import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { useState, useRef, useEffect, useCallback } from "react";
@@ -477,7 +477,7 @@ function App() {
         warmupTolerance={0}
       >
         <CoverTarget targetIndex={0} />
-        <CouchTarget targetIndex={1} />
+        <CouchTarget targetIndex={8} />
       </ARView>
     </>
   );
