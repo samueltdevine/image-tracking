@@ -643,15 +643,327 @@ function SpreadThree(targetIndex) {
         <BouncyText delayMS={1000} position={[-0.3, 0.2, 0.1]} scale={0.02}>
           They play with things that aren't normal toys.
         </BouncyText>
-        <BouncyText delayMS={1500} position={[-0.3, 0.15, 0.1]} scale={0.02}>
+        <BouncyText delayMS={3000} position={[-0.3, 0.15, 0.1]} scale={0.02}>
           They make things that are filled with noise.
         </BouncyText>
-        <BouncyText delayMS={3000} position={[-0.3, -0.15, 0.1]} scale={0.02}>
+        <BouncyText delayMS={9000} position={[-0.3, -0.15, 0.1]} scale={0.02}>
           Creative little monsters stir a delicious stew.
         </BouncyText>
-        <BouncyText delayMS={3000} position={[-0.3, -0.2, 0.1]} scale={0.02}>
+        <BouncyText delayMS={12000} position={[-0.3, -0.2, 0.1]} scale={0.02}>
           Who needs a cookbook - when you're serving glue.
         </BouncyText>
+
+        {/* <animated.mesh
+          position={[0, 0, 0.1]}
+          material={couchTextMat}
+          scale={0.5}
+        >
+          <planeGeometry args={[2, 1, 1]} />
+        </animated.mesh> */}
+      </ARAnchor>
+    </>
+  );
+}
+
+function SpreadFour(targetIndex) {
+  const { gl, scene, camera } = useThree();
+
+  const { targetIndexInt } = handleVideoLibrary(targetIndex);
+  const coverGroup = new THREE.Group();
+
+  // const geoCouch = new THREE.PlaneGeometry(7.0, 6.72);
+  // const couchMat = idToVideoMat("videoCouch", true, targetIndexInt);
+  // const planeCouch = new THREE.Mesh(geoCouch, couchMat);
+
+  // const geoRocket = new THREE.PlaneGeometry(7.0, 6.72);
+  // const rocketMat = idToVideoMat("videoRocket", true, targetIndexInt);
+  // const planeRocket = new THREE.Mesh(geoRocket, rocketMat);
+
+  // const geoCouchText = new THREE.PlaneGeometry(26.51, 10.8);
+  // const couchTextMat = idToVideoMat("videoCouchText", true, targetIndexInt);
+  // const planeCouchText = new THREE.Mesh(geoCouchText, couchTextMat);
+
+  const listener = new THREE.AudioListener();
+
+  camera.add(listener);
+
+  const sound = new THREE.Audio(listener);
+
+  const audioLoader = new THREE.AudioLoader();
+  audioLoader.load("/Read_04.mp3", function (buffer) {
+    sound.setBuffer(buffer);
+    sound.setLoop(false);
+    sound.setVolume(0.2);
+  });
+
+  const [trails, api] = useTrail(
+    4,
+    () => ({ videoScale: 0, config: config.wobbly }),
+    []
+  );
+  const handleCover = (prop) => {
+    api.start({ videoScale: prop.scale });
+  };
+  return (
+    <>
+      <ARAnchor
+        target={targetIndexInt}
+        onAnchorFound={() => {
+          gl.setClearColor(0x272727, 0.95);
+          // fadeOnAction.play()
+          videoLibrary[targetIndexInt].forEach((video) => video.play());
+          let prop = { scale: 0.0 };
+          handleCover(prop);
+          prop.scale = 0.5;
+          handleCover(prop);
+          // if (soundPlayed === false) {
+          //   soundPlayed = true;
+          //   console.log(soundPlayed, true);
+          sound.play();
+          // }
+        }}
+        onAnchorLost={() => {
+          gl.setClearColor(0x272727, 0.0);
+          let prop = { scale: 0.0 };
+          handleCover(prop);
+        }}
+      >
+        {/* <animated.mesh
+          position={[-0.2, 0, 0]}
+          material={couchMat}
+          scale={trails[3].videoScale}
+        >
+          <planeGeometry args={[1, 1, 1]} />
+        </animated.mesh>
+        <animated.mesh
+          position={[0.2, 0, 0.01]}
+          material={rocketMat}
+          scale={trails[0].videoScale}
+        >
+          <planeGeometry args={[1, 1, 1]} />
+        </animated.mesh> */}
+        <BouncyText delayMS={1000} position={[-0.3, 0.2, 0.1]} scale={0.02}>
+          They put objects together
+        </BouncyText>
+        <BouncyText delayMS={1500} position={[-0.3, 0.15, 0.1]} scale={0.02}>
+          That don't belong.
+        </BouncyText>
+        <BouncyText delayMS={3000} position={[-0.3, -0.15, 0.1]} scale={0.02}>
+          The best part of being creative is that nothing is wrong.
+        </BouncyText>
+        {/* <BouncyText delayMS={3000} position={[-0.3, -0.2, 0.1]} scale={0.02}>
+          Who needs a cookbook - when you're serving glue.
+        </BouncyText> */}
+
+        {/* <animated.mesh
+          position={[0, 0, 0.1]}
+          material={couchTextMat}
+          scale={0.5}
+        >
+          <planeGeometry args={[2, 1, 1]} />
+        </animated.mesh> */}
+      </ARAnchor>
+    </>
+  );
+}
+
+function SpreadFive(targetIndex) {
+  const { gl, scene, camera } = useThree();
+
+  const { targetIndexInt } = handleVideoLibrary(targetIndex);
+  const coverGroup = new THREE.Group();
+
+  // const geoCouch = new THREE.PlaneGeometry(7.0, 6.72);
+  // const couchMat = idToVideoMat("videoCouch", true, targetIndexInt);
+  // const planeCouch = new THREE.Mesh(geoCouch, couchMat);
+
+  // const geoRocket = new THREE.PlaneGeometry(7.0, 6.72);
+  // const rocketMat = idToVideoMat("videoRocket", true, targetIndexInt);
+  // const planeRocket = new THREE.Mesh(geoRocket, rocketMat);
+
+  // const geoCouchText = new THREE.PlaneGeometry(26.51, 10.8);
+  // const couchTextMat = idToVideoMat("videoCouchText", true, targetIndexInt);
+  // const planeCouchText = new THREE.Mesh(geoCouchText, couchTextMat);
+
+  const listener = new THREE.AudioListener();
+
+  camera.add(listener);
+
+  const sound = new THREE.Audio(listener);
+
+  const audioLoader = new THREE.AudioLoader();
+  audioLoader.load("/Read_05.mp3", function (buffer) {
+    sound.setBuffer(buffer);
+    sound.setLoop(false);
+    sound.setVolume(0.2);
+  });
+
+  const [trails, api] = useTrail(
+    4,
+    () => ({ videoScale: 0, config: config.wobbly }),
+    []
+  );
+  const handleCover = (prop) => {
+    api.start({ videoScale: prop.scale });
+  };
+  return (
+    <>
+      <ARAnchor
+        target={targetIndexInt}
+        onAnchorFound={() => {
+          gl.setClearColor(0x272727, 0.95);
+          // fadeOnAction.play()
+          videoLibrary[targetIndexInt].forEach((video) => video.play());
+          let prop = { scale: 0.0 };
+          handleCover(prop);
+          prop.scale = 0.5;
+          handleCover(prop);
+          // if (soundPlayed === false) {
+          //   soundPlayed = true;
+          //   console.log(soundPlayed, true);
+          sound.play();
+          // }
+        }}
+        onAnchorLost={() => {
+          gl.setClearColor(0x272727, 0.0);
+          let prop = { scale: 0.0 };
+          handleCover(prop);
+        }}
+      >
+        {/* <animated.mesh
+          position={[-0.2, 0, 0]}
+          material={couchMat}
+          scale={trails[3].videoScale}
+        >
+          <planeGeometry args={[1, 1, 1]} />
+        </animated.mesh>
+        <animated.mesh
+          position={[0.2, 0, 0.01]}
+          material={rocketMat}
+          scale={trails[0].videoScale}
+        >
+          <planeGeometry args={[1, 1, 1]} />
+        </animated.mesh> */}
+        <BouncyText delayMS={1000} position={[-0.3, 0.2, 0.1]} scale={0.02}>
+          Creative little monsters find something that's broke.
+        </BouncyText>
+        <BouncyText delayMS={3000} position={[-0.3, 0.15, 0.1]} scale={0.02}>
+          They try to fix it with something else -
+        </BouncyText>
+        <BouncyText delayMS={6000} position={[-0.3, 0.1, 0.1]} scale={0.02}>
+          "Hey, how about that artichoke!"
+        </BouncyText>
+        <BouncyText delayMS={9000} position={[-0.3, -0.15, 0.1]} scale={0.02}>
+          Sometimes their inventions are stranger than fiction.
+        </BouncyText>
+        <BouncyText delayMS={11000} position={[-0.3, -0.2, 0.1]} scale={0.02}>
+          When others laugh, it's fine, they just smile with conviction.
+        </BouncyText>
+        {/* <BouncyText delayMS={3000} position={[-0.3, -0.2, 0.1]} scale={0.02}>
+          Who needs a cookbook - when you're serving glue.
+        </BouncyText> */}
+
+        {/* <animated.mesh
+          position={[0, 0, 0.1]}
+          material={couchTextMat}
+          scale={0.5}
+        >
+          <planeGeometry args={[2, 1, 1]} />
+        </animated.mesh> */}
+      </ARAnchor>
+    </>
+  );
+}
+
+function SpreadSix(targetIndex) {
+  const { gl, scene, camera } = useThree();
+
+  const { targetIndexInt } = handleVideoLibrary(targetIndex);
+  const coverGroup = new THREE.Group();
+
+  // const geoCouch = new THREE.PlaneGeometry(7.0, 6.72);
+  // const couchMat = idToVideoMat("videoCouch", true, targetIndexInt);
+  // const planeCouch = new THREE.Mesh(geoCouch, couchMat);
+
+  // const geoRocket = new THREE.PlaneGeometry(7.0, 6.72);
+  // const rocketMat = idToVideoMat("videoRocket", true, targetIndexInt);
+  // const planeRocket = new THREE.Mesh(geoRocket, rocketMat);
+
+  // const geoCouchText = new THREE.PlaneGeometry(26.51, 10.8);
+  // const couchTextMat = idToVideoMat("videoCouchText", true, targetIndexInt);
+  // const planeCouchText = new THREE.Mesh(geoCouchText, couchTextMat);
+
+  const listener = new THREE.AudioListener();
+
+  camera.add(listener);
+
+  const sound = new THREE.Audio(listener);
+
+  const audioLoader = new THREE.AudioLoader();
+  audioLoader.load("/Read_06.mp3", function (buffer) {
+    sound.setBuffer(buffer);
+    sound.setLoop(false);
+    sound.setVolume(0.2);
+  });
+
+  const [trails, api] = useTrail(
+    4,
+    () => ({ videoScale: 0, config: config.wobbly }),
+    []
+  );
+  const handleCover = (prop) => {
+    api.start({ videoScale: prop.scale });
+  };
+  return (
+    <>
+      <ARAnchor
+        target={targetIndexInt}
+        onAnchorFound={() => {
+          gl.setClearColor(0x272727, 0.95);
+          // fadeOnAction.play()
+          videoLibrary[targetIndexInt].forEach((video) => video.play());
+          let prop = { scale: 0.0 };
+          handleCover(prop);
+          prop.scale = 0.5;
+          handleCover(prop);
+          // if (soundPlayed === false) {
+          //   soundPlayed = true;
+          //   console.log(soundPlayed, true);
+          sound.play();
+          // }
+        }}
+        onAnchorLost={() => {
+          gl.setClearColor(0x272727, 0.0);
+          let prop = { scale: 0.0 };
+          handleCover(prop);
+        }}
+      >
+        {/* <animated.mesh
+          position={[-0.2, 0, 0]}
+          material={couchMat}
+          scale={trails[3].videoScale}
+        >
+          <planeGeometry args={[1, 1, 1]} />
+        </animated.mesh>
+        <animated.mesh
+          position={[0.2, 0, 0.01]}
+          material={rocketMat}
+          scale={trails[0].videoScale}
+        >
+          <planeGeometry args={[1, 1, 1]} />
+        </animated.mesh> */}
+        <BouncyText delayMS={1000} position={[-0.3, 0.2, 0.1]} scale={0.02}>
+          Creative little mosnters are
+        </BouncyText>
+        <BouncyText delayMS={1500} position={[-0.3, 0.15, 0.1]} scale={0.02}>
+          known to make a mess.
+        </BouncyText>
+        <BouncyText delayMS={3000} position={[-0.3, -0.15, 0.1]} scale={0.02}>
+          Calm down, parents, it's a work in progress!
+        </BouncyText>
+        {/* <BouncyText delayMS={3000} position={[-0.3, -0.2, 0.1]} scale={0.02}>
+          Who needs a cookbook - when you're serving glue.
+        </BouncyText> */}
 
         {/* <animated.mesh
           position={[0, 0, 0.1]}
@@ -692,7 +1004,7 @@ function SpreadSeven(targetIndex) {
   const sound = new THREE.Audio(listener);
 
   const audioLoader = new THREE.AudioLoader();
-  audioLoader.load("/clmCouchRocket.mp3", function (buffer) {
+  audioLoader.load("/Read_07.mp3", function (buffer) {
     sound.setBuffer(buffer);
     sound.setLoop(false);
     sound.setVolume(0.2);
@@ -761,6 +1073,108 @@ scale={0.5}
   );
 }
 
+function SpreadEight(targetIndex) {
+  const { gl, scene, camera } = useThree();
+
+  const { targetIndexInt } = handleVideoLibrary(targetIndex);
+  const coverGroup = new THREE.Group();
+
+  // const geoCouch = new THREE.PlaneGeometry(7.0, 6.72);
+  // const couchMat = idToVideoMat("videoCouch", true, targetIndexInt);
+  // const planeCouch = new THREE.Mesh(geoCouch, couchMat);
+
+  // const geoRocket = new THREE.PlaneGeometry(7.0, 6.72);
+  // const rocketMat = idToVideoMat("videoRocket", true, targetIndexInt);
+  // const planeRocket = new THREE.Mesh(geoRocket, rocketMat);
+
+  // const geoCouchText = new THREE.PlaneGeometry(26.51, 10.8);
+  // const couchTextMat = idToVideoMat("videoCouchText", true, targetIndexInt);
+  // const planeCouchText = new THREE.Mesh(geoCouchText, couchTextMat);
+
+  const listener = new THREE.AudioListener();
+
+  camera.add(listener);
+
+  const sound = new THREE.Audio(listener);
+
+  const audioLoader = new THREE.AudioLoader();
+  audioLoader.load("/Read_08.mp3", function (buffer) {
+    sound.setBuffer(buffer);
+    sound.setLoop(false);
+    sound.setVolume(0.2);
+  });
+
+  const [trails, api] = useTrail(
+    4,
+    () => ({ videoScale: 0, config: config.wobbly }),
+    []
+  );
+  const handleCover = (prop) => {
+    api.start({ videoScale: prop.scale });
+  };
+  return (
+    <>
+      <ARAnchor
+        target={targetIndexInt}
+        onAnchorFound={() => {
+          gl.setClearColor(0x272727, 0.95);
+          // fadeOnAction.play()
+          videoLibrary[targetIndexInt].forEach((video) => video.play());
+          let prop = { scale: 0.0 };
+          handleCover(prop);
+          prop.scale = 0.5;
+          handleCover(prop);
+          // if (soundPlayed === false) {
+          //   soundPlayed = true;
+          //   console.log(soundPlayed, true);
+          sound.play();
+          // }
+        }}
+        onAnchorLost={() => {
+          gl.setClearColor(0x272727, 0.0);
+          let prop = { scale: 0.0 };
+          handleCover(prop);
+        }}
+      >
+        {/* <animated.mesh
+          position={[-0.2, 0, 0]}
+          material={couchMat}
+          scale={trails[3].videoScale}
+        >
+          <planeGeometry args={[1, 1, 1]} />
+        </animated.mesh>
+        <animated.mesh
+          position={[0.2, 0, 0.01]}
+          material={rocketMat}
+          scale={trails[0].videoScale}
+        >
+          <planeGeometry args={[1, 1, 1]} />
+        </animated.mesh> */}
+        <BouncyText delayMS={1000} position={[-0.3, 0.2, 0.1]} scale={0.02}>
+          A beautiful masterpiece
+        </BouncyText>
+        <BouncyText delayMS={1500} position={[-0.3, 0.15, 0.1]} scale={0.02}>
+          with only a ball of string.
+        </BouncyText>
+        <BouncyText delayMS={3000} position={[-0.3, -0.15, 0.1]} scale={0.02}>
+          When you're a creative little mosnter, you can do anything.
+        </BouncyText>
+        {/* <BouncyText delayMS={3000} position={[-0.3, -0.2, 0.1]} scale={0.02}>
+          Who needs a cookbook - when you're serving glue.
+        </BouncyText> */}
+
+        {/* <animated.mesh
+          position={[0, 0, 0.1]}
+          material={couchTextMat}
+          scale={0.5}
+        >
+          <planeGeometry args={[2, 1, 1]} />
+        </animated.mesh> */}
+      </ARAnchor>
+    </>
+  );
+}
+
 const color = new THREE.Color(0x272727);
 const alpha = 0.95;
 
@@ -785,11 +1199,11 @@ function App() {
         <SpreadOne targetIndex={1} />
         <SpreadTwo targetIndex={2} />
         <SpreadThree targetIndex={3} />
-        {/* <SpreadFour targetIndex={4} /> */}
-        {/* <SpreadFive targetIndex={5} /> */}
-        {/* <SpreadSix targetIndex={6} /> */}
+        <SpreadFour targetIndex={4} />
+        <SpreadFive targetIndex={5} />
+        <SpreadSix targetIndex={6} />
         <SpreadSeven targetIndex={7} />
-        {/* <SpredEight targetIndex={8} /> */}
+        <SpreadEight targetIndex={8} />
       </ARView>
       {/* <ARView
         imageTargets={multiTargets2}
