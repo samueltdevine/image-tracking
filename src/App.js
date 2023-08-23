@@ -1,8 +1,10 @@
 import { ARAnchor, ARView } from "react-three-mind";
 import cover from "./cover.mind";
-import multiTargets from "./multiTargets2.mind";
+import multiTargets from "./multiTargets5.mind";
+// import multiTargets2 from "./multiTargets_lastHalf.mind";
 import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
+import { Compiler } from "mind-ar/src/image-target/compiler";
 import { useState, useRef, useEffect, useCallback } from "react";
 import {
   useSpring,
@@ -78,6 +80,9 @@ const handleVideoLibrary = (targetIndex) => {
 const idToVideoMat = (id, depthTest, targetIndexInt) => {
   const video = document.getElementById(id);
   console.log("targetIndexInt", targetIndexInt);
+  if (videoLibrary[targetIndexInt] === undefined) {
+    videoLibrary[targetIndexInt] = [];
+  }
   videoLibrary[targetIndexInt].push(video);
   const texture = new THREE.VideoTexture(video);
   texture.format = THREE.RGBAFormat;
@@ -366,11 +371,306 @@ function CoverTarget(targetIndex) {
   );
 }
 
-function CouchTarget(targetIndex) {
+function SpreadOne(targetIndex) {
   const { gl, scene, camera } = useThree();
 
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
+  const coverGroup = new THREE.Group();
 
+  // const geoCouch = new THREE.PlaneGeometry(7.0, 6.72);
+  // const couchMat = idToVideoMat("videoCouch", true, targetIndexInt);
+  // const planeCouch = new THREE.Mesh(geoCouch, couchMat);
+
+  // const geoRocket = new THREE.PlaneGeometry(7.0, 6.72);
+  // const rocketMat = idToVideoMat("videoRocket", true, targetIndexInt);
+  // const planeRocket = new THREE.Mesh(geoRocket, rocketMat);
+
+  // const geoCouchText = new THREE.PlaneGeometry(26.51, 10.8);
+  // const couchTextMat = idToVideoMat("videoCouchText", true, targetIndexInt);
+  // const planeCouchText = new THREE.Mesh(geoCouchText, couchTextMat);
+
+  const listener = new THREE.AudioListener();
+
+  camera.add(listener);
+
+  const sound = new THREE.Audio(listener);
+
+  const audioLoader = new THREE.AudioLoader();
+  audioLoader.load("/CLM.mp3", function (buffer) {
+    sound.setBuffer(buffer);
+    sound.setLoop(false);
+    sound.setVolume(0.2);
+  });
+
+  const [trails, api] = useTrail(
+    4,
+    () => ({ videoScale: 0, config: config.wobbly }),
+    []
+  );
+  const handleCover = (prop) => {
+    api.start({ videoScale: prop.scale });
+  };
+  return (
+    <>
+      <ARAnchor
+        target={targetIndexInt}
+        onAnchorFound={() => {
+          gl.setClearColor(0x272727, 0.95);
+          // fadeOnAction.play()
+          videoLibrary[targetIndexInt].forEach((video) => video.play());
+          let prop = { scale: 0.0 };
+          handleCover(prop);
+          prop.scale = 0.5;
+          handleCover(prop);
+          // if (soundPlayed === false) {
+          //   soundPlayed = true;
+          //   console.log(soundPlayed, true);
+          sound.play();
+          // }
+        }}
+        onAnchorLost={() => {
+          gl.setClearColor(0x272727, 0.0);
+          let prop = { scale: 0.0 };
+          handleCover(prop);
+        }}
+      >
+        {/* <animated.mesh
+          position={[-0.2, 0, 0]}
+          material={couchMat}
+          scale={trails[3].videoScale}
+        >
+          <planeGeometry args={[1, 1, 1]} />
+        </animated.mesh>
+        <animated.mesh
+          position={[0.2, 0, 0.01]}
+          material={rocketMat}
+          scale={trails[0].videoScale}
+        >
+          <planeGeometry args={[1, 1, 1]} />
+        </animated.mesh> */}
+        <BouncyText delayMS={1000} position={[-0.3, 0.2, 0.1]} scale={0.02}>
+          Welcome to Creative Little Monsters
+        </BouncyText>
+        {/* <BouncyText delayMS={3000} position={[-0.3, -0.2, 0.1]} scale={0.02}>
+          Rarely do they take things too serious.
+        </BouncyText> */}
+
+        {/* <animated.mesh
+          position={[0, 0, 0.1]}
+          material={couchTextMat}
+          scale={0.5}
+        >
+          <planeGeometry args={[2, 1, 1]} />
+        </animated.mesh> */}
+      </ARAnchor>
+    </>
+  );
+}
+
+function SpreadTwo(targetIndex) {
+  const { gl, scene, camera } = useThree();
+
+  const { targetIndexInt } = handleVideoLibrary(targetIndex);
+  const coverGroup = new THREE.Group();
+
+  // const geoCouch = new THREE.PlaneGeometry(7.0, 6.72);
+  // const couchMat = idToVideoMat("videoCouch", true, targetIndexInt);
+  // const planeCouch = new THREE.Mesh(geoCouch, couchMat);
+
+  // const geoRocket = new THREE.PlaneGeometry(7.0, 6.72);
+  // const rocketMat = idToVideoMat("videoRocket", true, targetIndexInt);
+  // const planeRocket = new THREE.Mesh(geoRocket, rocketMat);
+
+  // const geoCouchText = new THREE.PlaneGeometry(26.51, 10.8);
+  // const couchTextMat = idToVideoMat("videoCouchText", true, targetIndexInt);
+  // const planeCouchText = new THREE.Mesh(geoCouchText, couchTextMat);
+
+  const listener = new THREE.AudioListener();
+
+  camera.add(listener);
+
+  const sound = new THREE.Audio(listener);
+
+  const audioLoader = new THREE.AudioLoader();
+  audioLoader.load("/Read_01.mp3", function (buffer) {
+    sound.setBuffer(buffer);
+    sound.setLoop(false);
+    sound.setVolume(0.2);
+  });
+
+  const [trails, api] = useTrail(
+    4,
+    () => ({ videoScale: 0, config: config.wobbly }),
+    []
+  );
+  const handleCover = (prop) => {
+    api.start({ videoScale: prop.scale });
+  };
+  return (
+    <>
+      <ARAnchor
+        target={targetIndexInt}
+        onAnchorFound={() => {
+          gl.setClearColor(0x272727, 0.95);
+          // fadeOnAction.play()
+          videoLibrary[targetIndexInt].forEach((video) => video.play());
+          let prop = { scale: 0.0 };
+          handleCover(prop);
+          prop.scale = 0.5;
+          handleCover(prop);
+          // if (soundPlayed === false) {
+          //   soundPlayed = true;
+          //   console.log(soundPlayed, true);
+          sound.play();
+          // }
+        }}
+        onAnchorLost={() => {
+          gl.setClearColor(0x272727, 0.0);
+          let prop = { scale: 0.0 };
+          handleCover(prop);
+        }}
+      >
+        {/* <animated.mesh
+          position={[-0.2, 0, 0]}
+          material={couchMat}
+          scale={trails[3].videoScale}
+        >
+          <planeGeometry args={[1, 1, 1]} />
+        </animated.mesh>
+        <animated.mesh
+          position={[0.2, 0, 0.01]}
+          material={rocketMat}
+          scale={trails[0].videoScale}
+        >
+          <planeGeometry args={[1, 1, 1]} />
+        </animated.mesh> */}
+        <BouncyText delayMS={1000} position={[-0.3, 0.2, 0.1]} scale={0.02}>
+          Creative little monsters are very curious.
+        </BouncyText>
+        <BouncyText delayMS={3000} position={[-0.3, -0.2, 0.1]} scale={0.02}>
+          Rarely do they take things too serious.
+        </BouncyText>
+
+        {/* <animated.mesh
+          position={[0, 0, 0.1]}
+          material={couchTextMat}
+          scale={0.5}
+        >
+          <planeGeometry args={[2, 1, 1]} />
+        </animated.mesh> */}
+      </ARAnchor>
+    </>
+  );
+}
+
+function SpreadThree(targetIndex) {
+  const { gl, scene, camera } = useThree();
+
+  const { targetIndexInt } = handleVideoLibrary(targetIndex);
+  const coverGroup = new THREE.Group();
+
+  // const geoCouch = new THREE.PlaneGeometry(7.0, 6.72);
+  // const couchMat = idToVideoMat("videoCouch", true, targetIndexInt);
+  // const planeCouch = new THREE.Mesh(geoCouch, couchMat);
+
+  // const geoRocket = new THREE.PlaneGeometry(7.0, 6.72);
+  // const rocketMat = idToVideoMat("videoRocket", true, targetIndexInt);
+  // const planeRocket = new THREE.Mesh(geoRocket, rocketMat);
+
+  // const geoCouchText = new THREE.PlaneGeometry(26.51, 10.8);
+  // const couchTextMat = idToVideoMat("videoCouchText", true, targetIndexInt);
+  // const planeCouchText = new THREE.Mesh(geoCouchText, couchTextMat);
+
+  const listener = new THREE.AudioListener();
+
+  camera.add(listener);
+
+  const sound = new THREE.Audio(listener);
+
+  const audioLoader = new THREE.AudioLoader();
+  audioLoader.load("/Read_02.mp3", function (buffer) {
+    sound.setBuffer(buffer);
+    sound.setLoop(false);
+    sound.setVolume(0.2);
+  });
+
+  const [trails, api] = useTrail(
+    4,
+    () => ({ videoScale: 0, config: config.wobbly }),
+    []
+  );
+  const handleCover = (prop) => {
+    api.start({ videoScale: prop.scale });
+  };
+  return (
+    <>
+      <ARAnchor
+        target={targetIndexInt}
+        onAnchorFound={() => {
+          gl.setClearColor(0x272727, 0.95);
+          // fadeOnAction.play()
+          videoLibrary[targetIndexInt].forEach((video) => video.play());
+          let prop = { scale: 0.0 };
+          handleCover(prop);
+          prop.scale = 0.5;
+          handleCover(prop);
+          // if (soundPlayed === false) {
+          //   soundPlayed = true;
+          //   console.log(soundPlayed, true);
+          sound.play();
+          // }
+        }}
+        onAnchorLost={() => {
+          gl.setClearColor(0x272727, 0.0);
+          let prop = { scale: 0.0 };
+          handleCover(prop);
+        }}
+      >
+        {/* <animated.mesh
+          position={[-0.2, 0, 0]}
+          material={couchMat}
+          scale={trails[3].videoScale}
+        >
+          <planeGeometry args={[1, 1, 1]} />
+        </animated.mesh>
+        <animated.mesh
+          position={[0.2, 0, 0.01]}
+          material={rocketMat}
+          scale={trails[0].videoScale}
+        >
+          <planeGeometry args={[1, 1, 1]} />
+        </animated.mesh> */}
+        <BouncyText delayMS={1000} position={[-0.3, 0.2, 0.1]} scale={0.02}>
+          They play with things that aren't normal toys.
+        </BouncyText>
+        <BouncyText delayMS={1500} position={[-0.3, 0.15, 0.1]} scale={0.02}>
+          They make things that are filled with noise.
+        </BouncyText>
+        <BouncyText delayMS={3000} position={[-0.3, -0.15, 0.1]} scale={0.02}>
+          Creative little monsters stir a delicious stew.
+        </BouncyText>
+        <BouncyText delayMS={3000} position={[-0.3, -0.2, 0.1]} scale={0.02}>
+          Who needs a cookbook - when you're serving glue.
+        </BouncyText>
+
+        {/* <animated.mesh
+          position={[0, 0, 0.1]}
+          material={couchTextMat}
+          scale={0.5}
+        >
+          <planeGeometry args={[2, 1, 1]} />
+        </animated.mesh> */}
+      </ARAnchor>
+    </>
+  );
+}
+
+function SpreadSeven(targetIndex) {
+  const { gl, scene, camera } = useThree();
+
+  const { targetIndexInt } = handleVideoLibrary(targetIndex);
+  console.log("multiTargets", multiTargets);
+  console.log("compiler", Compiler);
   const coverGroup = new THREE.Group();
 
   const geoCouch = new THREE.PlaneGeometry(7.0, 6.72);
@@ -403,7 +703,6 @@ function CouchTarget(targetIndex) {
     () => ({ videoScale: 0, config: config.wobbly }),
     []
   );
-
   const handleCover = (prop) => {
     api.start({ videoScale: prop.scale });
   };
@@ -419,11 +718,11 @@ function CouchTarget(targetIndex) {
           handleCover(prop);
           prop.scale = 0.5;
           handleCover(prop);
-          if (soundPlayed === false) {
-            soundPlayed = true;
-            console.log(soundPlayed, true);
-            sound.play();
-          }
+          // if (soundPlayed === false) {
+          //   soundPlayed = true;
+          //   console.log(soundPlayed, true);
+          sound.play();
+          // }
         }}
         onAnchorLost={() => {
           gl.setClearColor(0x272727, 0.0);
@@ -465,6 +764,12 @@ scale={0.5}
 const color = new THREE.Color(0x272727);
 const alpha = 0.95;
 
+const compiler = new Compiler();
+const content = await fetch(multiTargets);
+const buffer = await content.arrayBuffer();
+const dataList = compiler.importData(buffer);
+console.log("dataList", dataList);
+
 function App() {
   return (
     <>
@@ -477,8 +782,24 @@ function App() {
         warmupTolerance={0}
       >
         <CoverTarget targetIndex={0} />
-        <CouchTarget targetIndex={4} />
+        <SpreadOne targetIndex={1} />
+        <SpreadTwo targetIndex={2} />
+        <SpreadThree targetIndex={3} />
+        {/* <SpreadFour targetIndex={4} /> */}
+        {/* <SpreadFive targetIndex={5} /> */}
+        {/* <SpreadSix targetIndex={6} /> */}
+        <SpreadSeven targetIndex={7} />
+        {/* <SpredEight targetIndex={8} /> */}
       </ARView>
+      {/* <ARView
+        imageTargets={multiTargets2}
+        filterMinCF={0.00005}
+        filterBeta={0.001}
+        missTolerance={10}
+        warmupTolerance={0}
+      >
+        <SpredEight targetIndex={2} />
+      </ARView> */}
     </>
   );
 }
