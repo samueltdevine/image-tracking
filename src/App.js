@@ -364,34 +364,36 @@ function CoverTarget(targetIndex) {
           handleCover(prop);
         }}
       >
-        <animated.mesh
-          position={[-0.35, 0, -0.1]}
-          material={pinkMat}
-          scale={trails[3].scale}
-        >
-          <planeGeometry args={[1, 1, 1]} />
-        </animated.mesh>
-        <animated.mesh
-          position={[0, -0.1, 0]}
-          material={greenMat}
-          scale={trails[0].scale}
-        >
-          <planeGeometry args={[1, 1, 1]} />
-        </animated.mesh>
-        <animated.mesh
-          position={[-0.3, 0, 0]}
-          material={yellowMat}
-          scale={trails[1].scale}
-        >
-          <planeGeometry args={[1, 1, 1]} />
-        </animated.mesh>
-        <animated.mesh
-          position={[0.3, 0, -0.2]}
-          material={orangeMat}
-          scale={trails[2].scale}
-        >
-          <planeGeometry args={[1, 1, 1]} />
-        </animated.mesh>
+        <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
+          <animated.mesh
+            position={[-0.35, 0, -0.1]}
+            material={pinkMat}
+            scale={trails[3].scale}
+          >
+            <planeGeometry args={[1, 1, 1]} />
+          </animated.mesh>
+          <animated.mesh
+            position={[0, -0.1, 0]}
+            material={greenMat}
+            scale={trails[0].scale}
+          >
+            <planeGeometry args={[1, 1, 1]} />
+          </animated.mesh>
+          <animated.mesh
+            position={[-0.3, 0, 0]}
+            material={yellowMat}
+            scale={trails[1].scale}
+          >
+            <planeGeometry args={[1, 1, 1]} />
+          </animated.mesh>
+          <animated.mesh
+            position={[0.3, 0, -0.2]}
+            material={orangeMat}
+            scale={trails[2].scale}
+          >
+            <planeGeometry args={[1, 1, 1]} />
+          </animated.mesh>
+        </AnimatedGroup>
       </ARAnchor>
     </>
   );
