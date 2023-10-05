@@ -1,6 +1,6 @@
 import { ARAnchor, ARView } from "react-three-mind";
 import cover from "./cover.mind";
-import multiTargets from "./multiTargets6test.mind";
+import multiTargets from "./multiTargets7.mind";
 // import multiTargets2 from "./multiTargets_lastHalf.mind";
 import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
@@ -1113,7 +1113,7 @@ function SpreadEightA(targetIndex) {
   const sound = new THREE.Audio(listener);
 
   const audioLoader = new THREE.AudioLoader();
-  audioLoader.load("/Read_08.mp3", function (buffer) {
+  audioLoader.load("/Read_08a.mp3", function (buffer) {
     sound.setBuffer(buffer);
     sound.setLoop(false);
     sound.setVolume(0.2);
@@ -1148,26 +1148,20 @@ function SpreadEightA(targetIndex) {
           handleCover(prop);
           prop.scale = 0.5;
           handleCover(prop);
-          if (soundPlayed === false) {
-            soundPlayed = true;
-            console.log(soundPlayed, true);
-            sound.play();
-          }
+          // if (soundPlayed === false) {
+          //   soundPlayed = true;
+          // console.log(soundPlayed, true);
+          sound.play();
+          // }
         }}
         onAnchorLost={() => {
-          gl.setClearColor(0x272727, 0.0);
+          gl.setClearColor(0x4d4d4d, 0.0);
           // let prop = { scale: 0.0 };
           // handleCover(prop);
         }}
       >
-        <AnimatedGroup
-          scale={scale}
-          position={[0.15, -0.05, 0]}
-          onClick={() => {
-            setActive(false);
-          }}
-        >
-          <animated.mesh
+        <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
+          {/* <animated.mesh
             position={[0.4, 0, 0.3]}
             material={fg1Mat}
             scale={trails[0].scale}
@@ -1175,7 +1169,7 @@ function SpreadEightA(targetIndex) {
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
           <animated.mesh
-            position={[0.2, 0, 0.15]}
+            position={[0, 0, 0.15]}
             material={fg2Mat}
             scale={trails[1].scale}
           >
@@ -1194,7 +1188,7 @@ function SpreadEightA(targetIndex) {
             scale={trails[3].scale}
           >
             <planeGeometry args={[2, 2, 2]} />
-          </animated.mesh>
+          </animated.mesh> */}
         </AnimatedGroup>
       </ARAnchor>
     </>
@@ -1219,7 +1213,7 @@ function SpreadEightB(targetIndex) {
   const sound = new THREE.Audio(listener);
 
   const audioLoader = new THREE.AudioLoader();
-  audioLoader.load("/Read_08.mp3", function (buffer) {
+  audioLoader.load("/Read_08b.mp3", function (buffer) {
     sound.setBuffer(buffer);
     sound.setLoop(false);
     sound.setVolume(0.2);
@@ -1254,11 +1248,11 @@ function SpreadEightB(targetIndex) {
           handleCover(prop);
           prop.scale = 0.5;
           handleCover(prop);
-          if (soundPlayed === false) {
-            soundPlayed = true;
-            console.log(soundPlayed, true);
-            sound.play();
-          }
+          // if (soundPlayed === false) {
+          // soundPlayed = true;
+          // console.log(soundPlayed, true);
+          sound.play();
+          // }
         }}
         onAnchorLost={() => {
           gl.setClearColor(0x272727, 0.0);
@@ -1266,13 +1260,7 @@ function SpreadEightB(targetIndex) {
           // handleCover(prop);
         }}
       >
-        <AnimatedGroup
-          scale={scale}
-          position={[0.15, -0.05, 0]}
-          onClick={() => {
-            setActive(false);
-          }}
-        >
+        <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
           <animated.mesh
             position={[0.4, 0, 0.3]}
             material={fg1Mat}
@@ -1281,7 +1269,7 @@ function SpreadEightB(targetIndex) {
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
           <animated.mesh
-            position={[0.2, 0, 0.15]}
+            position={[0, 0, 0.15]}
             material={fg2Mat}
             scale={trails[1].scale}
           >
@@ -1337,8 +1325,8 @@ function App() {
         {/* <SpreadFive targetIndex={5} /> */}
         {/* <SpreadSix targetIndex={6} /> */}
         {/* <SpreadSeven targetIndex={7} /> */}
-        <SpreadEightA targetIndex={1} />
-        <SpreadEightB targetIndex={2} />
+        <SpreadEightA targetIndex={14} />
+        <SpreadEightB targetIndex={15} />
       </ARView>
       {/* <ARView
         imageTargets={multiTargets2}
