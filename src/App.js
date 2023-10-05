@@ -1101,10 +1101,9 @@ function SpreadEightA(targetIndex) {
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
   const coverGroup = new THREE.Group();
 
-  const fgMat = idToVideoMat("videoEightA", false, targetIndexInt);
-  const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
-  const mgMat = idToVideoMat("videoEightThree", false, targetIndexInt);
-  const bgMat = idToVideoMat("videoEightFour", false, targetIndexInt);
+  const fgMat = idToVideoMat("videoEightAfg", false, targetIndexInt);
+  const mgMat = idToVideoMat("videoEightAmg", false, targetIndexInt);
+  const bgMat = idToVideoMat("videoEightAbg", false, targetIndexInt);
 
   const listener = new THREE.AudioListener();
 
@@ -1140,7 +1139,7 @@ function SpreadEightA(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          gl.setClearColor(0x4d4d4d, 0.95);
+          gl.setClearColor(0xf5f0e4, 1.0);
           // gl.toneMapping(THREE.NoToneMapping);
           // fadeOnAction.play()
           videoLibrary[targetIndexInt].forEach((video) => video.play());
@@ -1155,15 +1154,29 @@ function SpreadEightA(targetIndex) {
           // }
         }}
         onAnchorLost={() => {
-          gl.setClearColor(0x4d4d4d, 0.0);
+          gl.setClearColor(0xf5f0e4, 0.0);
           // let prop = { scale: 0.0 };
           // handleCover(prop);
         }}
       >
         <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
           <animated.mesh
-            position={[0.4, 0, 0.3]}
+            position={[0.0, 0, 0.3]}
             material={fgMat}
+            scale={trails[0].scale}
+          >
+            <planeGeometry args={[1, 1, 1]} />
+          </animated.mesh>
+          <animated.mesh
+            position={[0.0, 0, 0.2]}
+            material={mgMat}
+            scale={trails[0].scale}
+          >
+            <planeGeometry args={[1, 1, 1]} />
+          </animated.mesh>
+          <animated.mesh
+            position={[0.0, 0, 0.0]}
+            material={bgMat}
             scale={trails[0].scale}
           >
             <planeGeometry args={[1, 1, 1]} />
