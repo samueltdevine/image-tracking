@@ -94,6 +94,7 @@ const idToVideoMat = (id, depthTest, targetIndexInt) => {
     side: THREE.DoubleSide,
     depthWrite: true,
     depthTest: depthTest,
+    toneMapped: false,
   });
   return materialVideo;
 };
@@ -185,8 +186,8 @@ const SpacerGroup = (props) => {
 };
 
 function BouncyText(props) {
-  const { scale, position, delayMS } = props;
-
+  const { scale, position, delayMS, onClick } = props;
+  // onClick()
   const [isDelaying, setIsDelaying] = useState(true);
   useEffect(() => {
     setTimeout(() => {
@@ -220,47 +221,73 @@ function BouncyText(props) {
   const [lengths, setLengths] = useState([]);
 
   if (lengths.length == 0) {
-    // return (
-    //   <SampleSpacerGroup
-    //     scale={scale}
-    //     lengths={lengths}
-    //     setLengths={setLengths}
-    //   >
-    //     {textArray.map((text, index) => (
-    //       <AnimatedText3D font={fontPath} scale={1.0}>
-    //         {text}
-    //       </AnimatedText3D>
-    //     ))}
-    //   </SampleSpacerGroup>
-    // );
+    return (
+      <SampleSpacerGroup
+        scale={scale}
+        lengths={lengths}
+        setLengths={setLengths}
+      >
+        {textArray.map((text, index) => (
+          <AnimatedText3D font={fontPath} scale={1.0}>
+            {text}
+          </AnimatedText3D>
+        ))}
+      </SampleSpacerGroup>
+    );
   } else {
-    // return (
-    //   <SpacerGroup
-    //     scale={scale}
-    //     lengths={lengths}
-    //     position={position}
-    //     delayMS={delayMS}
-    //   >
-    //     {textArray.map((text, index) => (
-    //       <AnimatedGroup scale={1} position={trails[index].position}>
-    //         <AnimatedGroup
-    //           // scale={1}
-    //           scale={isDelaying ? 0.0 : trails[index].scale}
-    //         >
-    //           <AnimatedText3D
-    //             font={fontPath}
-    //             // scale={1}
-    //             // position={trails[index].position}
-    //           >
-    //             {text}
-    //           </AnimatedText3D>
-    //         </AnimatedGroup>
-    //       </AnimatedGroup>
-    //     ))}
-    //   </SpacerGroup>
-    // );
+    return (
+      <SpacerGroup
+        scale={scale}
+        lengths={lengths}
+        position={position}
+        delayMS={delayMS}
+      >
+        {textArray.map((text, index) => (
+          <AnimatedGroup scale={1} position={trails[index].position}>
+            <AnimatedGroup
+              // scale={1}
+              scale={isDelaying ? 0.0 : trails[index].scale}
+            >
+              <AnimatedText3D
+                font={fontPath}
+                // scale={1}
+                // position={trails[index].position}
+              >
+                {text}
+              </AnimatedText3D>
+            </AnimatedGroup>
+          </AnimatedGroup>
+        ))}
+      </SpacerGroup>
+    );
   }
 }
+
+const PageToggle = (props) => {
+  const { soundAndScale, active, setActive } = props;
+  const [isPlaying, setIsPlaying] = useState(false);
+  console.log("children", props.children);
+  return (
+    <group {...props}>
+      {active ? (
+        props.children
+      ) : (
+        <group
+          onClick={() => {
+            soundAndScale();
+            setIsPlaying(true);
+          }}
+        >
+          <group scale={1}>
+            <BouncyText delayMS={0} position={[0.25, 0.0, 0.0]} scale={0.02}>
+              {"Play"}
+            </BouncyText>
+          </group>
+        </group>
+      )}
+    </group>
+  );
+};
 
 function CoverTarget(targetIndex) {
   const { gl, scene, camera } = useThree();
@@ -310,7 +337,6 @@ function CoverTarget(targetIndex) {
     () => ({ scale: 0, config: config.wobbly }),
     []
   );
-  console.log("videolibrary", videoLibrary);
 
   const handleCover = (prop) => {
     api.start({ scale: prop.scale });
@@ -448,11 +474,8 @@ function SpreadOne(targetIndex) {
         >
           <planeGeometry args={[1, 1, 1]} />
         </animated.mesh> */}
-        <BouncyText delayMS={1000} position={[-0.3, 0.2, 0.1]} scale={0.02}>
+        {/* <BouncyText delayMS={1000} position={[-0.3, 0.2, 0.1]} scale={0.02}>
           Welcome to Creative Little Monsters
-        </BouncyText>
-        {/* <BouncyText delayMS={3000} position={[-0.3, -0.2, 0.1]} scale={0.02}>
-          Rarely do they take things too serious.
         </BouncyText> */}
 
         {/* <animated.mesh
@@ -544,12 +567,12 @@ function SpreadTwo(targetIndex) {
         >
           <planeGeometry args={[1, 1, 1]} />
         </animated.mesh> */}
-        <BouncyText delayMS={1000} position={[-0.3, 0.2, 0.1]} scale={0.02}>
+        {/* <BouncyText delayMS={1000} position={[-0.3, 0.2, 0.1]} scale={0.02}>
           Creative little monsters are very curious.
         </BouncyText>
         <BouncyText delayMS={3000} position={[-0.3, -0.2, 0.1]} scale={0.02}>
           Rarely do they take things too serious.
-        </BouncyText>
+        </BouncyText> */}
 
         {/* <animated.mesh
           position={[0, 0, 0.1]}
@@ -565,7 +588,6 @@ function SpreadTwo(targetIndex) {
 
 function SpreadThree(targetIndex) {
   const { gl, scene, camera } = useThree();
-
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
   const coverGroup = new THREE.Group();
 
@@ -640,7 +662,7 @@ function SpreadThree(targetIndex) {
         >
           <planeGeometry args={[1, 1, 1]} />
         </animated.mesh> */}
-        <BouncyText delayMS={1000} position={[-0.3, 0.2, 0.1]} scale={0.02}>
+        {/* <BouncyText delayMS={1000} position={[-0.3, 0.2, 0.1]} scale={0.02}>
           They play with things that aren't normal toys.
         </BouncyText>
         <BouncyText delayMS={3000} position={[-0.3, 0.15, 0.1]} scale={0.02}>
@@ -651,7 +673,7 @@ function SpreadThree(targetIndex) {
         </BouncyText>
         <BouncyText delayMS={12000} position={[-0.3, -0.2, 0.1]} scale={0.02}>
           Who needs a cookbook - when you're serving glue.
-        </BouncyText>
+        </BouncyText> */}
 
         {/* <animated.mesh
           position={[0, 0, 0.1]}
@@ -742,7 +764,7 @@ function SpreadFour(targetIndex) {
         >
           <planeGeometry args={[1, 1, 1]} />
         </animated.mesh> */}
-        <BouncyText delayMS={1000} position={[-0.3, 0.2, 0.1]} scale={0.02}>
+        {/* <BouncyText delayMS={1000} position={[-0.3, 0.2, 0.1]} scale={0.02}>
           They put objects together
         </BouncyText>
         <BouncyText delayMS={1500} position={[-0.3, 0.15, 0.1]} scale={0.02}>
@@ -750,7 +772,7 @@ function SpreadFour(targetIndex) {
         </BouncyText>
         <BouncyText delayMS={3000} position={[-0.3, -0.15, 0.1]} scale={0.02}>
           The best part of being creative is that nothing is wrong.
-        </BouncyText>
+        </BouncyText> */}
         {/* <BouncyText delayMS={3000} position={[-0.3, -0.2, 0.1]} scale={0.02}>
           Who needs a cookbook - when you're serving glue.
         </BouncyText> */}
@@ -844,7 +866,7 @@ function SpreadFive(targetIndex) {
         >
           <planeGeometry args={[1, 1, 1]} />
         </animated.mesh> */}
-        <BouncyText delayMS={1000} position={[-0.3, 0.2, 0.1]} scale={0.02}>
+        {/* <BouncyText delayMS={1000} position={[-0.3, 0.2, 0.1]} scale={0.02}>
           Creative little monsters find something that's broke.
         </BouncyText>
         <BouncyText delayMS={3000} position={[-0.3, 0.15, 0.1]} scale={0.02}>
@@ -858,7 +880,7 @@ function SpreadFive(targetIndex) {
         </BouncyText>
         <BouncyText delayMS={11000} position={[-0.3, -0.2, 0.1]} scale={0.02}>
           When others laugh, it's fine, they just smile with conviction.
-        </BouncyText>
+        </BouncyText> */}
         {/* <BouncyText delayMS={3000} position={[-0.3, -0.2, 0.1]} scale={0.02}>
           Who needs a cookbook - when you're serving glue.
         </BouncyText> */}
@@ -952,7 +974,7 @@ function SpreadSix(targetIndex) {
         >
           <planeGeometry args={[1, 1, 1]} />
         </animated.mesh> */}
-        <BouncyText delayMS={1000} position={[-0.3, 0.2, 0.1]} scale={0.02}>
+        {/* <BouncyText delayMS={1000} position={[-0.3, 0.2, 0.1]} scale={0.02}>
           Creative little mosnters are
         </BouncyText>
         <BouncyText delayMS={1500} position={[-0.3, 0.15, 0.1]} scale={0.02}>
@@ -960,7 +982,7 @@ function SpreadSix(targetIndex) {
         </BouncyText>
         <BouncyText delayMS={3000} position={[-0.3, -0.15, 0.1]} scale={0.02}>
           Calm down, parents, it's a work in progress!
-        </BouncyText>
+        </BouncyText> */}
         {/* <BouncyText delayMS={3000} position={[-0.3, -0.2, 0.1]} scale={0.02}>
           Who needs a cookbook - when you're serving glue.
         </BouncyText> */}
@@ -1056,12 +1078,12 @@ function SpreadSeven(targetIndex) {
         >
           <planeGeometry args={[1, 1, 1]} />
         </animated.mesh>
-        <BouncyText delayMS={1000} position={[-0.3, 0.2, 0.1]} scale={0.02}>
+        {/* <BouncyText delayMS={1000} position={[-0.3, 0.2, 0.1]} scale={0.02}>
           When creative little monsters are lonely or bored,
         </BouncyText>
         <BouncyText delayMS={3000} position={[-0.3, -0.2, 0.1]} scale={0.02}>
           They explore new worlds that money can't afford.
-        </BouncyText>
+        </BouncyText> */}
 
         {/* <animated.mesh position={[0,0, 0.1]} material={couchTextMat} 
 scale={0.5}
@@ -1075,7 +1097,7 @@ scale={0.5}
 
 function SpreadEight(targetIndex) {
   const { gl, scene, camera } = useThree();
-
+  gl.toneMapping = THREE.NoToneMapping;
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
   const coverGroup = new THREE.Group();
 
@@ -1114,63 +1136,85 @@ function SpreadEight(targetIndex) {
     () => ({ videoScale: 0, config: config.wobbly }),
     []
   );
-  const handleCover = (prop) => {
-    api.start({ videoScale: prop.scale });
+
+  const [active, setActive] = useState(false);
+  const springs = useSpring({ scale: active ? 0.0 : 0.5 });
+  const { scale } = useSpring({
+    scale: active ? 0.5 : 0,
+    config: config.wobbly,
+  });
+
+  const doStuff = () => {
+    sound.play();
+    setActive(true);
   };
   return (
     <>
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          gl.setClearColor(0x272727, 0.95);
+          gl.setClearColor(0x4d4d4d, 0.95);
+          // gl.toneMapping(THREE.NoToneMapping);
           // fadeOnAction.play()
           videoLibrary[targetIndexInt].forEach((video) => video.play());
-          let prop = { scale: 0.0 };
-          handleCover(prop);
-          prop.scale = 0.5;
-          handleCover(prop);
+          // let prop = { scale: 0.0 };
+          // handleCover(prop);
+          // prop.scale = 0.5;
+          // handleCover(prop);
           // if (soundPlayed === false) {
           //   soundPlayed = true;
           //   console.log(soundPlayed, true);
-          sound.play();
+          // sound.play();
           // }
         }}
         onAnchorLost={() => {
           gl.setClearColor(0x272727, 0.0);
-          let prop = { scale: 0.0 };
-          handleCover(prop);
+          // let prop = { scale: 0.0 };
+          // handleCover(prop);
         }}
       >
-        <group scale={0.5} position={[.15,-0.05,0]}>
-         <animated.mesh
-          position={[.4, 0, .3]}
-          material={fg1Mat}
-          scale={trails[3].scale}
+        <PageToggle
+          soundAndScale={doStuff}
+          active={active}
+          setActive={setActive}
         >
-          <planeGeometry args={[1, 1, 1]} />
-        </animated.mesh>
-        <animated.mesh
-          position={[.2, 0, .15]}
-          material={fg2Mat}
-          scale={trails[3].scale}
-        >
-          <planeGeometry args={[1, 1, 1]} />
-        </animated.mesh>
-        <animated.mesh
-          position={[.2, 0, -0.1]}
-          material={mgMat}
-          scale={trails[3].scale}
-        >
-          <planeGeometry args={[1, 1, 1]} />
-        </animated.mesh>
-        <animated.mesh
-          position={[.2, 0, -0.8]}
-          material={bgMat}
-          scale={trails[3].scale}
-        >
-          <planeGeometry args={[2, 2, 2]} />
-        </animated.mesh>
-        </group>
+          <AnimatedGroup
+            scale={scale}
+            position={[0.15, -0.05, 0]}
+            onClick={() => {
+              setActive(false);
+            }}
+          >
+            <animated.mesh
+              position={[0.4, 0, 0.3]}
+              material={fg1Mat}
+              scale={trails[0].scale}
+            >
+              <planeGeometry args={[1, 1, 1]} />
+            </animated.mesh>
+            <animated.mesh
+              position={[0.2, 0, 0.15]}
+              material={fg2Mat}
+              scale={trails[1].scale}
+            >
+              <planeGeometry args={[1, 1, 1]} />
+            </animated.mesh>
+            <animated.mesh
+              position={[0.2, 0, -0.1]}
+              material={mgMat}
+              scale={trails[2].scale}
+            >
+              <planeGeometry args={[1, 1, 1]} />
+            </animated.mesh>
+            <animated.mesh
+              position={[0.2, 0, -0.8]}
+              material={bgMat}
+              scale={trails[3].scale}
+            >
+              <planeGeometry args={[2, 2, 2]} />
+            </animated.mesh>
+          </AnimatedGroup>
+        </PageToggle>
 
         {/* <animated.mesh
           position={[-0.2, 0, 0]}
@@ -1186,7 +1230,7 @@ function SpreadEight(targetIndex) {
         >
           <planeGeometry args={[1, 1, 1]} />
         </animated.mesh> */}
-        <BouncyText delayMS={2000} position={[-0.35, 0.1, 0.1]} scale={0.02}>
+        {/* <BouncyText delayMS={2000} position={[-0.35, 0.1, 0.1]} scale={0.02}>
           A beautiful masterpiece
         </BouncyText>
         <BouncyText delayMS={2500} position={[-0.35, 0.05, 0.1]} scale={0.02}>
@@ -1194,7 +1238,7 @@ function SpreadEight(targetIndex) {
         </BouncyText>
         <BouncyText delayMS={6000} position={[-0.3, -0.15, 0.1]} scale={0.02}>
           When you're a creative little mosnter, you can do anything.
-        </BouncyText>
+        </BouncyText> */}
         {/* <BouncyText delayMS={3000} position={[-0.3, -0.2, 0.1]} scale={0.02}>
           Who needs a cookbook - when you're serving glue.
         </BouncyText> */}
@@ -1230,6 +1274,8 @@ function App() {
         filterBeta={0.001}
         missTolerance={10}
         warmupTolerance={0}
+        gl={{ antialias: true, toneMapping: THREE.NoToneMapping }}
+        linear
       >
         <CoverTarget targetIndex={0} />
         <SpreadOne targetIndex={1} />
