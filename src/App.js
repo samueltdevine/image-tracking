@@ -1,6 +1,6 @@
 import { ARAnchor, ARView } from "react-three-mind";
 import cover from "./cover.mind";
-import multiTargets from "./multiTargets5.mind";
+import multiTargets from "./multiTargets6test.mind";
 // import multiTargets2 from "./multiTargets_lastHalf.mind";
 import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
@@ -1095,7 +1095,7 @@ scale={0.5}
   );
 }
 
-function SpreadEight(targetIndex) {
+function SpreadEightA(targetIndex) {
   const { gl, scene, camera } = useThree();
   gl.toneMapping = THREE.NoToneMapping;
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
@@ -1105,18 +1105,6 @@ function SpreadEight(targetIndex) {
   const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
   const mgMat = idToVideoMat("videoEightThree", false, targetIndexInt);
   const bgMat = idToVideoMat("videoEightFour", false, targetIndexInt);
-
-  // const geoCouch = new THREE.PlaneGeometry(7.0, 6.72);
-  // const couchMat = idToVideoMat("videoCouch", true, targetIndexInt);
-  // const planeCouch = new THREE.Mesh(geoCouch, couchMat);
-
-  // const geoRocket = new THREE.PlaneGeometry(7.0, 6.72);
-  // const rocketMat = idToVideoMat("videoRocket", true, targetIndexInt);
-  // const planeRocket = new THREE.Mesh(geoRocket, rocketMat);
-
-  // const geoCouchText = new THREE.PlaneGeometry(26.51, 10.8);
-  // const couchTextMat = idToVideoMat("videoCouchText", true, targetIndexInt);
-  // const planeCouchText = new THREE.Mesh(geoCouchText, couchTextMat);
 
   const listener = new THREE.AudioListener();
 
@@ -1144,9 +1132,8 @@ function SpreadEight(targetIndex) {
     config: config.wobbly,
   });
 
-  const doStuff = () => {
-    sound.play();
-    setActive(true);
+  const handleCover = (prop) => {
+    api.start({ videoScale: prop.scale });
   };
   return (
     <>
@@ -1157,15 +1144,15 @@ function SpreadEight(targetIndex) {
           // gl.toneMapping(THREE.NoToneMapping);
           // fadeOnAction.play()
           videoLibrary[targetIndexInt].forEach((video) => video.play());
-          // let prop = { scale: 0.0 };
-          // handleCover(prop);
-          // prop.scale = 0.5;
-          // handleCover(prop);
-          // if (soundPlayed === false) {
-          //   soundPlayed = true;
-          //   console.log(soundPlayed, true);
-          // sound.play();
-          // }
+          let prop = { scale: 0.0 };
+          handleCover(prop);
+          prop.scale = 0.5;
+          handleCover(prop);
+          if (soundPlayed === false) {
+            soundPlayed = true;
+            console.log(soundPlayed, true);
+            sound.play();
+          }
         }}
         onAnchorLost={() => {
           gl.setClearColor(0x272727, 0.0);
@@ -1173,83 +1160,148 @@ function SpreadEight(targetIndex) {
           // handleCover(prop);
         }}
       >
-        <PageToggle
-          soundAndScale={doStuff}
-          active={active}
-          setActive={setActive}
+        <AnimatedGroup
+          scale={scale}
+          position={[0.15, -0.05, 0]}
+          onClick={() => {
+            setActive(false);
+          }}
         >
-          <AnimatedGroup
-            scale={scale}
-            position={[0.15, -0.05, 0]}
-            onClick={() => {
-              setActive(false);
-            }}
+          <animated.mesh
+            position={[0.4, 0, 0.3]}
+            material={fg1Mat}
+            scale={trails[0].scale}
           >
-            <animated.mesh
-              position={[0.4, 0, 0.3]}
-              material={fg1Mat}
-              scale={trails[0].scale}
-            >
-              <planeGeometry args={[1, 1, 1]} />
-            </animated.mesh>
-            <animated.mesh
-              position={[0.2, 0, 0.15]}
-              material={fg2Mat}
-              scale={trails[1].scale}
-            >
-              <planeGeometry args={[1, 1, 1]} />
-            </animated.mesh>
-            <animated.mesh
-              position={[0.2, 0, -0.1]}
-              material={mgMat}
-              scale={trails[2].scale}
-            >
-              <planeGeometry args={[1, 1, 1]} />
-            </animated.mesh>
-            <animated.mesh
-              position={[0.2, 0, -0.8]}
-              material={bgMat}
-              scale={trails[3].scale}
-            >
-              <planeGeometry args={[2, 2, 2]} />
-            </animated.mesh>
-          </AnimatedGroup>
-        </PageToggle>
+            <planeGeometry args={[1, 1, 1]} />
+          </animated.mesh>
+          <animated.mesh
+            position={[0.2, 0, 0.15]}
+            material={fg2Mat}
+            scale={trails[1].scale}
+          >
+            <planeGeometry args={[1, 1, 1]} />
+          </animated.mesh>
+          <animated.mesh
+            position={[0.2, 0, -0.1]}
+            material={mgMat}
+            scale={trails[2].scale}
+          >
+            <planeGeometry args={[1, 1, 1]} />
+          </animated.mesh>
+          <animated.mesh
+            position={[0.2, 0, -0.8]}
+            material={bgMat}
+            scale={trails[3].scale}
+          >
+            <planeGeometry args={[2, 2, 2]} />
+          </animated.mesh>
+        </AnimatedGroup>
+      </ARAnchor>
+    </>
+  );
+}
 
-        {/* <animated.mesh
-          position={[-0.2, 0, 0]}
-          material={couchMat}
-          scale={trails[3].videoScale}
-        >
-          <planeGeometry args={[1, 1, 1]} />
-        </animated.mesh>
-        <animated.mesh
-          position={[0.2, 0, 0.01]}
-          material={rocketMat}
-          scale={trails[0].videoScale}
-        >
-          <planeGeometry args={[1, 1, 1]} />
-        </animated.mesh> */}
-        {/* <BouncyText delayMS={2000} position={[-0.35, 0.1, 0.1]} scale={0.02}>
-          A beautiful masterpiece
-        </BouncyText>
-        <BouncyText delayMS={2500} position={[-0.35, 0.05, 0.1]} scale={0.02}>
-          with only a ball of string.
-        </BouncyText>
-        <BouncyText delayMS={6000} position={[-0.3, -0.15, 0.1]} scale={0.02}>
-          When you're a creative little mosnter, you can do anything.
-        </BouncyText> */}
-        {/* <BouncyText delayMS={3000} position={[-0.3, -0.2, 0.1]} scale={0.02}>
-          Who needs a cookbook - when you're serving glue.
-        </BouncyText> */}
+function SpreadEightB(targetIndex) {
+  const { gl, scene, camera } = useThree();
+  gl.toneMapping = THREE.NoToneMapping;
+  const { targetIndexInt } = handleVideoLibrary(targetIndex);
+  const coverGroup = new THREE.Group();
 
-        {/* <animated.mesh
-          position={[0, 0, 0.1]}
-          material={couchTextMat}
-          scale={0.5}
+  const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
+  const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
+  const mgMat = idToVideoMat("videoEightThree", false, targetIndexInt);
+  const bgMat = idToVideoMat("videoEightFour", false, targetIndexInt);
+
+  const listener = new THREE.AudioListener();
+
+  camera.add(listener);
+
+  const sound = new THREE.Audio(listener);
+
+  const audioLoader = new THREE.AudioLoader();
+  audioLoader.load("/Read_08.mp3", function (buffer) {
+    sound.setBuffer(buffer);
+    sound.setLoop(false);
+    sound.setVolume(0.2);
+  });
+
+  const [trails, api] = useTrail(
+    4,
+    () => ({ videoScale: 0, config: config.wobbly }),
+    []
+  );
+
+  const [active, setActive] = useState(false);
+  const springs = useSpring({ scale: active ? 0.0 : 0.5 });
+  const { scale } = useSpring({
+    scale: active ? 0.5 : 0,
+    config: config.wobbly,
+  });
+
+  const handleCover = (prop) => {
+    api.start({ videoScale: prop.scale });
+  };
+  return (
+    <>
+      <ARAnchor
+        target={targetIndexInt}
+        onAnchorFound={() => {
+          gl.setClearColor(0x4d4d4d, 0.95);
+          // gl.toneMapping(THREE.NoToneMapping);
+          // fadeOnAction.play()
+          videoLibrary[targetIndexInt].forEach((video) => video.play());
+          let prop = { scale: 0.0 };
+          handleCover(prop);
+          prop.scale = 0.5;
+          handleCover(prop);
+          if (soundPlayed === false) {
+            soundPlayed = true;
+            console.log(soundPlayed, true);
+            sound.play();
+          }
+        }}
+        onAnchorLost={() => {
+          gl.setClearColor(0x272727, 0.0);
+          // let prop = { scale: 0.0 };
+          // handleCover(prop);
+        }}
+      >
+        <AnimatedGroup
+          scale={scale}
+          position={[0.15, -0.05, 0]}
+          onClick={() => {
+            setActive(false);
+          }}
         >
-          <planeGeometry args={[2, 1, 1]} />
-        </animated.mesh> */}
+          <animated.mesh
+            position={[0.4, 0, 0.3]}
+            material={fg1Mat}
+            scale={trails[0].scale}
+          >
+            <planeGeometry args={[1, 1, 1]} />
+          </animated.mesh>
+          <animated.mesh
+            position={[0.2, 0, 0.15]}
+            material={fg2Mat}
+            scale={trails[1].scale}
+          >
+            <planeGeometry args={[1, 1, 1]} />
+          </animated.mesh>
+          <animated.mesh
+            position={[0.2, 0, -0.1]}
+            material={mgMat}
+            scale={trails[2].scale}
+          >
+            <planeGeometry args={[1, 1, 1]} />
+          </animated.mesh>
+          <animated.mesh
+            position={[0.2, 0, -0.8]}
+            material={bgMat}
+            scale={trails[3].scale}
+          >
+            <planeGeometry args={[2, 2, 2]} />
+          </animated.mesh>
+        </AnimatedGroup>
       </ARAnchor>
     </>
   );
@@ -1278,14 +1330,15 @@ function App() {
         linear
       >
         <CoverTarget targetIndex={0} />
-        <SpreadOne targetIndex={1} />
-        <SpreadTwo targetIndex={2} />
-        <SpreadThree targetIndex={3} />
-        <SpreadFour targetIndex={4} />
-        <SpreadFive targetIndex={5} />
-        <SpreadSix targetIndex={6} />
-        <SpreadSeven targetIndex={7} />
-        <SpreadEight targetIndex={8} />
+        {/* <SpreadOne targetIndex={1} /> */}
+        {/* <SpreadTwo targetIndex={2} /> */}
+        {/* <SpreadThree targetIndex={3} /> */}
+        {/* <SpreadFour targetIndex={4} /> */}
+        {/* <SpreadFive targetIndex={5} /> */}
+        {/* <SpreadSix targetIndex={6} /> */}
+        {/* <SpreadSeven targetIndex={7} /> */}
+        <SpreadEightA targetIndex={1} />
+        <SpreadEightB targetIndex={2} />
       </ARView>
       {/* <ARView
         imageTargets={multiTargets2}
