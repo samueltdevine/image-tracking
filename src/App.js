@@ -1101,7 +1101,7 @@ function SpreadEightA(targetIndex) {
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
   const coverGroup = new THREE.Group();
 
-  const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
+  const fgMat = idToVideoMat("videoEightA", false, targetIndexInt);
   const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
   const mgMat = idToVideoMat("videoEightThree", false, targetIndexInt);
   const bgMat = idToVideoMat("videoEightFour", false, targetIndexInt);
@@ -1161,34 +1161,13 @@ function SpreadEightA(targetIndex) {
         }}
       >
         <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
-          {/* <animated.mesh
+          <animated.mesh
             position={[0.4, 0, 0.3]}
-            material={fg1Mat}
+            material={fgMat}
             scale={trails[0].scale}
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
-          <animated.mesh
-            position={[0, 0, 0.15]}
-            material={fg2Mat}
-            scale={trails[1].scale}
-          >
-            <planeGeometry args={[1, 1, 1]} />
-          </animated.mesh>
-          <animated.mesh
-            position={[0.2, 0, -0.1]}
-            material={mgMat}
-            scale={trails[2].scale}
-          >
-            <planeGeometry args={[1, 1, 1]} />
-          </animated.mesh>
-          <animated.mesh
-            position={[0.2, 0, -0.8]}
-            material={bgMat}
-            scale={trails[3].scale}
-          >
-            <planeGeometry args={[2, 2, 2]} />
-          </animated.mesh> */}
         </AnimatedGroup>
       </ARAnchor>
     </>
