@@ -220,45 +220,45 @@ function BouncyText(props) {
   const [lengths, setLengths] = useState([]);
 
   if (lengths.length == 0) {
-    return (
-      <SampleSpacerGroup
-        scale={scale}
-        lengths={lengths}
-        setLengths={setLengths}
-      >
-        {textArray.map((text, index) => (
-          <AnimatedText3D font={fontPath} scale={1.0}>
-            {text}
-          </AnimatedText3D>
-        ))}
-      </SampleSpacerGroup>
-    );
+    // return (
+    //   <SampleSpacerGroup
+    //     scale={scale}
+    //     lengths={lengths}
+    //     setLengths={setLengths}
+    //   >
+    //     {textArray.map((text, index) => (
+    //       <AnimatedText3D font={fontPath} scale={1.0}>
+    //         {text}
+    //       </AnimatedText3D>
+    //     ))}
+    //   </SampleSpacerGroup>
+    // );
   } else {
-    return (
-      <SpacerGroup
-        scale={scale}
-        lengths={lengths}
-        position={position}
-        delayMS={delayMS}
-      >
-        {textArray.map((text, index) => (
-          <AnimatedGroup scale={1} position={trails[index].position}>
-            <AnimatedGroup
-              // scale={1}
-              scale={isDelaying ? 0.0 : trails[index].scale}
-            >
-              <AnimatedText3D
-                font={fontPath}
-                // scale={1}
-                // position={trails[index].position}
-              >
-                {text}
-              </AnimatedText3D>
-            </AnimatedGroup>
-          </AnimatedGroup>
-        ))}
-      </SpacerGroup>
-    );
+    // return (
+    //   <SpacerGroup
+    //     scale={scale}
+    //     lengths={lengths}
+    //     position={position}
+    //     delayMS={delayMS}
+    //   >
+    //     {textArray.map((text, index) => (
+    //       <AnimatedGroup scale={1} position={trails[index].position}>
+    //         <AnimatedGroup
+    //           // scale={1}
+    //           scale={isDelaying ? 0.0 : trails[index].scale}
+    //         >
+    //           <AnimatedText3D
+    //             font={fontPath}
+    //             // scale={1}
+    //             // position={trails[index].position}
+    //           >
+    //             {text}
+    //           </AnimatedText3D>
+    //         </AnimatedGroup>
+    //       </AnimatedGroup>
+    //     ))}
+    //   </SpacerGroup>
+    // );
   }
 }
 
@@ -1079,6 +1079,11 @@ function SpreadEight(targetIndex) {
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
   const coverGroup = new THREE.Group();
 
+  const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
+  const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
+  const mgMat = idToVideoMat("videoEightThree", false, targetIndexInt);
+  const bgMat = idToVideoMat("videoEightFour", false, targetIndexInt);
+
   // const geoCouch = new THREE.PlaneGeometry(7.0, 6.72);
   // const couchMat = idToVideoMat("videoCouch", true, targetIndexInt);
   // const planeCouch = new THREE.Mesh(geoCouch, couchMat);
@@ -1136,6 +1141,37 @@ function SpreadEight(targetIndex) {
           handleCover(prop);
         }}
       >
+        <group scale={0.5} position={[.15,-0.05,0]}>
+         <animated.mesh
+          position={[.4, 0, .3]}
+          material={fg1Mat}
+          scale={trails[3].scale}
+        >
+          <planeGeometry args={[1, 1, 1]} />
+        </animated.mesh>
+        <animated.mesh
+          position={[.2, 0, .15]}
+          material={fg2Mat}
+          scale={trails[3].scale}
+        >
+          <planeGeometry args={[1, 1, 1]} />
+        </animated.mesh>
+        <animated.mesh
+          position={[.2, 0, -0.1]}
+          material={mgMat}
+          scale={trails[3].scale}
+        >
+          <planeGeometry args={[1, 1, 1]} />
+        </animated.mesh>
+        <animated.mesh
+          position={[.2, 0, -0.8]}
+          material={bgMat}
+          scale={trails[3].scale}
+        >
+          <planeGeometry args={[2, 2, 2]} />
+        </animated.mesh>
+        </group>
+
         {/* <animated.mesh
           position={[-0.2, 0, 0]}
           material={couchMat}
@@ -1150,13 +1186,13 @@ function SpreadEight(targetIndex) {
         >
           <planeGeometry args={[1, 1, 1]} />
         </animated.mesh> */}
-        <BouncyText delayMS={1000} position={[-0.3, 0.2, 0.1]} scale={0.02}>
+        <BouncyText delayMS={2000} position={[-0.35, 0.1, 0.1]} scale={0.02}>
           A beautiful masterpiece
         </BouncyText>
-        <BouncyText delayMS={1500} position={[-0.3, 0.15, 0.1]} scale={0.02}>
+        <BouncyText delayMS={2500} position={[-0.35, 0.05, 0.1]} scale={0.02}>
           with only a ball of string.
         </BouncyText>
-        <BouncyText delayMS={3000} position={[-0.3, -0.15, 0.1]} scale={0.02}>
+        <BouncyText delayMS={6000} position={[-0.3, -0.15, 0.1]} scale={0.02}>
           When you're a creative little mosnter, you can do anything.
         </BouncyText>
         {/* <BouncyText delayMS={3000} position={[-0.3, -0.2, 0.1]} scale={0.02}>
