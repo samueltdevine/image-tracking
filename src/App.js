@@ -1170,14 +1170,14 @@ function SpreadEightA(targetIndex) {
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
           <animated.mesh
-            position={[0.0, 0, 0.2]}
+            position={[0.0, 0.0, 0.2]}
             material={mgMat}
             scale={trails[0].scale}
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
           <animated.mesh
-            position={[0.0, 0, 0.0]}
+            position={[0.0, 0.0, 0.0]}
             material={bgMat}
             scale={trails[0].scale}
           >
@@ -1256,32 +1256,32 @@ function SpreadEightB(targetIndex) {
       >
         <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
           <animated.mesh
-            position={[0.4, 0, 0.3]}
+            position={[0.4, 0.0, 0.3]}
             material={fg1Mat}
             scale={trails[0].scale}
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
           <animated.mesh
-            position={[0, 0, 0.15]}
+            position={[0.0, 0.0, 0.15]}
             material={fg2Mat}
             scale={trails[0].scale}
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
           <animated.mesh
-            position={[0.2, 0, -0.1]}
+            position={[0.2, 0.0, -0.1]}
             material={mgMat}
             scale={trails[0].scale}
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
           <animated.mesh
-            position={[0.2, 0, -0.8]}
+            position={[0.2, 0.0, -0.8]}
             material={bgMat}
             scale={trails[0].scale}
           >
-            <planeGeometry args={[2, 2, 2]} />
+            <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
         </AnimatedGroup>
       </ARAnchor>
