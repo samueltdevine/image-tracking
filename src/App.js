@@ -1234,7 +1234,7 @@ function SpreadEightB(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          gl.setClearColor(0xf5f0e4, 1.0);
+          gl.setClearColor(0x4d4d4d, 1.0);
           // gl.toneMapping(THREE.NoToneMapping);
           // fadeOnAction.play()
           videoLibrary[targetIndexInt].forEach((video) => video.play());
@@ -1249,7 +1249,7 @@ function SpreadEightB(targetIndex) {
           // }
         }}
         onAnchorLost={() => {
-          gl.setClearColor(0xf5f0e4, 0.0);
+          gl.setClearColor(0x4d4d4d, 0.0);
           // let prop = { scale: 0.0 };
           // handleCover(prop);
         }}
@@ -1265,21 +1265,21 @@ function SpreadEightB(targetIndex) {
           <animated.mesh
             position={[0, 0, 0.15]}
             material={fg2Mat}
-            scale={trails[1].scale}
+            scale={trails[0].scale}
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.2, 0, -0.1]}
             material={mgMat}
-            scale={trails[2].scale}
+            scale={trails[0].scale}
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.2, 0, -0.8]}
             material={bgMat}
-            scale={trails[3].scale}
+            scale={trails[0].scale}
           >
             <planeGeometry args={[2, 2, 2]} />
           </animated.mesh>
