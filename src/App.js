@@ -1206,6 +1206,10 @@ function SpreadEightB(targetIndex) {
 
   const sound = new THREE.Audio(listener);
 
+  camera.add(listener);
+
+  const sound = new THREE.Audio(listener);
+
   const audioLoader = new THREE.AudioLoader();
   audioLoader.load("/Read_08b.mp3", function (buffer) {
     sound.setBuffer(buffer);
@@ -1234,7 +1238,7 @@ function SpreadEightB(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          gl.setClearColor(0x4d4d4d, 0.95);
+          gl.setClearColor(0xf5f0e4, 1.0);
           // gl.toneMapping(THREE.NoToneMapping);
           // fadeOnAction.play()
           videoLibrary[targetIndexInt].forEach((video) => video.play());
@@ -1243,19 +1247,19 @@ function SpreadEightB(targetIndex) {
           prop.scale = 0.5;
           handleCover(prop);
           // if (soundPlayed === false) {
-          // soundPlayed = true;
+          //   soundPlayed = true;
           // console.log(soundPlayed, true);
           sound.play();
           // }
         }}
         onAnchorLost={() => {
-          gl.setClearColor(0x272727, 0.0);
+          gl.setClearColor(0xf5f0e4, 0.0);
           // let prop = { scale: 0.0 };
           // handleCover(prop);
         }}
       >
         <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
-          {/* <animated.mesh
+          <animated.mesh
             position={[0.4, 0, 0.3]}
             material={fg1Mat}
             scale={trails[0].scale}
@@ -1282,7 +1286,7 @@ function SpreadEightB(targetIndex) {
             scale={trails[3].scale}
           >
             <planeGeometry args={[2, 2, 2]} />
-          </animated.mesh> */}
+          </animated.mesh>
         </AnimatedGroup>
       </ARAnchor>
     </>
