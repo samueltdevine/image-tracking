@@ -1255,7 +1255,7 @@ function SpreadEightB(targetIndex) {
         }}
       >
         <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
-          <animated.mesh
+          {/* <animated.mesh
             position={[0.4, 0, 0.3]}
             material={fg1Mat}
             scale={trails[0].scale}
@@ -1282,7 +1282,7 @@ function SpreadEightB(targetIndex) {
             scale={trails[3].scale}
           >
             <planeGeometry args={[2, 2, 2]} />
-          </animated.mesh>
+          </animated.mesh> */}
         </AnimatedGroup>
       </ARAnchor>
     </>
