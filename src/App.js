@@ -1206,10 +1206,6 @@ function SpreadEightB(targetIndex) {
 
   const sound = new THREE.Audio(listener);
 
-  camera.add(listener);
-
-  const sound = new THREE.Audio(listener);
-
   const audioLoader = new THREE.AudioLoader();
   audioLoader.load("/Read_08b.mp3", function (buffer) {
     sound.setBuffer(buffer);
