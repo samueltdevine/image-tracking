@@ -1419,8 +1419,8 @@ function App() {
         {/* <SpreadFive targetIndex={5} /> */}
         {/* <SpreadSix targetIndex={6} /> */}
         {/* <SpreadSeven targetIndex={7} /> */}
-        <SpreadEightA targetIndex={14} />
-        <SpreadEightB targetIndex={15} />
+        <SpreadEightA targetIndex={15} />
+        <SpreadEightB targetIndex={14} />
       </ARView>
       {/* <ARView
         imageTargets={multiTargets2}
