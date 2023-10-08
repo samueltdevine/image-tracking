@@ -1047,7 +1047,7 @@ function SpreadSeven(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          gl.setClearColor(0x272727, 0.9);
+          gl.setClearColor(0x272727, 0.95);
           // fadeOnAction.play()
           videoLibrary[targetIndexInt].forEach((video) => video.play());
           let prop = { scale: 0.0 };
@@ -1141,7 +1141,7 @@ function SpreadEightA(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          gl.setClearColor(0xf5f0e4, 0.9);
+          gl.setClearColor(0xf5f0e4, 1.0);
           // gl.toneMapping(THREE.NoToneMapping);
           // fadeOnAction.play()
           videoLibrary[targetIndexInt].forEach((video) => video.play());
@@ -1169,14 +1169,14 @@ function SpreadEightA(targetIndex) {
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
-          {/* <animated.mesh
+          <animated.mesh
             position={[0.0, 0.0, 0.2]}
             material={mgMat}
             scale={trails[0].scale}
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
-          <animated.mesh
+          {/* <animated.mesh
             position={[0.0, 0.0, 0.0]}
             material={bgMat}
             scale={trails[0].scale}
@@ -1207,7 +1207,7 @@ function SpreadEightB(targetIndex) {
   const sound = new THREE.Audio(listener);
 
   const audioLoader = new THREE.AudioLoader();
-  audioLoader.load("/Read_08b.mp3", function (buffer) {
+  audioLoader.load("/Read_08a.mp3", function (buffer) {
     sound.setBuffer(buffer);
     sound.setLoop(false);
     sound.setVolume(0.2);
@@ -1234,7 +1234,7 @@ function SpreadEightB(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          gl.setClearColor(0x4d4d4d, 0.9);
+          gl.setClearColor(0x4d4d4d, 1.0);
           // gl.toneMapping(THREE.NoToneMapping);
           // fadeOnAction.play()
           videoLibrary[targetIndexInt].forEach((video) => video.play());
