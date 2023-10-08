@@ -77,26 +77,45 @@ const handleVideoLibrary = (targetIndex) => {
   return { targetIndexInt };
 };
 
-const idToVideoMat = (id, depthTest, targetIndexInt) => {
+const idToVideoMat = (id, depthTest, targetIndexInt, alphaId) => {
   const video = document.getElementById(id);
-  console.log("targetIndexInt", targetIndexInt);
   if (videoLibrary[targetIndexInt] === undefined) {
     videoLibrary[targetIndexInt] = [];
   }
-  videoLibrary[targetIndexInt].push(video);
-  const texture = new THREE.VideoTexture(video);
-  texture.format = THREE.RGBAFormat;
-  const materialVideo = new THREE.MeshBasicMaterial({
-    map: texture,
-    alphaMap: texture,
-    transparent: true,
-    opacity: 100,
-    side: THREE.DoubleSide,
-    depthWrite: true,
-    depthTest: depthTest,
-    toneMapped: false,
-  });
-  return materialVideo;
+  if (alphaId === undefined) {
+    videoLibrary[targetIndexInt].push(video);
+    const texture = new THREE.VideoTexture(video);
+    texture.format = THREE.RGBAFormat;
+    const materialVideo = new THREE.MeshBasicMaterial({
+      map: texture,
+      alphaMap: texture,
+      transparent: true,
+      opacity: 100,
+      side: THREE.DoubleSide,
+      depthWrite: true,
+      depthTest: depthTest,
+      toneMapped: false,
+    });
+    return materialVideo;
+  } else {
+    const alpha = document.getElementById(alphaId);
+    videoLibrary[targetIndexInt].push(video);
+    const texture = new THREE.VideoTexture(video);
+    const alphaTexture = new THREE.VideoTexture(alpha);
+
+    texture.format = THREE.RGBAFormat;
+    const materialVideo = new THREE.MeshBasicMaterial({
+      map: texture,
+      alphaMap: alphaTexture,
+      transparent: true,
+      opacity: 100,
+      side: THREE.DoubleSide,
+      depthWrite: true,
+      depthTest: depthTest,
+      toneMapped: false,
+    });
+    return materialVideo;
+  }
 };
 
 const fontPath = "/Nunito_Medium_Regular.json";
@@ -1105,7 +1124,7 @@ function SpreadEightA(targetIndex) {
 
   const fgMat = idToVideoMat("videoEightAfg", false, targetIndexInt);
   const mgMat = idToVideoMat("videoEightAmg", false, targetIndexInt);
-  const bgMat = idToVideoMat("videoEightAbg", false, targetIndexInt);
+  // const bgMat = idToVideoMat("videoEightAbg", false, targetIndexInt);
 
   const listener = new THREE.AudioListener();
 
