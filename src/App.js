@@ -1047,7 +1047,7 @@ function SpreadSeven(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          gl.setClearColor(0x272727, 0.95);
+          gl.setClearColor(0x272727, 0.9);
           // fadeOnAction.play()
           videoLibrary[targetIndexInt].forEach((video) => video.play());
           let prop = { scale: 0.0 };
@@ -1141,7 +1141,7 @@ function SpreadEightA(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          gl.setClearColor(0xf5f0e4, 1.0);
+          gl.setClearColor(0xf5f0e4, 0.9);
           // gl.toneMapping(THREE.NoToneMapping);
           // fadeOnAction.play()
           videoLibrary[targetIndexInt].forEach((video) => video.play());
@@ -1234,7 +1234,7 @@ function SpreadEightB(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          gl.setClearColor(0x4d4d4d, 1.0);
+          gl.setClearColor(0x4d4d4d, 0.9);
           // gl.toneMapping(THREE.NoToneMapping);
           // fadeOnAction.play()
           videoLibrary[targetIndexInt].forEach((video) => video.play());
