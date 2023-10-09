@@ -81,11 +81,12 @@ const idToVideoMat = (id, depthTest, targetIndexInt, alphaId) => {
   const video = document.getElementById(id);
   if (videoLibrary[targetIndexInt] === undefined) {
     videoLibrary[targetIndexInt] = [];
-  }
-  if (alphaId === undefined) {
+  } else {
+    // if (alphaId === undefined) {
     videoLibrary[targetIndexInt].push(video);
     const texture = new THREE.VideoTexture(video);
     texture.format = THREE.RGBAFormat;
+    console.log(texture, "texas");
     const materialVideo = new THREE.MeshBasicMaterial({
       map: texture,
       alphaMap: texture,
@@ -97,25 +98,29 @@ const idToVideoMat = (id, depthTest, targetIndexInt, alphaId) => {
       toneMapped: false,
     });
     return materialVideo;
-  } else {
-    const alpha = document.getElementById(alphaId);
-    videoLibrary[targetIndexInt].push(video);
-    const texture = new THREE.VideoTexture(video);
-    const alphaTexture = new THREE.VideoTexture(alpha);
-
-    texture.format = THREE.RGBAFormat;
-    const materialVideo = new THREE.MeshBasicMaterial({
-      map: texture,
-      alphaMap: alphaTexture,
-      transparent: true,
-      opacity: 100,
-      side: THREE.DoubleSide,
-      depthWrite: true,
-      depthTest: depthTest,
-      toneMapped: false,
-    });
-    return materialVideo;
   }
+
+  // }
+  // } else {
+  //   const alpha = document.getElementById(alphaId);
+  //   videoLibrary[targetIndexInt].push(video);
+  //   videoLibrary[targetIndexInt].push(alpha);
+  //   const texture = new THREE.VideoTexture(video);
+  //   const alphaTexture = new THREE.VideoTexture(alpha);
+
+  //   texture.format = THREE.RGBAFormat;
+  //   const materialVideo = new THREE.MeshBasicMaterial({
+  //     map: texture,
+  //     alphaMap: alphaTexture,
+  //     transparent: true,
+  //     opacity: 100,
+  //     side: THREE.DoubleSide,
+  //     depthWrite: true,
+  //     depthTest: depthTest,
+  //     toneMapped: false,
+  //   });
+  //   return materialVideo;
+  // }
 };
 
 const fontPath = "/Nunito_Medium_Regular.json";
@@ -365,7 +370,7 @@ function CoverTarget(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          gl.setClearColor(0x272727, 0.95);
+          // gl.setClearColor(0x272727, 0.95);
           videoLibrary[targetIndexInt].forEach((video) => video.play());
           let prop = { scale: 0.0 };
           handleCover(prop);
@@ -378,7 +383,7 @@ function CoverTarget(targetIndex) {
           }
         }}
         onAnchorLost={() => {
-          gl.setClearColor(0x272727, 0.0);
+          // gl.setClearColor(0x272727, 0.0);
           let prop = { scale: 0.0 };
           handleCover(prop);
         }}
@@ -462,7 +467,7 @@ function SpreadOne(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          gl.setClearColor(0x272727, 0.95);
+          // gl.setClearColor(0x272727, 0.95);
           // fadeOnAction.play()
           videoLibrary[targetIndexInt].forEach((video) => video.play());
           let prop = { scale: 0.0 };
@@ -476,7 +481,7 @@ function SpreadOne(targetIndex) {
           // }
         }}
         onAnchorLost={() => {
-          gl.setClearColor(0x272727, 0.0);
+          // gl.setClearColor(0x272727, 0.0);
           let prop = { scale: 0.0 };
           handleCover(prop);
         }}
@@ -555,7 +560,7 @@ function SpreadTwo(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          gl.setClearColor(0x272727, 0.95);
+          // gl.setClearColor(0x272727, 0.95);
           // fadeOnAction.play()
           videoLibrary[targetIndexInt].forEach((video) => video.play());
           let prop = { scale: 0.0 };
@@ -569,7 +574,7 @@ function SpreadTwo(targetIndex) {
           // }
         }}
         onAnchorLost={() => {
-          gl.setClearColor(0x272727, 0.0);
+          // gl.setClearColor(0x272727, 0.0);
           let prop = { scale: 0.0 };
           handleCover(prop);
         }}
@@ -650,7 +655,7 @@ function SpreadThree(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          gl.setClearColor(0x272727, 0.95);
+          // gl.setClearColor(0x272727, 0.95);
           // fadeOnAction.play()
           videoLibrary[targetIndexInt].forEach((video) => video.play());
           let prop = { scale: 0.0 };
@@ -664,7 +669,7 @@ function SpreadThree(targetIndex) {
           // }
         }}
         onAnchorLost={() => {
-          gl.setClearColor(0x272727, 0.0);
+          // gl.setClearColor(0x272727, 0.0);
           let prop = { scale: 0.0 };
           handleCover(prop);
         }}
@@ -752,7 +757,7 @@ function SpreadFour(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          gl.setClearColor(0x272727, 0.95);
+          // gl.setClearColor(0x272727, 0.95);
           // fadeOnAction.play()
           videoLibrary[targetIndexInt].forEach((video) => video.play());
           let prop = { scale: 0.0 };
@@ -766,7 +771,7 @@ function SpreadFour(targetIndex) {
           // }
         }}
         onAnchorLost={() => {
-          gl.setClearColor(0x272727, 0.0);
+          // gl.setClearColor(0x272727, 0.0);
           let prop = { scale: 0.0 };
           handleCover(prop);
         }}
@@ -854,7 +859,7 @@ function SpreadFive(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          gl.setClearColor(0x272727, 0.95);
+          // gl.setClearColor(0x272727, 0.95);
           // fadeOnAction.play()
           videoLibrary[targetIndexInt].forEach((video) => video.play());
           let prop = { scale: 0.0 };
@@ -868,7 +873,7 @@ function SpreadFive(targetIndex) {
           // }
         }}
         onAnchorLost={() => {
-          gl.setClearColor(0x272727, 0.0);
+          // gl.setClearColor(0x272727, 0.0);
           let prop = { scale: 0.0 };
           handleCover(prop);
         }}
@@ -962,7 +967,7 @@ function SpreadSix(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          gl.setClearColor(0x272727, 0.95);
+          // gl.setClearColor(0x272727, 0.95);
           // fadeOnAction.play()
           videoLibrary[targetIndexInt].forEach((video) => video.play());
           let prop = { scale: 0.0 };
@@ -976,7 +981,7 @@ function SpreadSix(targetIndex) {
           // }
         }}
         onAnchorLost={() => {
-          gl.setClearColor(0x272727, 0.0);
+          // gl.setClearColor(0x272727, 0.0);
           let prop = { scale: 0.0 };
           handleCover(prop);
         }}
@@ -1066,7 +1071,7 @@ function SpreadSeven(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          gl.setClearColor(0x272727, 0.95);
+          // gl.setClearColor(0x272727, 0.95);
           // fadeOnAction.play()
           videoLibrary[targetIndexInt].forEach((video) => video.play());
           let prop = { scale: 0.0 };
@@ -1080,7 +1085,7 @@ function SpreadSeven(targetIndex) {
           // }
         }}
         onAnchorLost={() => {
-          gl.setClearColor(0x272727, 0.0);
+          // gl.setClearColor(0x272727, 0.0);
           let prop = { scale: 0.0 };
           handleCover(prop);
         }}
@@ -1122,8 +1127,18 @@ function SpreadEightA(targetIndex) {
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
   const coverGroup = new THREE.Group();
 
-  const fgMat = idToVideoMat("videoEightAfg", false, targetIndexInt);
-  const mgMat = idToVideoMat("videoEightAmg", false, targetIndexInt);
+  const fgMat = idToVideoMat(
+    "videoEightAfg",
+    false,
+    targetIndexInt,
+    "videoEightAfgAlpha"
+  );
+  const mgMat = idToVideoMat(
+    "videoEightAmg",
+    false,
+    targetIndexInt,
+    "videoEightAmgAlpha"
+  );
   // const bgMat = idToVideoMat("videoEightAbg", false, targetIndexInt);
 
   const listener = new THREE.AudioListener();
@@ -1188,13 +1203,13 @@ function SpreadEightA(targetIndex) {
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
-          <animated.mesh
+          {/* <animated.mesh
             position={[0.0, 0.0, 0.2]}
             material={mgMat}
             scale={trails[0].scale}
           >
             <planeGeometry args={[1, 1, 1]} />
-          </animated.mesh>
+          </animated.mesh> */}
           {/* <animated.mesh
             position={[0.0, 0.0, 0.0]}
             material={bgMat}
@@ -1226,7 +1241,7 @@ function SpreadEightB(targetIndex) {
   const sound = new THREE.Audio(listener);
 
   const audioLoader = new THREE.AudioLoader();
-  audioLoader.load("/Read_08a.mp3", function (buffer) {
+  audioLoader.load("/Read_08b.mp3", function (buffer) {
     sound.setBuffer(buffer);
     sound.setLoop(false);
     sound.setVolume(0.2);
@@ -1353,7 +1368,7 @@ function SpreadEightB(targetIndex) {
 //       <ARAnchor
 //         target={targetIndexInt}
 //         onAnchorFound={() => {
-//           gl.setClearColor(0x4d4d4d, 1.0);
+// gl.setClearColor(0x4d4d4d, 1.0);
 //           // gl.toneMapping(THREE.NoToneMapping);
 //           // fadeOnAction.play()
 //           videoLibrary[targetIndexInt].forEach((video) => video.play());
@@ -1368,7 +1383,7 @@ function SpreadEightB(targetIndex) {
 //           // }
 //         }}
 //         onAnchorLost={() => {
-//           gl.setClearColor(0x4d4d4d, 0.0);
+// gl.setClearColor(0x4d4d4d, 0.0);
 //           // let prop = { scale: 0.0 };
 //           // handleCover(prop);
 //         }}
