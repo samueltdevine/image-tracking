@@ -1425,7 +1425,7 @@ function App() {
         imageTargets={multiTargets}
         filterMinCF={0.0001}
         filterBeta={0.004}
-        missTolerance={0.5}
+        missTolerance={0.6}
         warmupTolerance={3}
         gl={{ antialias: true, toneMapping: THREE.NoToneMapping }}
         linear
