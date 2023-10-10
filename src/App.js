@@ -67,12 +67,10 @@ function StartUi() {
 let soundPlayed = false;
 const rotBack = degToRad(33);
 
-const videoLibrary = [];
+const videoLibrary = {};
 
 const handleVideoLibrary = (targetIndex) => {
   const targetIndexInt = targetIndex.targetIndex;
-  const empty = [];
-  videoLibrary.push(empty);
 
   return { targetIndexInt };
 };
@@ -81,46 +79,21 @@ const idToVideoMat = (id, depthTest, targetIndexInt, alphaId) => {
   const video = document.getElementById(id);
   if (videoLibrary[targetIndexInt] === undefined) {
     videoLibrary[targetIndexInt] = [];
-  } else {
-    // if (alphaId === undefined) {
-    videoLibrary[targetIndexInt].push(video);
-    const texture = new THREE.VideoTexture(video);
-    texture.format = THREE.RGBAFormat;
-    console.log(texture, "texas");
-    const materialVideo = new THREE.MeshBasicMaterial({
-      map: texture,
-      alphaMap: texture,
-      transparent: true,
-      opacity: 100,
-      side: THREE.DoubleSide,
-      depthWrite: true,
-      depthTest: depthTest,
-      toneMapped: false,
-    });
-    return materialVideo;
   }
-
-  // }
-  // } else {
-  //   const alpha = document.getElementById(alphaId);
-  //   videoLibrary[targetIndexInt].push(video);
-  //   videoLibrary[targetIndexInt].push(alpha);
-  //   const texture = new THREE.VideoTexture(video);
-  //   const alphaTexture = new THREE.VideoTexture(alpha);
-
-  //   texture.format = THREE.RGBAFormat;
-  //   const materialVideo = new THREE.MeshBasicMaterial({
-  //     map: texture,
-  //     alphaMap: alphaTexture,
-  //     transparent: true,
-  //     opacity: 100,
-  //     side: THREE.DoubleSide,
-  //     depthWrite: true,
-  //     depthTest: depthTest,
-  //     toneMapped: false,
-  //   });
-  //   return materialVideo;
-  // }
+  videoLibrary[targetIndexInt].push(video);
+  const texture = new THREE.VideoTexture(video);
+  texture.format = THREE.RGBAFormat;
+  const materialVideo = new THREE.MeshBasicMaterial({
+    map: texture,
+    alphaMap: texture,
+    transparent: true,
+    opacity: 100,
+    side: THREE.DoubleSide,
+    depthWrite: true,
+    depthTest: depthTest,
+    toneMapped: false,
+  });
+  return materialVideo;
 };
 
 const fontPath = "/Nunito_Medium_Regular.json";
@@ -370,7 +343,8 @@ function CoverTarget(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          // gl.setClearColor(0x272727, 0.95);
+          console.log("cover found");
+          gl.setClearColor(0x272727, 0.6);
           videoLibrary[targetIndexInt].forEach((video) => video.play());
           let prop = { scale: 0.0 };
           handleCover(prop);
@@ -383,7 +357,8 @@ function CoverTarget(targetIndex) {
           }
         }}
         onAnchorLost={() => {
-          // gl.setClearColor(0x272727, 0.0);
+          console.log("lost cover");
+          gl.setClearColor(0x272727, 0.0);
           let prop = { scale: 0.0 };
           handleCover(prop);
         }}
@@ -467,7 +442,7 @@ function SpreadOne(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          // gl.setClearColor(0x272727, 0.95);
+          gl.setClearColor(0x272727, 0.6);
           // fadeOnAction.play()
           videoLibrary[targetIndexInt].forEach((video) => video.play());
           let prop = { scale: 0.0 };
@@ -481,7 +456,7 @@ function SpreadOne(targetIndex) {
           // }
         }}
         onAnchorLost={() => {
-          // gl.setClearColor(0x272727, 0.0);
+          gl.setClearColor(0x272727, 0.0);
           let prop = { scale: 0.0 };
           handleCover(prop);
         }}
@@ -560,7 +535,7 @@ function SpreadTwo(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          // gl.setClearColor(0x272727, 0.95);
+          gl.setClearColor(0x272727, 0.6);
           // fadeOnAction.play()
           videoLibrary[targetIndexInt].forEach((video) => video.play());
           let prop = { scale: 0.0 };
@@ -574,7 +549,7 @@ function SpreadTwo(targetIndex) {
           // }
         }}
         onAnchorLost={() => {
-          // gl.setClearColor(0x272727, 0.0);
+          gl.setClearColor(0x272727, 0.0);
           let prop = { scale: 0.0 };
           handleCover(prop);
         }}
@@ -655,7 +630,7 @@ function SpreadThree(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          // gl.setClearColor(0x272727, 0.95);
+          gl.setClearColor(0x272727, 0.6);
           // fadeOnAction.play()
           videoLibrary[targetIndexInt].forEach((video) => video.play());
           let prop = { scale: 0.0 };
@@ -669,7 +644,7 @@ function SpreadThree(targetIndex) {
           // }
         }}
         onAnchorLost={() => {
-          // gl.setClearColor(0x272727, 0.0);
+          gl.setClearColor(0x272727, 0.0);
           let prop = { scale: 0.0 };
           handleCover(prop);
         }}
@@ -757,7 +732,7 @@ function SpreadFour(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          // gl.setClearColor(0x272727, 0.95);
+          gl.setClearColor(0x272727, 0.6);
           // fadeOnAction.play()
           videoLibrary[targetIndexInt].forEach((video) => video.play());
           let prop = { scale: 0.0 };
@@ -771,7 +746,7 @@ function SpreadFour(targetIndex) {
           // }
         }}
         onAnchorLost={() => {
-          // gl.setClearColor(0x272727, 0.0);
+          gl.setClearColor(0x272727, 0.0);
           let prop = { scale: 0.0 };
           handleCover(prop);
         }}
@@ -859,7 +834,7 @@ function SpreadFive(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          // gl.setClearColor(0x272727, 0.95);
+          gl.setClearColor(0x272727, 0.6);
           // fadeOnAction.play()
           videoLibrary[targetIndexInt].forEach((video) => video.play());
           let prop = { scale: 0.0 };
@@ -873,7 +848,7 @@ function SpreadFive(targetIndex) {
           // }
         }}
         onAnchorLost={() => {
-          // gl.setClearColor(0x272727, 0.0);
+          gl.setClearColor(0x272727, 0.0);
           let prop = { scale: 0.0 };
           handleCover(prop);
         }}
@@ -967,7 +942,7 @@ function SpreadSix(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          // gl.setClearColor(0x272727, 0.95);
+          gl.setClearColor(0x272727, 0.6);
           // fadeOnAction.play()
           videoLibrary[targetIndexInt].forEach((video) => video.play());
           let prop = { scale: 0.0 };
@@ -981,7 +956,7 @@ function SpreadSix(targetIndex) {
           // }
         }}
         onAnchorLost={() => {
-          // gl.setClearColor(0x272727, 0.0);
+          gl.setClearColor(0x272727, 0.0);
           let prop = { scale: 0.0 };
           handleCover(prop);
         }}
@@ -1071,7 +1046,7 @@ function SpreadSeven(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          // gl.setClearColor(0x272727, 0.95);
+          gl.setClearColor(0x272727, 0.6);
           // fadeOnAction.play()
           videoLibrary[targetIndexInt].forEach((video) => video.play());
           let prop = { scale: 0.0 };
@@ -1085,7 +1060,7 @@ function SpreadSeven(targetIndex) {
           // }
         }}
         onAnchorLost={() => {
-          // gl.setClearColor(0x272727, 0.0);
+          gl.setClearColor(0x272727, 0.0);
           let prop = { scale: 0.0 };
           handleCover(prop);
         }}
@@ -1175,7 +1150,7 @@ function SpreadEightA(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          gl.setClearColor(0xf5f0e4, 1.0);
+          gl.setClearColor(0xf5f0e4, 0.6);
           // gl.toneMapping(THREE.NoToneMapping);
           // fadeOnAction.play()
           videoLibrary[targetIndexInt].forEach((video) => video.play());
@@ -1268,19 +1243,13 @@ function SpreadEightB(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          gl.setClearColor(0x4d4d4d, 1.0);
-          // gl.toneMapping(THREE.NoToneMapping);
-          // fadeOnAction.play()
+          gl.setClearColor(0x4d4d4d, 0.6);
           videoLibrary[targetIndexInt].forEach((video) => video.play());
           let prop = { scale: 0.0 };
           handleCover(prop);
           prop.scale = 0.5;
           handleCover(prop);
-          // if (soundPlayed === false) {
-          //   soundPlayed = true;
-          // console.log(soundPlayed, true);
           sound.play();
-          // }
         }}
         onAnchorLost={() => {
           gl.setClearColor(0x4d4d4d, 0.0);
@@ -1430,7 +1399,23 @@ const compiler = new Compiler();
 const content = await fetch(multiTargets);
 const buffer = await content.arrayBuffer();
 const dataList = compiler.importData(buffer);
-console.log("dataList", dataList);
+
+const TargetWrap = (props) => {
+  return (
+    <>
+      <CoverTarget targetIndex={0} />
+      {/* <SpreadOne targetIndex={1} /> */}
+      {/* <SpreadTwo targetIndex={2} /> */}
+      {/* <SpreadThree targetIndex={3} /> */}
+      {/* <SpreadFour targetIndex={4} /> */}
+      {/* <SpreadFive targetIndex={5} /> */}
+      {/* <SpreadSix targetIndex={6} /> */}
+      {/* <SpreadSeven targetIndex={7} /> */}
+      <SpreadEightB targetIndex={15} />
+      <SpreadEightA targetIndex={14} />
+    </>
+  );
+};
 
 function App() {
   return (
@@ -1438,23 +1423,14 @@ function App() {
       <StartUi />
       <ARView
         imageTargets={multiTargets}
-        filterMinCF={0.00005}
-        filterBeta={0.001}
-        missTolerance={10}
-        warmupTolerance={0}
+        filterMinCF={0.0001}
+        filterBeta={0.004}
+        missTolerance={0.6}
+        warmupTolerance={3}
         gl={{ antialias: true, toneMapping: THREE.NoToneMapping }}
         linear
       >
-        <CoverTarget targetIndex={0} />
-        {/* <SpreadOne targetIndex={1} /> */}
-        {/* <SpreadTwo targetIndex={2} /> */}
-        {/* <SpreadThree targetIndex={3} /> */}
-        {/* <SpreadFour targetIndex={4} /> */}
-        {/* <SpreadFive targetIndex={5} /> */}
-        {/* <SpreadSix targetIndex={6} /> */}
-        {/* <SpreadSeven targetIndex={7} /> */}
-        <SpreadEightB targetIndex={15} />
-        <SpreadEightA targetIndex={14} />
+        <TargetWrap />
       </ARView>
       {/* <ARView
         imageTargets={multiTargets2}
