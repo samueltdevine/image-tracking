@@ -292,6 +292,7 @@ function CoverTarget(targetIndex) {
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
 
   const coverGroup = new THREE.Group();
+  const logoMat = idToVideoMat("logo", true, targetIndexInt);
 
   const geoYellow = new THREE.PlaneGeometry(7.0, 6.72);
   const yellowMat = idToVideoMat("videoYellow", false, targetIndexInt);
@@ -364,6 +365,13 @@ function CoverTarget(targetIndex) {
         }}
       >
         <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
+          <animated.mesh
+            position={[0.0, 0.5, -0.3]}
+            material={logoMat}
+            scale={trails[3].scale}
+          >
+            <planeGeometry args={[1, 1, 1]} />
+          </animated.mesh>
           <animated.mesh
             position={[-0.35, 0, -0.1]}
             material={pinkMat}
