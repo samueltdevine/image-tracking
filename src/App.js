@@ -659,14 +659,14 @@ function SpreadTwoA(targetIndex) {
             material={matTwoAFG}
             scale={trails[0].scale}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0, 0.3]}
             material={matTwoAMG}
             scale={trails[0].scale}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
         </AnimatedGroup>
       </ARAnchor>
@@ -1594,14 +1594,14 @@ function SpreadEightA(targetIndex) {
             material={fgMat}
             scale={trails[0].scale}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.2]}
             material={mgMat}
             scale={trails[0].scale}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
           {/* <animated.mesh
             position={[0.0, 0.0, 0.0]}
@@ -1684,28 +1684,28 @@ function SpreadEightB(targetIndex) {
             material={fg1Mat}
             scale={trails[0].scale}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0, 0.3]}
             material={fg2Mat}
             scale={trails[0].scale}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.2]}
             material={mgMat}
             scale={trails[0].scale}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.0]}
             material={bgMat}
             scale={trails[0].scale}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
         </AnimatedGroup>
       </ARAnchor>
