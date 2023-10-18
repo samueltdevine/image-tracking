@@ -371,7 +371,7 @@ function CoverTarget(targetIndex) {
             material={logoMat}
             scale={trails[3].scale}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <planeGeometry args={[1.92, 1.08, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[-0.35, 0, -0.1]}
@@ -600,10 +600,8 @@ function SpreadTwoA(targetIndex) {
   gl.toneMapping = THREE.NoToneMapping;
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
 
-  const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
-  const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
-  const mgMat = idToVideoMat("videoEightThree", false, targetIndexInt);
-  const bgMat = idToVideoMat("videoEightFour", false, targetIndexInt);
+  const matTwoAFG = idToVideoMat("videoTwoAfg", false, targetIndexInt);
+  const matTwoAMG = idToVideoMat("videoTwoAmg", false, targetIndexInt);
 
   const listener = new THREE.AudioListener();
 
@@ -639,7 +637,7 @@ function SpreadTwoA(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          gl.setClearColor(0x4d4d4d, 0.6);
+          gl.setClearColor(0xc5df95, 0.6);
 
           videoLibrary[targetIndexInt].forEach((video) => video.play());
           let prop = { scale: 0.0 };
@@ -656,34 +654,20 @@ function SpreadTwoA(targetIndex) {
         }}
       >
         <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
-          {/* <animated.mesh
+          <animated.mesh
             position={[0.0, 0, 0.4]}
-            material={fg1Mat}
+            material={matTwoAFG}
             scale={trails[0].scale}
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0, 0.3]}
-            material={fg2Mat}
+            material={matTwoAMG}
             scale={trails[0].scale}
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
-          <animated.mesh
-            position={[0.0, 0.0, 0.2]}
-            material={mgMat}
-            scale={trails[0].scale}
-          >
-            <planeGeometry args={[1, 1, 1]} />
-          </animated.mesh>
-          <animated.mesh
-            position={[0.0, 0.0, 0.0]}
-            material={bgMat}
-            scale={trails[0].scale}
-          >
-            <planeGeometry args={[1, 1, 1]} />
-          </animated.mesh> */}
         </AnimatedGroup>
       </ARAnchor>
     </>
@@ -733,7 +717,7 @@ function SpreadTwoB(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          gl.setClearColor(0x4d4d4d, 0.6);
+          gl.setClearColor(0xc5df95, 0.6);
 
           videoLibrary[targetIndexInt].forEach((video) => video.play());
           let prop = { scale: 0.0 };
