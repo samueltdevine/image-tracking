@@ -291,32 +291,16 @@ function CoverTarget(targetIndex) {
 
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
 
-  const coverGroup = new THREE.Group();
   const logoMat = idToVideoMat("logo", true, targetIndexInt);
 
-  const geoYellow = new THREE.PlaneGeometry(7.0, 6.72);
   const yellowMat = idToVideoMat("videoYellow", false, targetIndexInt);
-  const planeYellow = new THREE.Mesh(geoYellow, yellowMat);
 
-  const geoPink = new THREE.PlaneGeometry(7.0, 6.72);
   const pinkMat = idToVideoMat("videoPink", true, targetIndexInt);
-  const planePink = new THREE.Mesh(geoPink, pinkMat);
 
-  const geoOrange = new THREE.PlaneGeometry(7.0, 6.72);
   const orangeMat = idToVideoMat("videoOrange", false, targetIndexInt);
-  const planeOrange = new THREE.Mesh(geoOrange, orangeMat);
 
-  const geoGreen = new THREE.PlaneGeometry(7.0, 6.72);
   const greenMat = idToVideoMat("videoGreen", false, targetIndexInt);
-  const planeGreen = new THREE.Mesh(geoGreen, greenMat);
 
-  const start = async () => {
-    const header = document.getElementById("header");
-
-    header.style.display = "none";
-    const container = document.querySelector("#container");
-    container.style.display = "block";
-  };
   const listener = new THREE.AudioListener();
 
   camera.add(listener);
@@ -1337,10 +1321,8 @@ function SpreadSixA(targetIndex) {
   gl.toneMapping = THREE.NoToneMapping;
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
 
-  const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
-  const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
-  const mgMat = idToVideoMat("videoEightThree", false, targetIndexInt);
-  const bgMat = idToVideoMat("videoEightFour", false, targetIndexInt);
+  const matSixAFG = idToVideoMat("videoSixAfg", false, targetIndexInt);
+  const matSixAMG = idToVideoMat("videoSixAmg", false, targetIndexInt);
 
   const listener = new THREE.AudioListener();
 
@@ -1393,34 +1375,20 @@ function SpreadSixA(targetIndex) {
         }}
       >
         <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
-          {/* <animated.mesh
+          <animated.mesh
             position={[0.0, 0, 0.4]}
-            material={fg1Mat}
+            material={matSixAFG}
             scale={trails[0].scale}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0, 0.3]}
-            material={fg2Mat}
+            material={matSixAMG}
             scale={trails[0].scale}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
-          <animated.mesh
-            position={[0.0, 0.0, 0.2]}
-            material={mgMat}
-            scale={trails[0].scale}
-          >
-            <planeGeometry args={[1, 1, 1]} />
-          </animated.mesh>
-          <animated.mesh
-            position={[0.0, 0.0, 0.0]}
-            material={bgMat}
-            scale={trails[0].scale}
-          >
-            <planeGeometry args={[1, 1, 1]} />
-          </animated.mesh> */}
         </AnimatedGroup>
       </ARAnchor>
     </>
@@ -1712,107 +1680,6 @@ function SpreadEightB(targetIndex) {
     </>
   );
 }
-
-// function SpreadEightB(targetIndex) {
-//   const { gl, scene, camera } = useThree();
-//   gl.toneMapping = THREE.NoToneMapping;
-//   const { targetIndexInt } = handleVideoLibrary(targetIndex);
-//   const coverGroup = new THREE.Group();
-
-//   const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
-//   const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
-//   const mgMat = idToVideoMat("videoEightThree", false, targetIndexInt);
-//   const bgMat = idToVideoMat("videoEightFour", false, targetIndexInt);
-
-//   const listener = new THREE.AudioListener();
-
-//   camera.add(listener);
-
-//   const sound = new THREE.Audio(listener);
-
-//   const audioLoader = new THREE.AudioLoader();
-//   audioLoader.load("/Read_08b.mp3", function (buffer) {
-//     sound.setBuffer(buffer);
-//     sound.setLoop(false);
-//     sound.setVolume(0.2);
-//   });
-
-//   const [trails, api] = useTrail(
-//     4,
-//     () => ({ videoScale: 0, config: config.wobbly }),
-//     []
-//   );
-
-//   const [active, setActive] = useState(false);
-//   const springs = useSpring({ scale: active ? 0.0 : 0.5 });
-//   const { scale } = useSpring({
-//     scale: active ? 0.5 : 0,
-//     config: config.wobbly,
-//   });
-
-//   const handleCover = (prop) => {
-//     api.start({ videoScale: prop.scale });
-//   };
-//   return (
-//     <>
-//       <ARAnchor
-//         target={targetIndexInt}
-//         onAnchorFound={() => {
-// gl.setClearColor(0x4d4d4d, 1.0);
-//           // gl.toneMapping(THREE.NoToneMapping);
-//           // fadeOnAction.play()
-//           videoLibrary[targetIndexInt].forEach((video) => video.play());
-//           let prop = { scale: 0.0 };
-//           handleCover(prop);
-//           prop.scale = 0.5;
-//           handleCover(prop);
-//           // if (soundPlayed === false) {
-//           //   soundPlayed = true;
-//           // console.log(soundPlayed, true);
-//           sound.play();
-//           // }
-//         }}
-//         onAnchorLost={() => {
-// sound.pause();
-// gl.setClearColor(0x4d4d4d, 0.0);
-//           // let prop = { scale: 0.0 };
-//           // handleCover(prop);
-//         }}
-//       >
-//         <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
-//           <animated.mesh
-//             position={[0.4, 0.0, 0.3]}
-//             material={fg1Mat}
-//             scale={trails[0].scale}
-//           >
-//             <planeGeometry args={[1, 1, 1]} />
-//           </animated.mesh>
-//           <animated.mesh
-//             position={[0.0, 0.0, 0.15]}
-//             material={fg2Mat}
-//             scale={trails[0].scale}
-//           >
-//             <planeGeometry args={[1, 1, 1]} />
-//           </animated.mesh>
-//           <animated.mesh
-//             position={[0.2, 0.0, -0.1]}
-//             material={mgMat}
-//             scale={trails[0].scale}
-//           >
-//             <planeGeometry args={[1, 1, 1]} />
-//           </animated.mesh>
-//           <animated.mesh
-//             position={[0.2, 0.0, -0.8]}
-//             material={bgMat}
-//             scale={trails[0].scale}
-//           >
-//             <planeGeometry args={[1, 1, 1]} />
-//           </animated.mesh>
-//         </AnimatedGroup>
-//       </ARAnchor>
-//     </>
-//   );
-// }
 
 const color = new THREE.Color(0x272727);
 const alpha = 0.95;
