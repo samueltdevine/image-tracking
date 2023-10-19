@@ -1500,9 +1500,8 @@ function SpreadEightA(targetIndex) {
   gl.toneMapping = THREE.NoToneMapping;
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
 
-  const fgMat = idToVideoMat("videoEightAfg", false, targetIndexInt);
-  const mgMat = idToVideoMat("videoEightAmg", false, targetIndexInt);
-  // const bgMat = idToVideoMat("videoEightAbg", false, targetIndexInt);
+  // const matEigthAFg = idToVideoMat("videoEightAfg", false, targetIndexInt);
+  // const matEightAmg = idToVideoMat("videoEightAmg", false, targetIndexInt);
 
   const listener = new THREE.AudioListener();
 
@@ -1566,14 +1565,14 @@ function SpreadEightA(targetIndex) {
         <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
           <animated.mesh
             position={[0.0, 0, 0.3]}
-            material={fgMat}
+            material={matEigthAFg}
             scale={trails[0].scale}
           >
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.2]}
-            material={mgMat}
+            material={matEightAmg}
             scale={trails[0].scale}
           >
             <planeGeometry args={[1.24, 1, 1]} />
@@ -1596,14 +1595,14 @@ function SpreadEightB(targetIndex) {
   gl.toneMapping = THREE.NoToneMapping;
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
 
-  const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
-  const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
-  const mgMat = idToVideoMat("videoEightThree", false, targetIndexInt);
-  const bgMat = idToVideoMat("videoEightFour", false, targetIndexInt);
-
   const listener = new THREE.AudioListener();
 
   camera.add(listener);
+
+  // const matEightBFg1 = idToVideoMat("videoEightOne", false, targetIndexInt);
+  // const matEightBFg2 = idToVideoMat("videoEightTwo", false, targetIndexInt);
+  // const matEightBMg = idToVideoMat("videoEightThree", false, targetIndexInt);
+  // const matEightBBg = idToVideoMat("videoEightFour", false, targetIndexInt);
 
   const sound = new THREE.Audio(listener);
 
@@ -1655,28 +1654,28 @@ function SpreadEightB(targetIndex) {
         <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
           <animated.mesh
             position={[0.0, 0, 0.4]}
-            material={fg1Mat}
+            material={matEightBFg1}
             scale={trails[0].scale}
           >
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0, 0.3]}
-            material={fg2Mat}
+            material={matEightBFg2}
             scale={trails[0].scale}
           >
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.2]}
-            material={mgMat}
+            material={matEightBMg}
             scale={trails[0].scale}
           >
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.0]}
-            material={bgMat}
+            material={matEightBBg}
             scale={trails[0].scale}
           >
             <planeGeometry args={[1.24, 1, 1]} />
@@ -1687,9 +1686,12 @@ function SpreadEightB(targetIndex) {
   );
 }
 
-const compiler = new Compiler();
-const content = await fetch(multiTargets);
-const buffer = await content.arrayBuffer();
+const matEightBFg1 = idToVideoMat("videoEightOne", false, 15);
+const matEightBFg2 = idToVideoMat("videoEightTwo", false, 15);
+const matEightBMg = idToVideoMat("videoEightThree", false, 15);
+const matEightBBg = idToVideoMat("videoEightFour", false, 15);
+const matEigthAFg = idToVideoMat("videoEightAfg", false, 14);
+const matEightAmg = idToVideoMat("videoEightAmg", false, 14);
 
 const TargetWrap = (props) => {
   return (
