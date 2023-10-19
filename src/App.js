@@ -284,20 +284,28 @@ const PageToggle = (props) => {
   );
 };
 
+const logoMat = idToVideoMat("logo", true, 0);
+const yellowMat = idToVideoMat("videoYellow", false, 0);
+const pinkMat = idToVideoMat("videoPink", true, 0);
+const orangeMat = idToVideoMat("videoOrange", false, 0);
+const greenMat = idToVideoMat("videoGreen", false, 0);
+const matTwoAFG = idToVideoMat("videoTwoAfg", false, 4);
+const matTwoAMG = idToVideoMat("videoTwoAmg", false, 4);
+const matSixAFG = idToVideoMat("videoSixAfg", false, 12);
+const matSixAMG = idToVideoMat("videoSixAmg", false, 12);
+const matSixBFG = idToVideoMat("videoSixBfg", false, 13);
+const matSixBMG = idToVideoMat("videoSixBmg", false, 13);
+const matEightBFg1 = idToVideoMat("videoEightOne", false, 15);
+const matEightBFg2 = idToVideoMat("videoEightTwo", false, 15);
+const matEightBMg = idToVideoMat("videoEightThree", false, 15);
+const matEightBBg = idToVideoMat("videoEightFour", false, 15);
+const matEigthAFg = idToVideoMat("videoEightAfg", false, 14);
+const matEightAmg = idToVideoMat("videoEightAmg", false, 14);
+
 function CoverTarget(targetIndex) {
   const { gl, scene, camera } = useThree();
 
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
-
-  const logoMat = idToVideoMat("logo", true, targetIndexInt);
-
-  const yellowMat = idToVideoMat("videoYellow", false, targetIndexInt);
-
-  const pinkMat = idToVideoMat("videoPink", true, targetIndexInt);
-
-  const orangeMat = idToVideoMat("videoOrange", false, targetIndexInt);
-
-  const greenMat = idToVideoMat("videoGreen", false, targetIndexInt);
 
   const listener = new THREE.AudioListener();
 
@@ -582,13 +590,14 @@ function SpreadOneB(targetIndex) {
     </>
   );
 }
+
 function SpreadTwoA(targetIndex) {
   const { gl, scene, camera } = useThree();
   gl.toneMapping = THREE.NoToneMapping;
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
 
-  const matTwoAFG = idToVideoMat("videoTwoAfg", false, targetIndexInt);
-  const matTwoAMG = idToVideoMat("videoTwoAmg", false, targetIndexInt);
+  // const matTwoAFG = idToVideoMat("videoTwoAfg", false, targetIndexInt);
+  // const matTwoAMG = idToVideoMat("videoTwoAmg", false, targetIndexInt);
 
   const listener = new THREE.AudioListener();
 
@@ -1340,8 +1349,8 @@ function SpreadSixA(targetIndex) {
   gl.toneMapping = THREE.NoToneMapping;
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
 
-  const matSixAFG = idToVideoMat("videoSixAfg", false, targetIndexInt);
-  const matSixAMG = idToVideoMat("videoSixAmg", false, targetIndexInt);
+  // const matSixAFG = idToVideoMat("videoSixAfg", false, targetIndexInt);
+  // const matSixAMG = idToVideoMat("videoSixAmg", false, targetIndexInt);
 
   const listener = new THREE.AudioListener();
 
@@ -1420,8 +1429,8 @@ function SpreadSixB(targetIndex) {
   gl.toneMapping = THREE.NoToneMapping;
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
 
-  const matSixBFG = idToVideoMat("videoSixBfg", false, targetIndexInt);
-  const matSixBMG = idToVideoMat("videoSixBmg", false, targetIndexInt);
+  // const matSixBFG = idToVideoMat("videoSixBfg", false, targetIndexInt);
+  // const matSixBMG = idToVideoMat("videoSixBmg", false, targetIndexInt);
 
   const listener = new THREE.AudioListener();
 
@@ -1500,8 +1509,8 @@ function SpreadEightA(targetIndex) {
   gl.toneMapping = THREE.NoToneMapping;
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
 
-  const matEigthAFg = idToVideoMat("videoEightAfg", false, targetIndexInt);
-  const matEightAmg = idToVideoMat("videoEightAmg", false, targetIndexInt);
+  // const matEigthAFg = idToVideoMat("videoEightAfg", false, targetIndexInt);
+  // const matEightAmg = idToVideoMat("videoEightAmg", false, targetIndexInt);
 
   const listener = new THREE.AudioListener();
 
@@ -1599,10 +1608,10 @@ function SpreadEightB(targetIndex) {
 
   camera.add(listener);
 
-  const matEightBFg1 = idToVideoMat("videoEightOne", false, targetIndexInt);
-  const matEightBFg2 = idToVideoMat("videoEightTwo", false, targetIndexInt);
-  const matEightBMg = idToVideoMat("videoEightThree", false, targetIndexInt);
-  const matEightBBg = idToVideoMat("videoEightFour", false, targetIndexInt);
+  // const matEightBFg1 = idToVideoMat("videoEightOne", false, targetIndexInt);
+  // const matEightBFg2 = idToVideoMat("videoEightTwo", false, targetIndexInt);
+  // const matEightBMg = idToVideoMat("videoEightThree", false, targetIndexInt);
+  // const matEightBBg = idToVideoMat("videoEightFour", false, targetIndexInt);
 
   const sound = new THREE.Audio(listener);
 
@@ -1685,13 +1694,6 @@ function SpreadEightB(targetIndex) {
     </>
   );
 }
-
-const matEightBFg1 = idToVideoMat("videoEightOne", false, 15);
-const matEightBFg2 = idToVideoMat("videoEightTwo", false, 15);
-const matEightBMg = idToVideoMat("videoEightThree", false, 15);
-const matEightBBg = idToVideoMat("videoEightFour", false, 15);
-// const matEigthAFg = idToVideoMat("videoEightAfg", false, 14);
-// const matEightAmg = idToVideoMat("videoEightAmg", false, 14);
 
 const TargetWrap = (props) => {
   return (
