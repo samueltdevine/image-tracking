@@ -1399,10 +1399,8 @@ function SpreadSixB(targetIndex) {
   gl.toneMapping = THREE.NoToneMapping;
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
 
-  const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
-  const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
-  const mgMat = idToVideoMat("videoEightThree", false, targetIndexInt);
-  const bgMat = idToVideoMat("videoEightFour", false, targetIndexInt);
+  const matSixBFG = idToVideoMat("videoSixBfg", false, targetIndexInt);
+  const matSixBMG = idToVideoMat("videoSixBmg", false, targetIndexInt);
 
   const listener = new THREE.AudioListener();
 
@@ -1455,40 +1453,25 @@ function SpreadSixB(targetIndex) {
         }}
       >
         <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
-          {/* <animated.mesh
+          <animated.mesh
             position={[0.0, 0, 0.4]}
-            material={fg1Mat}
+            material={matSixBFG}
             scale={trails[0].scale}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
           <animated.mesh
-            position={[0.0, 0, 0.3]}
-            material={fg2Mat}
+            position={[0.0, 0, -10.3]}
+            material={matSixBMG}
             scale={trails[0].scale}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <planeGeometry args={[12.0, 10, 1]} />
           </animated.mesh>
-          <animated.mesh
-            position={[0.0, 0.0, 0.2]}
-            material={mgMat}
-            scale={trails[0].scale}
-          >
-            <planeGeometry args={[1, 1, 1]} />
-          </animated.mesh>
-          <animated.mesh
-            position={[0.0, 0.0, 0.0]}
-            material={bgMat}
-            scale={trails[0].scale}
-          >
-            <planeGeometry args={[1, 1, 1]} />
-          </animated.mesh> */}
         </AnimatedGroup>
       </ARAnchor>
     </>
   );
 }
-
 function SpreadEightA(targetIndex) {
   const { gl, scene, camera } = useThree();
   gl.toneMapping = THREE.NoToneMapping;
