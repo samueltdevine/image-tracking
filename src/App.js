@@ -345,6 +345,7 @@ function CoverTarget(targetIndex) {
           gl.setClearColor(0x272727, 0.0);
           let prop = { scale: 0.0 };
           handleCover(prop);
+          videoLibrary[targetIndexInt].forEach((video) => video.pause());
         }}
       >
         <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
@@ -445,6 +446,8 @@ function SpreadOneA(targetIndex) {
         onAnchorLost={() => {
           sound.pause();
           gl.setClearColor(0x4d4d4d, 0.0);
+          videoLibrary[targetIndexInt].forEach((video) => video.pause());
+
           // let prop = { scale: 0.0 };
           // handleCover(prop);
         }}
@@ -538,6 +541,8 @@ function SpreadOneB(targetIndex) {
         }}
         onAnchorLost={() => {
           sound.pause();
+          videoLibrary[targetIndexInt].forEach((video) => video.pause());
+
           gl.setClearColor(0x4d4d4d, 0.0);
           // let prop = { scale: 0.0 };
           // handleCover(prop);
@@ -630,6 +635,8 @@ function SpreadTwoA(targetIndex) {
         }}
         onAnchorLost={() => {
           sound.pause();
+          videoLibrary[targetIndexInt].forEach((video) => video.pause());
+
           gl.setClearColor(0x4d4d4d, 0.0);
           // let prop = { scale: 0.0 };
           // handleCover(prop);
@@ -710,6 +717,8 @@ function SpreadTwoB(targetIndex) {
         }}
         onAnchorLost={() => {
           sound.pause();
+          videoLibrary[targetIndexInt].forEach((video) => video.pause());
+
           gl.setClearColor(0x4d4d4d, 0.0);
           // let prop = { scale: 0.0 };
           // handleCover(prop);
@@ -804,6 +813,8 @@ function SpreadThreeA(targetIndex) {
         }}
         onAnchorLost={() => {
           sound.pause();
+          videoLibrary[targetIndexInt].forEach((video) => video.pause());
+
           gl.setClearColor(0x4d4d4d, 0.0);
           // let prop = { scale: 0.0 };
           // handleCover(prop);
@@ -898,6 +909,8 @@ function SpreadThreeB(targetIndex) {
         }}
         onAnchorLost={() => {
           sound.pause();
+          videoLibrary[targetIndexInt].forEach((video) => video.pause());
+
           gl.setClearColor(0x4d4d4d, 0.0);
           // let prop = { scale: 0.0 };
           // handleCover(prop);
@@ -992,6 +1005,8 @@ function SpreadFourA(targetIndex) {
         }}
         onAnchorLost={() => {
           sound.pause();
+          videoLibrary[targetIndexInt].forEach((video) => video.pause());
+
           gl.setClearColor(0x4d4d4d, 0.0);
           // let prop = { scale: 0.0 };
           // handleCover(prop);
@@ -1086,6 +1101,8 @@ function SpreadFourB(targetIndex) {
         }}
         onAnchorLost={() => {
           sound.pause();
+          videoLibrary[targetIndexInt].forEach((video) => video.pause());
+
           gl.setClearColor(0x4d4d4d, 0.0);
           // let prop = { scale: 0.0 };
           // handleCover(prop);
@@ -1180,6 +1197,8 @@ function SpreadFiveA(targetIndex) {
         }}
         onAnchorLost={() => {
           sound.pause();
+          videoLibrary[targetIndexInt].forEach((video) => video.pause());
+
           gl.setClearColor(0x4d4d4d, 0.0);
           // let prop = { scale: 0.0 };
           // handleCover(prop);
@@ -1274,6 +1293,8 @@ function SpreadFiveB(targetIndex) {
         }}
         onAnchorLost={() => {
           sound.pause();
+          videoLibrary[targetIndexInt].forEach((video) => video.pause());
+
           gl.setClearColor(0x4d4d4d, 0.0);
           // let prop = { scale: 0.0 };
           // handleCover(prop);
@@ -1367,6 +1388,8 @@ function SpreadSixA(targetIndex) {
         }}
         onAnchorLost={() => {
           sound.pause();
+          videoLibrary[targetIndexInt].forEach((video) => video.pause());
+
           gl.setClearColor(0x4d4d4d, 0.0);
           // let prop = { scale: 0.0 };
           // handleCover(prop);
@@ -1445,6 +1468,8 @@ function SpreadSixB(targetIndex) {
         }}
         onAnchorLost={() => {
           sound.pause();
+          videoLibrary[targetIndexInt].forEach((video) => video.pause());
+
           gl.setClearColor(0x4d4d4d, 0.0);
           // let prop = { scale: 0.0 };
           // handleCover(prop);
@@ -1531,6 +1556,8 @@ function SpreadEightA(targetIndex) {
         }}
         onAnchorLost={() => {
           sound.pause();
+          videoLibrary[targetIndexInt].forEach((video) => video.pause());
+
           gl.setClearColor(0xf5f0e4, 0.0);
           // let prop = { scale: 0.0 };
           // handleCover(prop);
@@ -1620,6 +1647,7 @@ function SpreadEightB(targetIndex) {
         onAnchorLost={() => {
           sound.pause();
           gl.setClearColor(0x4d4d4d, 0.0);
+          videoLibrary[targetIndexInt].forEach((video) => video.pause());
           // let prop = { scale: 0.0 };
           // handleCover(prop);
         }}
