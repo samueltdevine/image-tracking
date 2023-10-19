@@ -5,7 +5,7 @@ import multiTargets from "./multiTargets7.mind";
 import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { Compiler } from "mind-ar/src/image-target/compiler";
-import { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import {
   useSpring,
   animated,
@@ -14,6 +14,8 @@ import {
   useSpringRef,
 } from "@react-spring/three";
 import { PlaneGeometry, Text3D } from "@react-three/drei";
+
+const Context = React.createContext();
 
 function degToRad(degrees) {
   var pi = Math.PI;
@@ -1321,6 +1323,7 @@ function SpreadSixA(targetIndex) {
 
   const matSixAFG = idToVideoMat("videoSixAfg", false, targetIndexInt);
   const matSixAMG = idToVideoMat("videoSixAmg", false, targetIndexInt);
+  console.log("mats", matSixAFG, matSixAMG);
 
   const listener = new THREE.AudioListener();
 
@@ -1691,21 +1694,23 @@ const TargetWrap = (props) => {
 };
 
 function App() {
+  const [loaded, setLoaded] = useState(false);
   return (
     <>
-      <StartUi />
-      <ARView
-        imageTargets={multiTargets}
-        filterMinCF={0.0001}
-        filterBeta={0.004}
-        missTolerance={0.6}
-        warmupTolerance={3}
-        gl={{ antialias: true, toneMapping: THREE.NoToneMapping }}
-        linear
-      >
-        <TargetWrap />
-      </ARView>
-      {/* <ARView
+      <Context.Provider value={[loaded, setLoaded]}>
+        <StartUi />
+        <ARView
+          imageTargets={multiTargets}
+          filterMinCF={0.0001}
+          filterBeta={0.004}
+          missTolerance={0.6}
+          warmupTolerance={3}
+          gl={{ antialias: true, toneMapping: THREE.NoToneMapping }}
+          linear
+        >
+          <TargetWrap />
+        </ARView>
+        {/* <ARView
         imageTargets={multiTargets2}
         filterMinCF={0.00005}
         filterBeta={0.001}
@@ -1714,6 +1719,7 @@ function App() {
       >
         <SpredEight targetIndex={2} />
       </ARView> */}
+      </Context.Provider>
     </>
   );
 }
