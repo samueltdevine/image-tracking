@@ -1730,6 +1730,7 @@ function App() {
         filterBeta={0.004}
         missTolerance={0.6}
         warmupTolerance={3}
+        maxTrack={2}
         gl={{ antialias: true, toneMapping: THREE.NoToneMapping }}
         linear
       >
