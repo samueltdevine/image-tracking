@@ -14,7 +14,6 @@ import {
   useSpringRef,
 } from "@react-spring/three";
 import { PlaneGeometry, Text3D } from "@react-three/drei";
-import { NumberKeyframeTrack, ColorKeyframeTrack, AnimationClip } from "three";
 
 function degToRad(degrees) {
   var pi = Math.PI;
@@ -65,7 +64,6 @@ function StartUi() {
 }
 
 let soundPlayed = false;
-const rotBack = degToRad(33);
 
 const videoLibrary = {};
 
@@ -1476,7 +1474,6 @@ function SpreadEightA(targetIndex) {
   const { gl, scene, camera } = useThree();
   gl.toneMapping = THREE.NoToneMapping;
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
-  const coverGroup = new THREE.Group();
 
   const fgMat = idToVideoMat("videoEightAfg", false, targetIndexInt);
   const mgMat = idToVideoMat("videoEightAmg", false, targetIndexInt);
@@ -1572,8 +1569,6 @@ function SpreadEightB(targetIndex) {
   gl.toneMapping = THREE.NoToneMapping;
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
 
-  const coverGroup = new THREE.Group();
-
   const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
   const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
   const mgMat = idToVideoMat("videoEightThree", false, targetIndexInt);
@@ -1664,13 +1659,9 @@ function SpreadEightB(targetIndex) {
   );
 }
 
-const color = new THREE.Color(0x272727);
-const alpha = 0.95;
-
 const compiler = new Compiler();
 const content = await fetch(multiTargets);
 const buffer = await content.arrayBuffer();
-const dataList = compiler.importData(buffer);
 
 const TargetWrap = (props) => {
   return (
