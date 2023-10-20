@@ -292,11 +292,6 @@ function CoverTarget(targetIndex) {
     orangeMat.alphaMap,
     greenMat.map,
     greenMat.alphaMap,
-    logoMat,
-    yellowMat,
-    pinkMat,
-    orangeMat,
-    greenMat,
   ];
 
   const listener = new THREE.AudioListener();
@@ -345,7 +340,11 @@ function CoverTarget(targetIndex) {
           gl.setClearColor(0x272727, 0.0);
           let prop = { scale: 0.0 };
           handleCover(prop);
-          videoLibrary[targetIndexInt].forEach((video) => video.pause());
+          videoLibrary[targetIndexInt].forEach((video) => {
+            video.pause();
+          });
+          videoLibrary[targetIndexInt] = [];
+          console.log(videoLibrary[targetIndexInt], "target INT");
           targetTextures.forEach((texture) => {
             texture.dispose();
           });
@@ -464,7 +463,11 @@ function SpreadOneA(targetIndex) {
         onAnchorLost={() => {
           sound.pause();
           gl.setClearColor(0x4d4d4d, 0.0);
-          videoLibrary[targetIndexInt].forEach((video) => video.pause());
+          videoLibrary[targetIndexInt].forEach((video) => {
+            video.pause();
+          });
+          videoLibrary[targetIndexInt] = [];
+          console.log(videoLibrary[targetIndexInt], "target INT");
 
           // let prop = { scale: 0.0 };
           // handleCover(prop);
@@ -559,7 +562,11 @@ function SpreadOneB(targetIndex) {
         }}
         onAnchorLost={() => {
           sound.pause();
-          videoLibrary[targetIndexInt].forEach((video) => video.pause());
+          videoLibrary[targetIndexInt].forEach((video) => {
+            video.pause();
+          });
+          videoLibrary[targetIndexInt] = [];
+          console.log(videoLibrary[targetIndexInt], "target INT");
 
           gl.setClearColor(0x4d4d4d, 0.0);
           // let prop = { scale: 0.0 };
@@ -613,8 +620,6 @@ function SpreadTwoA(targetIndex) {
     matTwoAFG.alphaMap,
     matTwoAMG.map,
     matTwoAMG.alphaMap,
-    matTwoAFG,
-    matTwoAMG,
   ];
 
   const listener = new THREE.AudioListener();
@@ -662,7 +667,11 @@ function SpreadTwoA(targetIndex) {
         }}
         onAnchorLost={() => {
           sound.pause();
-          videoLibrary[targetIndexInt].forEach((video) => video.pause());
+          videoLibrary[targetIndexInt].forEach((video) => {
+            video.pause();
+          });
+          videoLibrary[targetIndexInt] = [];
+          console.log(videoLibrary[targetIndexInt], "target INT");
 
           gl.setClearColor(0x4d4d4d, 0.0);
           targetTextures.forEach((texture) => {
@@ -751,7 +760,11 @@ function SpreadTwoB(targetIndex) {
         }}
         onAnchorLost={() => {
           sound.pause();
-          videoLibrary[targetIndexInt].forEach((video) => video.pause());
+          videoLibrary[targetIndexInt].forEach((video) => {
+            video.pause();
+          });
+          videoLibrary[targetIndexInt] = [];
+          console.log(videoLibrary[targetIndexInt], "target INT");
 
           gl.setClearColor(0x4d4d4d, 0.0);
           // let prop = { scale: 0.0 };
@@ -847,7 +860,11 @@ function SpreadThreeA(targetIndex) {
         }}
         onAnchorLost={() => {
           sound.pause();
-          videoLibrary[targetIndexInt].forEach((video) => video.pause());
+          videoLibrary[targetIndexInt].forEach((video) => {
+            video.pause();
+          });
+          videoLibrary[targetIndexInt] = [];
+          console.log(videoLibrary[targetIndexInt], "target INT");
 
           gl.setClearColor(0x4d4d4d, 0.0);
           // let prop = { scale: 0.0 };
@@ -943,7 +960,11 @@ function SpreadThreeB(targetIndex) {
         }}
         onAnchorLost={() => {
           sound.pause();
-          videoLibrary[targetIndexInt].forEach((video) => video.pause());
+          videoLibrary[targetIndexInt].forEach((video) => {
+            video.pause();
+          });
+          videoLibrary[targetIndexInt] = [];
+          console.log(videoLibrary[targetIndexInt], "target INT");
 
           gl.setClearColor(0x4d4d4d, 0.0);
           // let prop = { scale: 0.0 };
@@ -1039,7 +1060,11 @@ function SpreadFourA(targetIndex) {
         }}
         onAnchorLost={() => {
           sound.pause();
-          videoLibrary[targetIndexInt].forEach((video) => video.pause());
+          videoLibrary[targetIndexInt].forEach((video) => {
+            video.pause();
+          });
+          videoLibrary[targetIndexInt] = [];
+          console.log(videoLibrary[targetIndexInt], "target INT");
 
           gl.setClearColor(0x4d4d4d, 0.0);
           // let prop = { scale: 0.0 };
@@ -1135,7 +1160,11 @@ function SpreadFourB(targetIndex) {
         }}
         onAnchorLost={() => {
           sound.pause();
-          videoLibrary[targetIndexInt].forEach((video) => video.pause());
+          videoLibrary[targetIndexInt].forEach((video) => {
+            video.pause();
+          });
+          videoLibrary[targetIndexInt] = [];
+          console.log(videoLibrary[targetIndexInt], "target INT");
 
           gl.setClearColor(0x4d4d4d, 0.0);
           // let prop = { scale: 0.0 };
@@ -1231,7 +1260,11 @@ function SpreadFiveA(targetIndex) {
         }}
         onAnchorLost={() => {
           sound.pause();
-          videoLibrary[targetIndexInt].forEach((video) => video.pause());
+          videoLibrary[targetIndexInt].forEach((video) => {
+            video.pause();
+          });
+          videoLibrary[targetIndexInt] = [];
+          console.log(videoLibrary[targetIndexInt], "target INT");
 
           gl.setClearColor(0x4d4d4d, 0.0);
           // let prop = { scale: 0.0 };
@@ -1327,7 +1360,11 @@ function SpreadFiveB(targetIndex) {
         }}
         onAnchorLost={() => {
           sound.pause();
-          videoLibrary[targetIndexInt].forEach((video) => video.pause());
+          videoLibrary[targetIndexInt].forEach((video) => {
+            video.pause();
+          });
+          videoLibrary[targetIndexInt] = [];
+          console.log(videoLibrary[targetIndexInt], "target INT");
 
           gl.setClearColor(0x4d4d4d, 0.0);
           // let prop = { scale: 0.0 };
@@ -1382,8 +1419,6 @@ function SpreadSixA(targetIndex) {
     matSixAFG.alphaMap,
     matSixAMG.map,
     matSixAMG.alphaMap,
-    matSixAFG,
-    matSixAMG,
   ];
 
   const listener = new THREE.AudioListener();
@@ -1431,7 +1466,11 @@ function SpreadSixA(targetIndex) {
         }}
         onAnchorLost={() => {
           sound.pause();
-          videoLibrary[targetIndexInt].forEach((video) => video.pause());
+          videoLibrary[targetIndexInt].forEach((video) => {
+            video.pause();
+          });
+          videoLibrary[targetIndexInt] = [];
+          console.log(videoLibrary[targetIndexInt], "target INT");
 
           gl.setClearColor(0x4d4d4d, 0.0);
           targetTextures.forEach((texture) => {
@@ -1480,8 +1519,6 @@ function SpreadSixB(targetIndex) {
     matSixBFG.alphaMap,
     matSixBMG.map,
     matSixBMG.alphaMap,
-    matSixBFG,
-    matSixBMG,
   ];
 
   const listener = new THREE.AudioListener();
@@ -1529,7 +1566,11 @@ function SpreadSixB(targetIndex) {
         }}
         onAnchorLost={() => {
           sound.pause();
-          videoLibrary[targetIndexInt].forEach((video) => video.pause());
+          videoLibrary[targetIndexInt].forEach((video) => {
+            video.pause();
+          });
+          videoLibrary[targetIndexInt] = [];
+          console.log(videoLibrary[targetIndexInt], "target INT");
 
           gl.setClearColor(0x4d4d4d, 0.0);
           targetTextures.forEach((texture) => {
@@ -1578,8 +1619,6 @@ function SpreadEightA(targetIndex) {
     matEightAmg.alphaMap,
     matEigthAFg.map,
     matEigthAFg.alphaMap,
-    matEigthAFg,
-    matEightAmg,
   ];
 
   const listener = new THREE.AudioListener();
@@ -1634,7 +1673,11 @@ function SpreadEightA(targetIndex) {
         }}
         onAnchorLost={() => {
           sound.pause();
-          videoLibrary[targetIndexInt].forEach((video) => video.pause());
+          videoLibrary[targetIndexInt].forEach((video) => {
+            video.pause();
+          });
+          videoLibrary[targetIndexInt] = [];
+          console.log(videoLibrary[targetIndexInt], "target INT");
 
           gl.setClearColor(0xf5f0e4, 0.0);
           targetTextures.forEach((texture) => {
@@ -1677,6 +1720,7 @@ function SpreadEightA(targetIndex) {
     </>
   );
 }
+
 function SpreadEightB(targetIndex) {
   const { gl, scene, camera } = useThree();
   gl.toneMapping = THREE.NoToneMapping;
@@ -1700,10 +1744,6 @@ function SpreadEightB(targetIndex) {
     matEightBFg2.alphaMap,
     matEightBMg.alphaMap,
     matEightBBg.alphaMap,
-    matEightBFg1,
-    matEightBFg2,
-    matEightBMg,
-    matEightBBg,
   ];
 
   const sound = new THREE.Audio(listener);
@@ -1748,7 +1788,11 @@ function SpreadEightB(targetIndex) {
         onAnchorLost={() => {
           sound.pause();
           gl.setClearColor(0x4d4d4d, 0.0);
-          videoLibrary[targetIndexInt].forEach((video) => video.pause());
+          videoLibrary[targetIndexInt].forEach((video) => {
+            video.pause();
+          });
+          videoLibrary[targetIndexInt] = [];
+          console.log(videoLibrary[targetIndexInt], "target INT");
           targetTextures.forEach((texture) => {
             texture.dispose();
           });
