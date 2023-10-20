@@ -5,7 +5,7 @@ import multiTargets from "./multiTargets7.mind";
 import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { Compiler } from "mind-ar/src/image-target/compiler";
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, Suspense } from "react";
 import {
   useSpring,
   animated,
@@ -92,6 +92,18 @@ const idToVideoMat = (id, depthTest, targetIndexInt, alphaId) => {
     toneMapped: false,
   });
   return materialVideo;
+};
+
+const FallbackMaterial = () => {
+  const material = new THREE.MeshBasicMaterial({
+    transparent: true,
+    opacity: 50,
+    side: THREE.DoubleSide,
+    // depthWrite: true,
+    // depthTest: depthTest,
+    toneMapped: false,
+  });
+  return material;
 };
 
 const fontPath = "/Nunito_Medium_Regular.json";
@@ -351,16 +363,22 @@ function CoverTarget(targetIndex) {
         <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
           <animated.mesh
             position={[0.0, 0.5, -0.3]}
-            material={logoMat}
+            // material={}
             scale={trails[3].scale}
           >
+            <Suspense fallback={FallbackMaterial}>
+              <primitive object={logoMat} />
+            </Suspense>
             <planeGeometry args={[1.92, 1.08, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[-0.35, 0, -0.1]}
-            material={pinkMat}
+            // material={pinkMat}
             scale={trails[3].scale}
           >
+            <Suspense fallback={FallbackMaterial}>
+              <primitive object={pinkMat} />
+            </Suspense>
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
           <animated.mesh
@@ -368,20 +386,29 @@ function CoverTarget(targetIndex) {
             material={greenMat}
             scale={trails[0].scale}
           >
+            <Suspense fallback={FallbackMaterial}>
+              <primitive object={greenMat} />
+            </Suspense>
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[-0.3, 0, 0]}
-            material={yellowMat}
+            // material={yellowMat}
             scale={trails[1].scale}
           >
+            <Suspense fallback={FallbackMaterial}>
+              <primitive object={yellowMat} />
+            </Suspense>
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.3, 0, -0.2]}
-            material={orangeMat}
+            // material={orangeMat}
             scale={trails[2].scale}
           >
+            <Suspense fallback={FallbackMaterial}>
+              <primitive object={orangeMat} />
+            </Suspense>
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
         </AnimatedGroup>
@@ -645,16 +672,22 @@ function SpreadTwoA(targetIndex) {
         <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
           <animated.mesh
             position={[0.0, 0, 0.4]}
-            material={matTwoAFG}
+            // material={matTwoAFG}
             scale={trails[0].scale}
           >
+            <Suspense fallback={FallbackMaterial}>
+              <primitive object={matTwoAFG} />
+            </Suspense>
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0, 0.3]}
-            material={matTwoAMG}
+            // material={matTwoAMG}
             scale={trails[0].scale}
           >
+            <Suspense fallback={FallbackMaterial}>
+              <primitive object={matTwoAMG} />
+            </Suspense>
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
         </AnimatedGroup>
@@ -1398,16 +1431,22 @@ function SpreadSixA(targetIndex) {
         <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
           <animated.mesh
             position={[0.0, 0, 0.4]}
-            material={matSixAFG}
+            // material={matSixAFG}
             scale={trails[0].scale}
           >
+            <Suspense fallback={FallbackMaterial}>
+              <primitive object={matSixAFG} />
+            </Suspense>
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0, 0.3]}
-            material={matSixAMG}
+            // material={matSixAMG}
             scale={trails[0].scale}
           >
+            <Suspense fallback={FallbackMaterial}>
+              <primitive object={matSixAMG} />
+            </Suspense>
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
         </AnimatedGroup>
@@ -1478,16 +1517,22 @@ function SpreadSixB(targetIndex) {
         <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
           <animated.mesh
             position={[0.0, 0, 0.4]}
-            material={matSixBFG}
+            // material={matSixBFG}
             scale={trails[0].scale}
           >
+            <Suspense fallback={FallbackMaterial}>
+              <primitive object={matSixBFG} />
+            </Suspense>
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0, -10.3]}
-            material={matSixBMG}
+            // material={matSixBMG}
             scale={trails[0].scale}
           >
+            <Suspense fallback={FallbackMaterial}>
+              <primitive object={matSixBMG} />
+            </Suspense>
             <planeGeometry args={[12.0, 10, 1]} />
           </animated.mesh>
         </AnimatedGroup>
@@ -1565,16 +1610,22 @@ function SpreadEightA(targetIndex) {
         <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
           <animated.mesh
             position={[0.0, 0, 0.3]}
-            material={matEigthAFg}
+            // material={matEigthAFg}
             scale={trails[0].scale}
           >
+            <Suspense fallback={FallbackMaterial}>
+              <primitive object={matEigthAFg} />
+            </Suspense>
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.2]}
-            material={matEightAmg}
+            // material={matEightAmg}
             scale={trails[0].scale}
           >
+            <Suspense fallback={FallbackMaterial}>
+              <primitive object={matEightAmg} />
+            </Suspense>
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
           {/* <animated.mesh
@@ -1654,30 +1705,42 @@ function SpreadEightB(targetIndex) {
         <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
           <animated.mesh
             position={[0.0, 0, 0.4]}
-            material={matEightBFg1}
+            // material={matEightBFg1}
             scale={trails[0].scale}
           >
+            <Suspense fallback={FallbackMaterial}>
+              <primitive object={matEightBFg1} />
+            </Suspense>
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0, 0.3]}
-            material={matEightBFg2}
+            // material={matEightBFg2}
             scale={trails[0].scale}
           >
+            <Suspense fallback={FallbackMaterial}>
+              <primitive object={matEightBFg2} />
+            </Suspense>
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.2]}
-            material={matEightBMg}
+            // material={matEightBMg}
             scale={trails[0].scale}
           >
+            <Suspense fallback={FallbackMaterial}>
+              <primitive object={matEightBMg} />
+            </Suspense>
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.0]}
-            material={matEightBBg}
+            // material={matEightBBg}
             scale={trails[0].scale}
           >
+            <Suspense fallback={FallbackMaterial}>
+              <primitive object={matEightBBg} />
+            </Suspense>
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
         </AnimatedGroup>
@@ -1686,10 +1749,10 @@ function SpreadEightB(targetIndex) {
   );
 }
 
-const matEightBFg1 = idToVideoMat("videoEightOne", false, 15);
-const matEightBFg2 = idToVideoMat("videoEightTwo", false, 15);
-const matEightBMg = idToVideoMat("videoEightThree", false, 15);
-const matEightBBg = idToVideoMat("videoEightFour", false, 15);
+// const matEightBFg1 = idToVideoMat("videoEightOne", false, 15);
+// const matEightBFg2 = idToVideoMat("videoEightTwo", false, 15);
+// const matEightBMg = idToVideoMat("videoEightThree", false, 15);
+// const matEightBBg = idToVideoMat("videoEightFour", false, 15);
 // const matEigthAFg = idToVideoMat("videoEightAfg", false, 14);
 // const matEightAmg = idToVideoMat("videoEightAmg", false, 14);
 
@@ -1728,8 +1791,8 @@ function App() {
         imageTargets={multiTargets}
         filterMinCF={0.0001}
         filterBeta={0.004}
-        missTolerance={2}
-        warmupTolerance={10}
+        missTolerance={1}
+        warmupTolerance={5}
         // maxTrack={2}
         gl={{ antialias: true, toneMapping: THREE.NoToneMapping }}
         linear
