@@ -5,7 +5,7 @@ import multiTargets from "./multiTargets7.mind";
 import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { Compiler } from "mind-ar/src/image-target/compiler";
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, Suspense, useRef, useEffect, useCallback } from "react";
 import {
   useSpring,
   animated,
@@ -13,7 +13,7 @@ import {
   useTrail,
   useSpringRef,
 } from "@react-spring/three";
-import { PlaneGeometry, Text3D } from "@react-three/drei";
+import { useVideoTexture, Text3D } from "@react-three/drei";
 
 function degToRad(degrees) {
   var pi = Math.PI;
@@ -72,6 +72,24 @@ const handleVideoLibrary = (targetIndex) => {
 
   return { targetIndexInt };
 };
+
+function VideoMaterial({ url }) {
+  const texture = useVideoTexture(url);
+  texture.format = THREE.RGBAFormat;
+
+  return (
+    <meshBasicMaterial
+      map={texture}
+      // alphaMap={texture}
+      transparent={true}
+      toneMapped={false}
+    />
+  );
+}
+
+function FallbackMaterial() {
+  return <meshBasicMaterial transparent={true} opacity={0} />;
+}
 
 const idToVideoMat = (id, depthTest, targetIndexInt, alphaId) => {
   const video = document.getElementById(id);
@@ -258,54 +276,20 @@ function BouncyText(props) {
   }
 }
 
-const PageToggle = (props) => {
-  const { soundAndScale, active, setActive } = props;
-  const [isPlaying, setIsPlaying] = useState(false);
-  console.log("children", props.children);
-  return (
-    <group {...props}>
-      {active ? (
-        props.children
-      ) : (
-        <group
-          onClick={() => {
-            soundAndScale();
-            setIsPlaying(true);
-          }}
-        >
-          <group scale={1}>
-            <BouncyText delayMS={0} position={[0.25, 0.0, 0.0]} scale={0.02}>
-              {"Play"}
-            </BouncyText>
-          </group>
-        </group>
-      )}
-    </group>
-  );
-};
-
-const logoMat = idToVideoMat("logo", true, 0);
-const yellowMat = idToVideoMat("videoYellow", false, 0);
-const pinkMat = idToVideoMat("videoPink", true, 0);
-const orangeMat = idToVideoMat("videoOrange", false, 0);
-const greenMat = idToVideoMat("videoGreen", false, 0);
-const matTwoAFG = idToVideoMat("videoTwoAfg", false, 4);
-const matTwoAMG = idToVideoMat("videoTwoAmg", false, 4);
-const matSixAFG = idToVideoMat("videoSixAfg", false, 12);
-const matSixAMG = idToVideoMat("videoSixAmg", false, 12);
-const matSixBFG = idToVideoMat("videoSixBfg", false, 13);
-const matSixBMG = idToVideoMat("videoSixBmg", false, 13);
-const matEightBFg1 = idToVideoMat("videoEightOne", false, 15);
-const matEightBFg2 = idToVideoMat("videoEightTwo", false, 15);
-const matEightBMg = idToVideoMat("videoEightThree", false, 15);
-const matEightBBg = idToVideoMat("videoEightFour", false, 15);
-const matEigthAFg = idToVideoMat("videoEightAfg", false, 14);
-const matEightAmg = idToVideoMat("videoEightAmg", false, 14);
-
 function CoverTarget(targetIndex) {
   const { gl, scene, camera } = useThree();
 
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
+
+  const logoTex = "MXT_CLM_Comp_LogoAnimation_SD_01-1.mov";
+
+  const yellowTex = "MXT_CLM_Comp_LogoAnimtion_YellowMonster_CV_h265.mp4";
+
+  const pinkTex = "MXT_CLM_Comp_LogoAnimtion_PinkMonster_CV_.mp4";
+
+  const orangeTex = "MXT_CLM_Comp_LogoAnimtion_OrangeMonster_CV_.mp4";
+
+  const greenTex = "MXT_CLM_Comp_LogoAnimtion_GreenMonster_CV_.mp4";
 
   const listener = new THREE.AudioListener();
 
@@ -336,7 +320,7 @@ function CoverTarget(targetIndex) {
         onAnchorFound={() => {
           console.log("cover found");
           gl.setClearColor(0x272727, 0.6);
-          videoLibrary[targetIndexInt].forEach((video) => video.play());
+          // videoLibrary[targetIndexInt].forEach((video) => video.play());
           let prop = { scale: 0.0 };
           handleCover(prop);
           prop.scale = 0.7;
@@ -359,37 +343,52 @@ function CoverTarget(targetIndex) {
         <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
           <animated.mesh
             position={[0.0, 0.5, -0.3]}
-            material={logoMat}
+            // material={logoMat}
             scale={trails[3].scale}
           >
+            <Suspense fallback={<FallbackMaterial />}>
+              <VideoMaterial url={logoTex} />
+            </Suspense>
             <planeGeometry args={[1.92, 1.08, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[-0.35, 0, -0.1]}
-            material={pinkMat}
+            // material={pinkMat}
             scale={trails[3].scale}
           >
+            <Suspense fallback={<FallbackMaterial />}>
+              <VideoMaterial url={pinkTex} />
+            </Suspense>
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0, -0.1, 0]}
-            material={greenMat}
+            // material={greenMat}
             scale={trails[0].scale}
           >
+            <Suspense fallback={<FallbackMaterial />}>
+              <VideoMaterial url={greenTex} />
+            </Suspense>
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[-0.3, 0, 0]}
-            material={yellowMat}
+            // material={yellowMat}
             scale={trails[1].scale}
           >
+            <Suspense fallback={<FallbackMaterial />}>
+              <VideoMaterial url={yellowTex} />
+            </Suspense>
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.3, 0, -0.2]}
-            material={orangeMat}
+            // material={orangeMat}
             scale={trails[2].scale}
           >
+            <Suspense fallback={<FallbackMaterial />}>
+              <VideoMaterial url={orangeTex} />
+            </Suspense>
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
         </AnimatedGroup>
@@ -444,7 +443,7 @@ function SpreadOneA(targetIndex) {
         onAnchorFound={() => {
           gl.setClearColor(0x4d4d4d, 0.6);
 
-          videoLibrary[targetIndexInt].forEach((video) => video.play());
+          // videoLibrary[targetIndexInt].forEach((video) => video.play());
           let prop = { scale: 0.0 };
           handleCover(prop);
           prop.scale = 0.5;
@@ -454,7 +453,7 @@ function SpreadOneA(targetIndex) {
         onAnchorLost={() => {
           sound.pause();
           gl.setClearColor(0x4d4d4d, 0.0);
-          videoLibrary[targetIndexInt].forEach((video) => video.pause());
+          // videoLibrary[targetIndexInt].forEach((video) => video.pause());
 
           // let prop = { scale: 0.0 };
           // handleCover(prop);
@@ -540,7 +539,7 @@ function SpreadOneB(targetIndex) {
         onAnchorFound={() => {
           gl.setClearColor(0x4d4d4d, 0.6);
 
-          videoLibrary[targetIndexInt].forEach((video) => video.play());
+          // videoLibrary[targetIndexInt].forEach((video) => video.play());
           let prop = { scale: 0.0 };
           handleCover(prop);
           prop.scale = 0.5;
@@ -549,7 +548,7 @@ function SpreadOneB(targetIndex) {
         }}
         onAnchorLost={() => {
           sound.pause();
-          videoLibrary[targetIndexInt].forEach((video) => video.pause());
+          // videoLibrary[targetIndexInt].forEach((video) => video.pause());
 
           gl.setClearColor(0x4d4d4d, 0.0);
           // let prop = { scale: 0.0 };
@@ -596,8 +595,8 @@ function SpreadTwoA(targetIndex) {
   gl.toneMapping = THREE.NoToneMapping;
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
 
-  // const matTwoAFG = idToVideoMat("videoTwoAfg", false, targetIndexInt);
-  // const matTwoAMG = idToVideoMat("videoTwoAmg", false, targetIndexInt);
+  const texTwoAFG = "MXT_CLM_030_Comp_Music_SD_01-1.mov";
+  const texTwoAMG = "MXT_CLM_030_Comp_Green_SD_01-1.mov";
 
   const listener = new THREE.AudioListener();
 
@@ -635,7 +634,7 @@ function SpreadTwoA(targetIndex) {
         onAnchorFound={() => {
           gl.setClearColor(0xc5df95, 0.6);
 
-          videoLibrary[targetIndexInt].forEach((video) => video.play());
+          // videoLibrary[targetIndexInt].forEach((video) => video.play());
           let prop = { scale: 0.0 };
           handleCover(prop);
           prop.scale = 0.5;
@@ -644,7 +643,7 @@ function SpreadTwoA(targetIndex) {
         }}
         onAnchorLost={() => {
           sound.pause();
-          videoLibrary[targetIndexInt].forEach((video) => video.pause());
+          // videoLibrary[targetIndexInt].forEach((video) => video.pause());
 
           gl.setClearColor(0x4d4d4d, 0.0);
           // let prop = { scale: 0.0 };
@@ -654,16 +653,22 @@ function SpreadTwoA(targetIndex) {
         <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
           <animated.mesh
             position={[0.0, 0, 0.4]}
-            material={matTwoAFG}
+            // material={matTwoAFG}
             scale={trails[0].scale}
           >
+            <Suspense fallback={<FallbackMaterial />}>
+              <VideoMaterial url={texTwoAFG} />
+            </Suspense>
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0, 0.3]}
-            material={matTwoAMG}
+            // material={matTwoAMG}
             scale={trails[0].scale}
           >
+            <Suspense fallback={<FallbackMaterial />}>
+              <VideoMaterial url={texTwoAMG} />
+            </Suspense>
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
         </AnimatedGroup>
@@ -717,7 +722,7 @@ function SpreadTwoB(targetIndex) {
         onAnchorFound={() => {
           gl.setClearColor(0xc5df95, 0.6);
 
-          videoLibrary[targetIndexInt].forEach((video) => video.play());
+          // videoLibrary[targetIndexInt].forEach((video) => video.play());
           let prop = { scale: 0.0 };
           handleCover(prop);
           prop.scale = 0.5;
@@ -726,7 +731,7 @@ function SpreadTwoB(targetIndex) {
         }}
         onAnchorLost={() => {
           sound.pause();
-          videoLibrary[targetIndexInt].forEach((video) => video.pause());
+          // videoLibrary[targetIndexInt].forEach((video) => video.pause());
 
           gl.setClearColor(0x4d4d4d, 0.0);
           // let prop = { scale: 0.0 };
@@ -813,7 +818,7 @@ function SpreadThreeA(targetIndex) {
         onAnchorFound={() => {
           gl.setClearColor(0x4d4d4d, 0.6);
 
-          videoLibrary[targetIndexInt].forEach((video) => video.play());
+          // videoLibrary[targetIndexInt].forEach((video) => video.play());
           let prop = { scale: 0.0 };
           handleCover(prop);
           prop.scale = 0.5;
@@ -822,7 +827,7 @@ function SpreadThreeA(targetIndex) {
         }}
         onAnchorLost={() => {
           sound.pause();
-          videoLibrary[targetIndexInt].forEach((video) => video.pause());
+          // videoLibrary[targetIndexInt].forEach((video) => video.pause());
 
           gl.setClearColor(0x4d4d4d, 0.0);
           // let prop = { scale: 0.0 };
@@ -909,7 +914,7 @@ function SpreadThreeB(targetIndex) {
         onAnchorFound={() => {
           gl.setClearColor(0x4d4d4d, 0.6);
 
-          videoLibrary[targetIndexInt].forEach((video) => video.play());
+          // videoLibrary[targetIndexInt].forEach((video) => video.play());
           let prop = { scale: 0.0 };
           handleCover(prop);
           prop.scale = 0.5;
@@ -918,7 +923,7 @@ function SpreadThreeB(targetIndex) {
         }}
         onAnchorLost={() => {
           sound.pause();
-          videoLibrary[targetIndexInt].forEach((video) => video.pause());
+          // videoLibrary[targetIndexInt].forEach((video) => video.pause());
 
           gl.setClearColor(0x4d4d4d, 0.0);
           // let prop = { scale: 0.0 };
@@ -1005,7 +1010,7 @@ function SpreadFourA(targetIndex) {
         onAnchorFound={() => {
           gl.setClearColor(0x4d4d4d, 0.6);
 
-          videoLibrary[targetIndexInt].forEach((video) => video.play());
+          // videoLibrary[targetIndexInt].forEach((video) => video.play());
           let prop = { scale: 0.0 };
           handleCover(prop);
           prop.scale = 0.5;
@@ -1014,7 +1019,7 @@ function SpreadFourA(targetIndex) {
         }}
         onAnchorLost={() => {
           sound.pause();
-          videoLibrary[targetIndexInt].forEach((video) => video.pause());
+          // videoLibrary[targetIndexInt].forEach((video) => video.pause());
 
           gl.setClearColor(0x4d4d4d, 0.0);
           // let prop = { scale: 0.0 };
@@ -1101,7 +1106,7 @@ function SpreadFourB(targetIndex) {
         onAnchorFound={() => {
           gl.setClearColor(0x4d4d4d, 0.6);
 
-          videoLibrary[targetIndexInt].forEach((video) => video.play());
+          // videoLibrary[targetIndexInt].forEach((video) => video.play());
           let prop = { scale: 0.0 };
           handleCover(prop);
           prop.scale = 0.5;
@@ -1110,7 +1115,7 @@ function SpreadFourB(targetIndex) {
         }}
         onAnchorLost={() => {
           sound.pause();
-          videoLibrary[targetIndexInt].forEach((video) => video.pause());
+          // videoLibrary[targetIndexInt].forEach((video) => video.pause());
 
           gl.setClearColor(0x4d4d4d, 0.0);
           // let prop = { scale: 0.0 };
@@ -1197,7 +1202,7 @@ function SpreadFiveA(targetIndex) {
         onAnchorFound={() => {
           gl.setClearColor(0x4d4d4d, 0.6);
 
-          videoLibrary[targetIndexInt].forEach((video) => video.play());
+          // videoLibrary[targetIndexInt].forEach((video) => video.play());
           let prop = { scale: 0.0 };
           handleCover(prop);
           prop.scale = 0.5;
@@ -1206,7 +1211,7 @@ function SpreadFiveA(targetIndex) {
         }}
         onAnchorLost={() => {
           sound.pause();
-          videoLibrary[targetIndexInt].forEach((video) => video.pause());
+          // videoLibrary[targetIndexInt].forEach((video) => video.pause());
 
           gl.setClearColor(0x4d4d4d, 0.0);
           // let prop = { scale: 0.0 };
@@ -1293,7 +1298,7 @@ function SpreadFiveB(targetIndex) {
         onAnchorFound={() => {
           gl.setClearColor(0x4d4d4d, 0.6);
 
-          videoLibrary[targetIndexInt].forEach((video) => video.play());
+          // videoLibrary[targetIndexInt].forEach((video) => video.play());
           let prop = { scale: 0.0 };
           handleCover(prop);
           prop.scale = 0.5;
@@ -1302,7 +1307,7 @@ function SpreadFiveB(targetIndex) {
         }}
         onAnchorLost={() => {
           sound.pause();
-          videoLibrary[targetIndexInt].forEach((video) => video.pause());
+          // videoLibrary[targetIndexInt].forEach((video) => video.pause());
 
           gl.setClearColor(0x4d4d4d, 0.0);
           // let prop = { scale: 0.0 };
@@ -1349,8 +1354,8 @@ function SpreadSixA(targetIndex) {
   gl.toneMapping = THREE.NoToneMapping;
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
 
-  // const matSixAFG = idToVideoMat("videoSixAfg", false, targetIndexInt);
-  // const matSixAMG = idToVideoMat("videoSixAmg", false, targetIndexInt);
+  const texSixAFG = "MXT_CLM_120_Comp_Couch_SD_01-1.mov";
+  const texSixAMG = "MXT_CLM_120_Comp_Lamp_SD_01-1.mov";
 
   const listener = new THREE.AudioListener();
 
@@ -1388,7 +1393,7 @@ function SpreadSixA(targetIndex) {
         onAnchorFound={() => {
           gl.setClearColor(0x4d4d4d, 0.6);
 
-          videoLibrary[targetIndexInt].forEach((video) => video.play());
+          // videoLibrary[targetIndexInt].forEach((video) => video.play());
           let prop = { scale: 0.0 };
           handleCover(prop);
           prop.scale = 0.5;
@@ -1407,16 +1412,22 @@ function SpreadSixA(targetIndex) {
         <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
           <animated.mesh
             position={[0.0, 0, 0.4]}
-            material={matSixAFG}
+            // material={matSixAFG}
             scale={trails[0].scale}
           >
+            <Suspense fallback={<FallbackMaterial />}>
+              <VideoMaterial url={texSixAFG} />
+            </Suspense>
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0, 0.3]}
-            material={matSixAMG}
+            // material={matSixAMG}
             scale={trails[0].scale}
           >
+            <Suspense fallback={<FallbackMaterial />}>
+              <VideoMaterial url={texSixAMG} />
+            </Suspense>
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
         </AnimatedGroup>
@@ -1429,8 +1440,8 @@ function SpreadSixB(targetIndex) {
   gl.toneMapping = THREE.NoToneMapping;
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
 
-  // const matSixBFG = idToVideoMat("videoSixBfg", false, targetIndexInt);
-  // const matSixBMG = idToVideoMat("videoSixBmg", false, targetIndexInt);
+  const texSixBFG = "MXT_CLM_130_FG_SD_01-1.mov";
+  const texSixBMG = "MXT_CLM_130_BG_SD_01-1.mov";
 
   const listener = new THREE.AudioListener();
 
@@ -1468,7 +1479,7 @@ function SpreadSixB(targetIndex) {
         onAnchorFound={() => {
           gl.setClearColor(0x4d4d4d, 0.6);
 
-          videoLibrary[targetIndexInt].forEach((video) => video.play());
+          // videoLibrary[targetIndexInt].forEach((video) => video.play());
           let prop = { scale: 0.0 };
           handleCover(prop);
           prop.scale = 0.5;
@@ -1477,7 +1488,7 @@ function SpreadSixB(targetIndex) {
         }}
         onAnchorLost={() => {
           sound.pause();
-          videoLibrary[targetIndexInt].forEach((video) => video.pause());
+          // videoLibrary[targetIndexInt].forEach((video) => video.pause());
 
           gl.setClearColor(0x4d4d4d, 0.0);
           // let prop = { scale: 0.0 };
@@ -1487,16 +1498,22 @@ function SpreadSixB(targetIndex) {
         <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
           <animated.mesh
             position={[0.0, 0, 0.4]}
-            material={matSixBFG}
+            // material={matSixBFG}
             scale={trails[0].scale}
           >
+            <Suspense fallback={<FallbackMaterial />}>
+              <VideoMaterial url={texSixBFG} />
+            </Suspense>
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0, -10.3]}
-            material={matSixBMG}
+            // material={matSixBMG}
             scale={trails[0].scale}
           >
+            <Suspense fallback={<FallbackMaterial />}>
+              <VideoMaterial url={texSixBMG} />
+            </Suspense>
             <planeGeometry args={[12.0, 10, 1]} />
           </animated.mesh>
         </AnimatedGroup>
@@ -1509,8 +1526,8 @@ function SpreadEightA(targetIndex) {
   gl.toneMapping = THREE.NoToneMapping;
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
 
-  // const matEigthAFg = idToVideoMat("videoEightAfg", false, targetIndexInt);
-  // const matEightAmg = idToVideoMat("videoEightAmg", false, targetIndexInt);
+  const texEigthAfg = "MXT_CLM_140_FG_SD_06_hvec.mov";
+  const texEightAmg = "MXT_CLM_140_MG_SD_12_hvec.mov";
 
   const listener = new THREE.AudioListener();
 
@@ -1550,7 +1567,7 @@ function SpreadEightA(targetIndex) {
           // gl.toneMapping(THREE.NoToneMapping);
           // fadeOnAction.play()
 
-          videoLibrary[targetIndexInt].forEach((video) => video.play());
+          // videoLibrary[targetIndexInt].forEach((video) => video.play());
 
           let prop = { scale: 0.0 };
           handleCover(prop);
@@ -1574,16 +1591,22 @@ function SpreadEightA(targetIndex) {
         <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
           <animated.mesh
             position={[0.0, 0, 0.3]}
-            material={matEigthAFg}
+            // material={matEigthAFg}
             scale={trails[0].scale}
           >
             <planeGeometry args={[1.24, 1, 1]} />
+            <Suspense fallback={<FallbackMaterial />}>
+              <VideoMaterial url={texEigthAfg} />
+            </Suspense>
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.2]}
-            material={matEightAmg}
+            // material={matEightAmg}
             scale={trails[0].scale}
           >
+            <Suspense fallback={<FallbackMaterial />}>
+              <VideoMaterial url={texEightAmg} />
+            </Suspense>
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
           {/* <animated.mesh
@@ -1608,10 +1631,10 @@ function SpreadEightB(targetIndex) {
 
   camera.add(listener);
 
-  // const matEightBFg1 = idToVideoMat("videoEightOne", false, targetIndexInt);
-  // const matEightBFg2 = idToVideoMat("videoEightTwo", false, targetIndexInt);
-  // const matEightBMg = idToVideoMat("videoEightThree", false, targetIndexInt);
-  // const matEightBBg = idToVideoMat("videoEightFour", false, targetIndexInt);
+  const texEightBFg1 = "MXT_CLM_COMP_FG1_150_SD_10.mp4";
+  const texEightBFg2 = "MXT_CLM_COMP_FG2_150_SD_10.mp4";
+  const texEightBMg = "MXT_CLM_COMP_MG_150_SD_10.mp4";
+  const texEightBBg = "MXT_CLM_COMP_BG_150_SD_10.mp4";
 
   const sound = new THREE.Audio(listener);
 
@@ -1645,7 +1668,7 @@ function SpreadEightB(targetIndex) {
         onAnchorFound={() => {
           gl.setClearColor(0x4d4d4d, 0.6);
 
-          videoLibrary[targetIndexInt].forEach((video) => video.play());
+          // videoLibrary[targetIndexInt].forEach((video) => video.play());
           let prop = { scale: 0.0 };
           handleCover(prop);
           prop.scale = 0.5;
@@ -1655,7 +1678,7 @@ function SpreadEightB(targetIndex) {
         onAnchorLost={() => {
           sound.pause();
           gl.setClearColor(0x4d4d4d, 0.0);
-          videoLibrary[targetIndexInt].forEach((video) => video.pause());
+          // videoLibrary[targetIndexInt].forEach((video) => video.pause());
           // let prop = { scale: 0.0 };
           // handleCover(prop);
         }}
@@ -1663,30 +1686,42 @@ function SpreadEightB(targetIndex) {
         <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
           <animated.mesh
             position={[0.0, 0, 0.4]}
-            material={matEightBFg1}
+            // material={matEightBFg1}
             scale={trails[0].scale}
           >
+            <Suspense fallback={<FallbackMaterial />}>
+              <VideoMaterial url={texEightBFg1} />
+            </Suspense>
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0, 0.3]}
-            material={matEightBFg2}
+            // material={matEightBFg2}
             scale={trails[0].scale}
           >
+            <Suspense fallback={<FallbackMaterial />}>
+              <VideoMaterial url={texEightBFg2} />
+            </Suspense>
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.2]}
-            material={matEightBMg}
+            // material={matEightBMg}
             scale={trails[0].scale}
           >
+            <Suspense fallback={<FallbackMaterial />}>
+              <VideoMaterial url={texEightBMg} />
+            </Suspense>
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.0]}
-            material={matEightBBg}
+            // material={matEightBBg}
             scale={trails[0].scale}
           >
+            <Suspense fallback={<FallbackMaterial />}>
+              <VideoMaterial url={texEightBBg} />
+            </Suspense>
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
         </AnimatedGroup>
