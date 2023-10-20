@@ -292,6 +292,11 @@ function CoverTarget(targetIndex) {
     orangeMat.alphaMap,
     greenMat.map,
     greenMat.alphaMap,
+    logoMat,
+    yellowMat,
+    pinkMat,
+    orangeMat,
+    greenMat,
   ];
 
   const listener = new THREE.AudioListener();
@@ -608,6 +613,8 @@ function SpreadTwoA(targetIndex) {
     matTwoAFG.alphaMap,
     matTwoAMG.map,
     matTwoAMG.alphaMap,
+    matTwoAFG,
+    matTwoAMG,
   ];
 
   const listener = new THREE.AudioListener();
@@ -1375,6 +1382,8 @@ function SpreadSixA(targetIndex) {
     matSixAFG.alphaMap,
     matSixAMG.map,
     matSixAMG.alphaMap,
+    matSixAFG,
+    matSixAMG,
   ];
 
   const listener = new THREE.AudioListener();
@@ -1471,6 +1480,8 @@ function SpreadSixB(targetIndex) {
     matSixBFG.alphaMap,
     matSixBMG.map,
     matSixBMG.alphaMap,
+    matSixBFG,
+    matSixBMG,
   ];
 
   const listener = new THREE.AudioListener();
@@ -1567,6 +1578,8 @@ function SpreadEightA(targetIndex) {
     matEightAmg.alphaMap,
     matEigthAFg.map,
     matEigthAFg.alphaMap,
+    matEigthAFg,
+    matEightAmg,
   ];
 
   const listener = new THREE.AudioListener();
@@ -1664,7 +1677,6 @@ function SpreadEightA(targetIndex) {
     </>
   );
 }
-
 function SpreadEightB(targetIndex) {
   const { gl, scene, camera } = useThree();
   gl.toneMapping = THREE.NoToneMapping;
@@ -1688,6 +1700,10 @@ function SpreadEightB(targetIndex) {
     matEightBFg2.alphaMap,
     matEightBMg.alphaMap,
     matEightBBg.alphaMap,
+    matEightBFg1,
+    matEightBFg2,
+    matEightBMg,
+    matEightBBg,
   ];
 
   const sound = new THREE.Audio(listener);
