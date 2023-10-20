@@ -97,7 +97,7 @@ const idToVideoMat = (id, depthTest, targetIndexInt, alphaId) => {
 const FallbackMaterial = () => {
   const material = new THREE.MeshBasicMaterial({
     transparent: true,
-    opacity: 50,
+    opacity: 0,
     side: THREE.DoubleSide,
     // depthWrite: true,
     // depthTest: depthTest,
@@ -270,46 +270,29 @@ function BouncyText(props) {
   }
 }
 
-const PageToggle = (props) => {
-  const { soundAndScale, active, setActive } = props;
-  const [isPlaying, setIsPlaying] = useState(false);
-  console.log("children", props.children);
-  return (
-    <group {...props}>
-      {active ? (
-        props.children
-      ) : (
-        <group
-          onClick={() => {
-            soundAndScale();
-            setIsPlaying(true);
-          }}
-        >
-          <group scale={1}>
-            <BouncyText delayMS={0} position={[0.25, 0.0, 0.0]} scale={0.02}>
-              {"Play"}
-            </BouncyText>
-          </group>
-        </group>
-      )}
-    </group>
-  );
-};
-
 function CoverTarget(targetIndex) {
   const { gl, scene, camera } = useThree();
 
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
 
   const logoMat = idToVideoMat("logo", true, targetIndexInt);
-
   const yellowMat = idToVideoMat("videoYellow", false, targetIndexInt);
-
   const pinkMat = idToVideoMat("videoPink", true, targetIndexInt);
-
   const orangeMat = idToVideoMat("videoOrange", false, targetIndexInt);
-
   const greenMat = idToVideoMat("videoGreen", false, targetIndexInt);
+
+  const targetTextures = [
+    logoMat.map,
+    logoMat.alphaMap,
+    yellowMat.map,
+    yellowMat.alphaMap,
+    pinkMat.map,
+    pinkMat.alphaMap,
+    orangeMat.map,
+    orangeMat.alphaMap,
+    greenMat.map,
+    greenMat.alphaMap,
+  ];
 
   const listener = new THREE.AudioListener();
 
@@ -358,6 +341,9 @@ function CoverTarget(targetIndex) {
           let prop = { scale: 0.0 };
           handleCover(prop);
           videoLibrary[targetIndexInt].forEach((video) => video.pause());
+          targetTextures.forEach((texture) => {
+            texture.dispose();
+          });
         }}
       >
         <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
@@ -617,6 +603,13 @@ function SpreadTwoA(targetIndex) {
   const matTwoAFG = idToVideoMat("videoTwoAfg", false, targetIndexInt);
   const matTwoAMG = idToVideoMat("videoTwoAmg", false, targetIndexInt);
 
+  const targetTextures = [
+    matTwoAFG.map,
+    matTwoAFG.alphaMap,
+    matTwoAMG.map,
+    matTwoAMG.alphaMap,
+  ];
+
   const listener = new THREE.AudioListener();
 
   camera.add(listener);
@@ -665,8 +658,9 @@ function SpreadTwoA(targetIndex) {
           videoLibrary[targetIndexInt].forEach((video) => video.pause());
 
           gl.setClearColor(0x4d4d4d, 0.0);
-          // let prop = { scale: 0.0 };
-          // handleCover(prop);
+          targetTextures.forEach((texture) => {
+            texture.dispose();
+          });
         }}
       >
         <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
@@ -1376,6 +1370,13 @@ function SpreadSixA(targetIndex) {
   const matSixAFG = idToVideoMat("videoSixAfg", false, targetIndexInt);
   const matSixAMG = idToVideoMat("videoSixAmg", false, targetIndexInt);
 
+  const targetTextures = [
+    matSixAFG.map,
+    matSixAFG.alphaMap,
+    matSixAMG.map,
+    matSixAMG.alphaMap,
+  ];
+
   const listener = new THREE.AudioListener();
 
   camera.add(listener);
@@ -1424,6 +1425,9 @@ function SpreadSixA(targetIndex) {
           videoLibrary[targetIndexInt].forEach((video) => video.pause());
 
           gl.setClearColor(0x4d4d4d, 0.0);
+          targetTextures.forEach((texture) => {
+            texture.dispose();
+          });
           // let prop = { scale: 0.0 };
           // handleCover(prop);
         }}
@@ -1461,6 +1465,13 @@ function SpreadSixB(targetIndex) {
 
   const matSixBFG = idToVideoMat("videoSixBfg", false, targetIndexInt);
   const matSixBMG = idToVideoMat("videoSixBmg", false, targetIndexInt);
+
+  const targetTextures = [
+    matSixBFG.map,
+    matSixBFG.alphaMap,
+    matSixBMG.map,
+    matSixBMG.alphaMap,
+  ];
 
   const listener = new THREE.AudioListener();
 
@@ -1510,6 +1521,9 @@ function SpreadSixB(targetIndex) {
           videoLibrary[targetIndexInt].forEach((video) => video.pause());
 
           gl.setClearColor(0x4d4d4d, 0.0);
+          targetTextures.forEach((texture) => {
+            texture.dispose();
+          });
           // let prop = { scale: 0.0 };
           // handleCover(prop);
         }}
@@ -1547,6 +1561,13 @@ function SpreadEightA(targetIndex) {
 
   const matEigthAFg = idToVideoMat("videoEightAfg", false, targetIndexInt);
   const matEightAmg = idToVideoMat("videoEightAmg", false, targetIndexInt);
+
+  const targetTextures = [
+    matEightAmg.map,
+    matEightAmg.alphaMap,
+    matEigthAFg.map,
+    matEigthAFg.alphaMap,
+  ];
 
   const listener = new THREE.AudioListener();
 
@@ -1603,6 +1624,9 @@ function SpreadEightA(targetIndex) {
           videoLibrary[targetIndexInt].forEach((video) => video.pause());
 
           gl.setClearColor(0xf5f0e4, 0.0);
+          targetTextures.forEach((texture) => {
+            texture.dispose();
+          });
           // let prop = { scale: 0.0 };
           // handleCover(prop);
         }}
@@ -1655,6 +1679,17 @@ function SpreadEightB(targetIndex) {
   const matEightBMg = idToVideoMat("videoEightThree", false, targetIndexInt);
   const matEightBBg = idToVideoMat("videoEightFour", false, targetIndexInt);
 
+  const targetTextures = [
+    matEightBFg1.map,
+    matEightBFg2.map,
+    matEightBMg.map,
+    matEightBBg.map,
+    matEightBFg1.alphaMap,
+    matEightBFg2.alphaMap,
+    matEightBMg.alphaMap,
+    matEightBBg.alphaMap,
+  ];
+
   const sound = new THREE.Audio(listener);
 
   const audioLoader = new THREE.AudioLoader();
@@ -1698,6 +1733,9 @@ function SpreadEightB(targetIndex) {
           sound.pause();
           gl.setClearColor(0x4d4d4d, 0.0);
           videoLibrary[targetIndexInt].forEach((video) => video.pause());
+          targetTextures.forEach((texture) => {
+            texture.dispose();
+          });
           // let prop = { scale: 0.0 };
           // handleCover(prop);
         }}
