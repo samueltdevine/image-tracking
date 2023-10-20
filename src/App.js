@@ -343,8 +343,8 @@ function CoverTarget(targetIndex) {
           videoLibrary[targetIndexInt].forEach((video) => {
             video.pause();
           });
-          videoLibrary[targetIndexInt] = [];
-          console.log(videoLibrary[targetIndexInt], "target INT");
+          // videoLibrary[targetIndexInt] = [];
+          // console.log(videoLibrary[targetIndexInt], "target INT");
           targetTextures.forEach((texture) => {
             texture.dispose();
           });
@@ -466,8 +466,8 @@ function SpreadOneA(targetIndex) {
           videoLibrary[targetIndexInt].forEach((video) => {
             video.pause();
           });
-          videoLibrary[targetIndexInt] = [];
-          console.log(videoLibrary[targetIndexInt], "target INT");
+          // videoLibrary[targetIndexInt] = [];
+          // console.log(videoLibrary[targetIndexInt], "target INT");
 
           // let prop = { scale: 0.0 };
           // handleCover(prop);
@@ -565,8 +565,8 @@ function SpreadOneB(targetIndex) {
           videoLibrary[targetIndexInt].forEach((video) => {
             video.pause();
           });
-          videoLibrary[targetIndexInt] = [];
-          console.log(videoLibrary[targetIndexInt], "target INT");
+          // videoLibrary[targetIndexInt] = [];
+          // console.log(videoLibrary[targetIndexInt], "target INT");
 
           gl.setClearColor(0x4d4d4d, 0.0);
           // let prop = { scale: 0.0 };
@@ -670,8 +670,8 @@ function SpreadTwoA(targetIndex) {
           videoLibrary[targetIndexInt].forEach((video) => {
             video.pause();
           });
-          videoLibrary[targetIndexInt] = [];
-          console.log(videoLibrary[targetIndexInt], "target INT");
+          // videoLibrary[targetIndexInt] = [];
+          // console.log(videoLibrary[targetIndexInt], "target INT");
 
           gl.setClearColor(0x4d4d4d, 0.0);
           targetTextures.forEach((texture) => {
@@ -763,8 +763,8 @@ function SpreadTwoB(targetIndex) {
           videoLibrary[targetIndexInt].forEach((video) => {
             video.pause();
           });
-          videoLibrary[targetIndexInt] = [];
-          console.log(videoLibrary[targetIndexInt], "target INT");
+          // videoLibrary[targetIndexInt] = [];
+          // console.log(videoLibrary[targetIndexInt], "target INT");
 
           gl.setClearColor(0x4d4d4d, 0.0);
           // let prop = { scale: 0.0 };
@@ -863,8 +863,8 @@ function SpreadThreeA(targetIndex) {
           videoLibrary[targetIndexInt].forEach((video) => {
             video.pause();
           });
-          videoLibrary[targetIndexInt] = [];
-          console.log(videoLibrary[targetIndexInt], "target INT");
+          // videoLibrary[targetIndexInt] = [];
+          // console.log(videoLibrary[targetIndexInt], "target INT");
 
           gl.setClearColor(0x4d4d4d, 0.0);
           // let prop = { scale: 0.0 };
@@ -963,8 +963,8 @@ function SpreadThreeB(targetIndex) {
           videoLibrary[targetIndexInt].forEach((video) => {
             video.pause();
           });
-          videoLibrary[targetIndexInt] = [];
-          console.log(videoLibrary[targetIndexInt], "target INT");
+          // videoLibrary[targetIndexInt] = [];
+          // console.log(videoLibrary[targetIndexInt], "target INT");
 
           gl.setClearColor(0x4d4d4d, 0.0);
           // let prop = { scale: 0.0 };
@@ -1063,8 +1063,8 @@ function SpreadFourA(targetIndex) {
           videoLibrary[targetIndexInt].forEach((video) => {
             video.pause();
           });
-          videoLibrary[targetIndexInt] = [];
-          console.log(videoLibrary[targetIndexInt], "target INT");
+          // videoLibrary[targetIndexInt] = [];
+          // console.log(videoLibrary[targetIndexInt], "target INT");
 
           gl.setClearColor(0x4d4d4d, 0.0);
           // let prop = { scale: 0.0 };
@@ -1163,8 +1163,8 @@ function SpreadFourB(targetIndex) {
           videoLibrary[targetIndexInt].forEach((video) => {
             video.pause();
           });
-          videoLibrary[targetIndexInt] = [];
-          console.log(videoLibrary[targetIndexInt], "target INT");
+          // videoLibrary[targetIndexInt] = [];
+          // console.log(videoLibrary[targetIndexInt], "target INT");
 
           gl.setClearColor(0x4d4d4d, 0.0);
           // let prop = { scale: 0.0 };
@@ -1263,8 +1263,8 @@ function SpreadFiveA(targetIndex) {
           videoLibrary[targetIndexInt].forEach((video) => {
             video.pause();
           });
-          videoLibrary[targetIndexInt] = [];
-          console.log(videoLibrary[targetIndexInt], "target INT");
+          // videoLibrary[targetIndexInt] = [];
+          // console.log(videoLibrary[targetIndexInt], "target INT");
 
           gl.setClearColor(0x4d4d4d, 0.0);
           // let prop = { scale: 0.0 };
@@ -1363,8 +1363,8 @@ function SpreadFiveB(targetIndex) {
           videoLibrary[targetIndexInt].forEach((video) => {
             video.pause();
           });
-          videoLibrary[targetIndexInt] = [];
-          console.log(videoLibrary[targetIndexInt], "target INT");
+          // videoLibrary[targetIndexInt] = [];
+          // console.log(videoLibrary[targetIndexInt], "target INT");
 
           gl.setClearColor(0x4d4d4d, 0.0);
           // let prop = { scale: 0.0 };
@@ -1469,8 +1469,8 @@ function SpreadSixA(targetIndex) {
           videoLibrary[targetIndexInt].forEach((video) => {
             video.pause();
           });
-          videoLibrary[targetIndexInt] = [];
-          console.log(videoLibrary[targetIndexInt], "target INT");
+          // videoLibrary[targetIndexInt] = [];
+          // console.log(videoLibrary[targetIndexInt], "target INT");
 
           gl.setClearColor(0x4d4d4d, 0.0);
           targetTextures.forEach((texture) => {
@@ -1569,8 +1569,8 @@ function SpreadSixB(targetIndex) {
           videoLibrary[targetIndexInt].forEach((video) => {
             video.pause();
           });
-          videoLibrary[targetIndexInt] = [];
-          console.log(videoLibrary[targetIndexInt], "target INT");
+          // videoLibrary[targetIndexInt] = [];
+          // console.log(videoLibrary[targetIndexInt], "target INT");
 
           gl.setClearColor(0x4d4d4d, 0.0);
           targetTextures.forEach((texture) => {
@@ -1676,8 +1676,8 @@ function SpreadEightA(targetIndex) {
           videoLibrary[targetIndexInt].forEach((video) => {
             video.pause();
           });
-          videoLibrary[targetIndexInt] = [];
-          console.log(videoLibrary[targetIndexInt], "target INT");
+          // videoLibrary[targetIndexInt] = [];
+          // console.log(videoLibrary[targetIndexInt], "target INT");
 
           gl.setClearColor(0xf5f0e4, 0.0);
           targetTextures.forEach((texture) => {
@@ -1791,8 +1791,8 @@ function SpreadEightB(targetIndex) {
           videoLibrary[targetIndexInt].forEach((video) => {
             video.pause();
           });
-          videoLibrary[targetIndexInt] = [];
-          console.log(videoLibrary[targetIndexInt], "target INT");
+          // videoLibrary[targetIndexInt] = [];
+          // console.log(videoLibrary[targetIndexInt], "target INT");
           targetTextures.forEach((texture) => {
             texture.dispose();
           });
