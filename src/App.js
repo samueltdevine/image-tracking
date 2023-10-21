@@ -1402,7 +1402,7 @@ function SpreadSixB(targetIndex) {
           // handleCover(prop);
         }}
       >
-        <group scale={0.7} position={[0.0, -0.05, 0]}>
+        <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
           <animated.mesh
             position={[0.0, 0, 0.4]}
             // material={matSixBFG}
@@ -1492,7 +1492,7 @@ function SpreadEightA(targetIndex) {
           // handleCover(prop);
         }}
       >
-        <group scale={0.7} position={[0.0, -0.05, 0]}>
+        <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
           <animated.mesh
             position={[0.0, 0, 0.3]}
             // material={matEigthAFg}
@@ -1589,7 +1589,7 @@ function SpreadEightB(targetIndex) {
           // handleCover(prop);
         }}
       >
-        <group scale={0.7} position={[0.0, -0.05, 0]}>
+        <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
           <animated.mesh
             position={[0.0, 0, 0.4]}
             // material={matEightBFg1}
