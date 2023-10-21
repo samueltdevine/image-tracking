@@ -106,6 +106,10 @@ const FallbackMaterial = () => {
   return <primitive object={material} />;
 };
 
+const SimplePlane = () => {
+  return <planeGeometry args={[1, 1, 1]} />;
+};
+
 const fontPath = "/Nunito_Medium_Regular.json";
 
 const Group = (props) => {
@@ -369,7 +373,7 @@ function CoverTarget(targetIndex) {
             <Suspense fallback={FallbackMaterial}>
               <primitive object={pinkMat} />
             </Suspense>
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0, -0.1, 0]}
@@ -379,7 +383,7 @@ function CoverTarget(targetIndex) {
             <Suspense fallback={FallbackMaterial}>
               <primitive object={greenMat} />
             </Suspense>
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[-0.3, 0, 0]}
@@ -389,7 +393,7 @@ function CoverTarget(targetIndex) {
             <Suspense fallback={FallbackMaterial}>
               <primitive object={yellowMat} />
             </Suspense>
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.3, 0, -0.2]}
@@ -399,7 +403,7 @@ function CoverTarget(targetIndex) {
             <Suspense fallback={FallbackMaterial}>
               <primitive object={orangeMat} />
             </Suspense>
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh>
         </AnimatedGroup>
       </ARAnchor>
@@ -472,28 +476,28 @@ function SpreadOneA(targetIndex) {
             material={fg1Mat}
             scale={trails[0].scale}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0, 0.3]}
             material={fg2Mat}
             scale={trails[0].scale}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.2]}
             material={mgMat}
             scale={trails[0].scale}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.0]}
             material={bgMat}
             scale={trails[0].scale}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh> */}
         </AnimatedGroup>
       </ARAnchor>
@@ -565,28 +569,28 @@ function SpreadOneB(targetIndex) {
             material={fg1Mat}
             scale={trails[0].scale}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0, 0.3]}
             material={fg2Mat}
             scale={trails[0].scale}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.2]}
             material={mgMat}
             scale={trails[0].scale}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.0]}
             material={bgMat}
             scale={trails[0].scale}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh> */}
         </AnimatedGroup>
       </ARAnchor>
@@ -749,28 +753,28 @@ function SpreadTwoB(targetIndex) {
             material={fg1Mat}
             scale={0.7}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0, 0.3]}
             material={fg2Mat}
             scale={0.7}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.2]}
             material={mgMat}
             scale={0.7}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.0]}
             material={bgMat}
             scale={0.7}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh> */}
         </AnimatedGroup>
       </ARAnchor>
@@ -842,28 +846,28 @@ function SpreadThreeA(targetIndex) {
             material={fg1Mat}
             scale={0.7}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0, 0.3]}
             material={fg2Mat}
             scale={0.7}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.2]}
             material={mgMat}
             scale={0.7}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.0]}
             material={bgMat}
             scale={0.7}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh> */}
         </AnimatedGroup>
       </ARAnchor>
@@ -935,28 +939,28 @@ function SpreadThreeB(targetIndex) {
             material={fg1Mat}
             scale={0.7}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0, 0.3]}
             material={fg2Mat}
             scale={0.7}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.2]}
             material={mgMat}
             scale={0.7}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.0]}
             material={bgMat}
             scale={0.7}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh> */}
         </AnimatedGroup>
       </ARAnchor>
@@ -1028,28 +1032,28 @@ function SpreadFourA(targetIndex) {
             material={fg1Mat}
             scale={0.7}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0, 0.3]}
             material={fg2Mat}
             scale={0.7}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.2]}
             material={mgMat}
             scale={0.7}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.0]}
             material={bgMat}
             scale={0.7}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh> */}
         </AnimatedGroup>
       </ARAnchor>
@@ -1121,28 +1125,28 @@ function SpreadFourB(targetIndex) {
             material={fg1Mat}
             scale={0.7}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0, 0.3]}
             material={fg2Mat}
             scale={0.7}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.2]}
             material={mgMat}
             scale={0.7}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.0]}
             material={bgMat}
             scale={0.7}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh> */}
         </AnimatedGroup>
       </ARAnchor>
@@ -1214,28 +1218,28 @@ function SpreadFiveA(targetIndex) {
             material={fg1Mat}
             scale={0.7}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0, 0.3]}
             material={fg2Mat}
             scale={0.7}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.2]}
             material={mgMat}
             scale={0.7}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.0]}
             material={bgMat}
             scale={0.7}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh> */}
         </AnimatedGroup>
       </ARAnchor>
@@ -1307,28 +1311,28 @@ function SpreadFiveB(targetIndex) {
             material={fg1Mat}
             scale={0.7}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0, 0.3]}
             material={fg2Mat}
             scale={0.7}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.2]}
             material={mgMat}
             scale={0.7}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.0]}
             material={bgMat}
             scale={0.7}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh> */}
         </AnimatedGroup>
       </ARAnchor>
@@ -1622,7 +1626,7 @@ function SpreadEightA(targetIndex) {
             material={bgMat}
             scale={0.7}
           >
-            <planeGeometry args={[1, 1, 1]} />
+            <SimplePlane />
           </animated.mesh> */}
         </AnimatedGroup>
       </ARAnchor>
