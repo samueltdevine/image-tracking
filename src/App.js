@@ -20,27 +20,6 @@ function degToRad(degrees) {
   return degrees * (pi / 180);
 }
 
-function useTimeout(callback, delay) {
-  const savedCallback = useRef(callback);
-
-  // Remember the latest callback if it changes.
-  useEffect(() => {
-    savedCallback.current = callback;
-  }, [callback]);
-
-  // Set up the timeout.
-  useEffect(() => {
-    // Don't schedule if no delay is specified.
-    if (delay === null) {
-      return;
-    }
-
-    const id = setTimeout(() => savedCallback.current(), delay);
-
-    return () => clearTimeout(id);
-  }, [delay]);
-}
-
 function StartUi() {
   const [start, setStart] = useState(false);
 
@@ -73,6 +52,18 @@ const handleVideoLibrary = (targetIndex) => {
   return { targetIndexInt };
 };
 
+const FallbackMaterial = () => {
+  const material = new THREE.MeshBasicMaterial({
+    transparent: true,
+    opacity: 0,
+    side: THREE.DoubleSide,
+    // depthWrite: true,
+    // depthTest: depthTest,
+    toneMapped: false,
+  });
+  return <primitive object={material} />;
+};
+
 const idToVideoMat = (id, depthTest, targetIndexInt, alphaId) => {
   const video = document.getElementById(id);
   if (videoLibrary[targetIndexInt] === undefined) {
@@ -91,19 +82,19 @@ const idToVideoMat = (id, depthTest, targetIndexInt, alphaId) => {
     depthTest: depthTest,
     toneMapped: false,
   });
-  return materialVideo;
-};
+  // console.log(texture, "texture");
 
-const FallbackMaterial = () => {
-  const material = new THREE.MeshBasicMaterial({
-    transparent: true,
-    opacity: 0,
-    side: THREE.DoubleSide,
-    // depthWrite: true,
-    // depthTest: depthTest,
-    toneMapped: false,
-  });
-  return <primitive object={material} />;
+  return materialVideo;
+  // <meshBasicMaterial
+  //   map={texture}
+  //   alphaMap={texture}
+  //   transparent={true}
+  //   opacity={100}
+  //   side={THREE.DoubleSide}
+  //   depthWrite={true}
+  //   depthTest={depthTest}
+  //   toneMapped={false}
+  // />
 };
 
 const SimplePlane = () => {
@@ -274,6 +265,23 @@ function BouncyText(props) {
   }
 }
 
+const actionTexture = (ref, action) => {
+  const refCurrent = ref.current;
+  const children = refCurrent.children;
+  const childArray = [];
+  children.forEach((child) => {
+    const source = child.material.map.source.data;
+    // const source = document.getElementById(sourceId);
+    // childArray.push(source);
+    if (action === "play") {
+      source.play();
+    }
+    if (action === "pause") {
+      source.pause();
+    }
+  });
+};
+
 function CoverTarget(targetIndex) {
   const { gl, scene, camera } = useThree();
 
@@ -285,18 +293,7 @@ function CoverTarget(targetIndex) {
   const orangeMat = idToVideoMat("videoOrange", false, targetIndexInt);
   const greenMat = idToVideoMat("videoGreen", false, targetIndexInt);
 
-  const targetTextures = [
-    logoMat.map,
-    logoMat.alphaMap,
-    yellowMat.map,
-    yellowMat.alphaMap,
-    pinkMat.map,
-    pinkMat.alphaMap,
-    orangeMat.map,
-    orangeMat.alphaMap,
-    greenMat.map,
-    greenMat.alphaMap,
-  ];
+  const ref = useRef();
 
   const listener = new THREE.AudioListener();
 
@@ -320,14 +317,20 @@ function CoverTarget(targetIndex) {
   const handleCover = (prop) => {
     api.start({ scale: prop.scale });
   };
+
   return (
     <>
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
+          actionTexture(ref, "play");
           console.log("cover found");
           gl.setClearColor(0x272727, 0.6);
-          videoLibrary[targetIndexInt].forEach((video) => video.play());
+
+          // videoLibrary[targetIndexInt].forEach((video) => {
+          //   console.log("child video", video);
+          //   video.play();
+          // });
           let prop = { scale: 0.0 };
           handleCover(prop);
           prop.scale = 0.7;
@@ -339,14 +342,16 @@ function CoverTarget(targetIndex) {
           }
         }}
         onAnchorLost={() => {
+          actionTexture(ref, "pause");
           sound.pause();
           console.log("lost cover");
           gl.setClearColor(0x272727, 0.0);
           let prop = { scale: 0.0 };
           handleCover(prop);
-          videoLibrary[targetIndexInt].forEach((video) => {
-            video.pause();
-          });
+
+          // videoLibrary[targetIndexInt].forEach((video) => {
+          //   video.pause();
+          // });
           // videoLibrary[targetIndexInt] = [];
           // console.log(videoLibrary[targetIndexInt], "target INT");
           // targetTextures.forEach((texture) => {
@@ -354,7 +359,7 @@ function CoverTarget(targetIndex) {
           // });
         }}
       >
-        <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
+        <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
           <animated.mesh
             position={[0.0, 0.5, -0.3]}
             // material={}
@@ -405,7 +410,7 @@ function CoverTarget(targetIndex) {
             </Suspense>
             <SimplePlane />
           </animated.mesh>
-        </AnimatedGroup>
+        </group>
       </ARAnchor>
     </>
   );
@@ -415,6 +420,7 @@ function SpreadOneA(targetIndex) {
   const { gl, scene, camera } = useThree();
   gl.toneMapping = THREE.NoToneMapping;
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
+  const ref = useRef();
 
   const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
   const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
@@ -434,35 +440,25 @@ function SpreadOneA(targetIndex) {
     sound.setVolume(0.2);
   });
 
-  const [trails, api] = useTrail(
-    4,
-    () => ({ videoScale: 0, config: config.wobbly }),
-    []
-  );
-
-  const handleCover = (prop) => {
-    api.start({ videoScale: prop.scale });
-  };
   return (
     <>
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
+          actionTexture(ref, "play");
           gl.setClearColor(0x4d4d4d, 0.6);
 
-          videoLibrary[targetIndexInt].forEach((video) => video.play());
-          let prop = { scale: 0.0 };
-          handleCover(prop);
-          prop.scale = 0.5;
-          handleCover(prop);
+          // videoLibrary[targetIndexInt].forEach((video) => video.play());
+
           sound.play();
         }}
         onAnchorLost={() => {
+          actionTexture(ref, "pause");
           sound.pause();
           gl.setClearColor(0x4d4d4d, 0.0);
-          videoLibrary[targetIndexInt].forEach((video) => {
-            video.pause();
-          });
+          // videoLibrary[targetIndexInt].forEach((video) => {
+          //   video.pause();
+          // });
           // videoLibrary[targetIndexInt] = [];
           // console.log(videoLibrary[targetIndexInt], "target INT");
 
@@ -508,6 +504,7 @@ function SpreadOneB(targetIndex) {
   const { gl, scene, camera } = useThree();
   gl.toneMapping = THREE.NoToneMapping;
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
+  const ref = useRef();
 
   const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
   const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
@@ -527,34 +524,24 @@ function SpreadOneB(targetIndex) {
     sound.setVolume(0.2);
   });
 
-  const [trails, api] = useTrail(
-    4,
-    () => ({ videoScale: 0, config: config.wobbly }),
-    []
-  );
-
-  const handleCover = (prop) => {
-    api.start({ videoScale: prop.scale });
-  };
   return (
     <>
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
+          actionTexture(ref, "play");
           gl.setClearColor(0x4d4d4d, 0.6);
 
-          videoLibrary[targetIndexInt].forEach((video) => video.play());
-          let prop = { scale: 0.0 };
-          handleCover(prop);
-          prop.scale = 0.5;
-          handleCover(prop);
+          // videoLibrary[targetIndexInt].forEach((video) => video.play());
+
           sound.play();
         }}
         onAnchorLost={() => {
+          actionTexture(ref, "pause");
           sound.pause();
-          videoLibrary[targetIndexInt].forEach((video) => {
-            video.pause();
-          });
+          // videoLibrary[targetIndexInt].forEach((video) => {
+          //   video.pause();
+          // });
           // videoLibrary[targetIndexInt] = [];
           // console.log(videoLibrary[targetIndexInt], "target INT");
 
@@ -601,16 +588,10 @@ function SpreadTwoA(targetIndex) {
   const { gl, scene, camera } = useThree();
   gl.toneMapping = THREE.NoToneMapping;
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
+  const ref = useRef();
 
   const matTwoAFG = idToVideoMat("videoTwoAfg", false, targetIndexInt);
   const matTwoAMG = idToVideoMat("videoTwoAmg", false, targetIndexInt);
-
-  const targetTextures = [
-    matTwoAFG.map,
-    matTwoAFG.alphaMap,
-    matTwoAMG.map,
-    matTwoAMG.alphaMap,
-  ];
 
   const listener = new THREE.AudioListener();
 
@@ -639,9 +620,10 @@ function SpreadTwoA(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
+          actionTexture(ref, "play");
           gl.setClearColor(0xc5df95, 0.6);
 
-          videoLibrary[targetIndexInt].forEach((video) => video.play());
+          // videoLibrary[targetIndexInt].forEach((video) => video.play());
           let prop = { scale: 0.0 };
           handleCover(prop);
           prop.scale = 0.7;
@@ -649,10 +631,11 @@ function SpreadTwoA(targetIndex) {
           sound.play();
         }}
         onAnchorLost={() => {
+          actionTexture(ref, "pause");
           sound.pause();
-          videoLibrary[targetIndexInt].forEach((video) => {
-            video.pause();
-          });
+          // videoLibrary[targetIndexInt].forEach((video) => {
+          //   video.pause();
+          // });
           // videoLibrary[targetIndexInt] = [];
           // console.log(videoLibrary[targetIndexInt], "target INT");
 
@@ -662,11 +645,11 @@ function SpreadTwoA(targetIndex) {
           // });
         }}
       >
-        <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
+        <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
           <animated.mesh
             position={[0.0, 0, 0.4]}
             // material={matTwoAFG}
-            scale={0.7}
+            scale={1.0}
           >
             <Suspense fallback={FallbackMaterial}>
               <primitive object={matTwoAFG} />
@@ -676,14 +659,14 @@ function SpreadTwoA(targetIndex) {
           <animated.mesh
             position={[0.0, 0, 0.3]}
             // material={matTwoAMG}
-            scale={0.7}
+            scale={1.0}
           >
             <Suspense fallback={FallbackMaterial}>
               <primitive object={matTwoAMG} />
             </Suspense>
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
-        </AnimatedGroup>
+        </group>
       </ARAnchor>
     </>
   );
@@ -692,6 +675,7 @@ function SpreadTwoB(targetIndex) {
   const { gl, scene, camera } = useThree();
   gl.toneMapping = THREE.NoToneMapping;
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
+  const ref = useRef();
 
   const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
   const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
@@ -711,34 +695,24 @@ function SpreadTwoB(targetIndex) {
     sound.setVolume(0.2);
   });
 
-  const [trails, api] = useTrail(
-    4,
-    () => ({ videoScale: 0, config: config.wobbly }),
-    []
-  );
-
-  const handleCover = (prop) => {
-    api.start({ videoScale: prop.scale });
-  };
   return (
     <>
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
+          actionTexture(ref, "play");
           gl.setClearColor(0xc5df95, 0.6);
 
-          videoLibrary[targetIndexInt].forEach((video) => video.play());
-          let prop = { scale: 0.0 };
-          handleCover(prop);
-          prop.scale = 0.5;
-          handleCover(prop);
+          // videoLibrary[targetIndexInt].forEach((video) => video.play());
+
           sound.play();
         }}
         onAnchorLost={() => {
+          actionTexture(ref, "pause");
           sound.pause();
-          videoLibrary[targetIndexInt].forEach((video) => {
-            video.pause();
-          });
+          // videoLibrary[targetIndexInt].forEach((video) => {
+          //   video.pause();
+          // });
           // videoLibrary[targetIndexInt] = [];
           // console.log(videoLibrary[targetIndexInt], "target INT");
 
@@ -747,36 +721,36 @@ function SpreadTwoB(targetIndex) {
           // handleCover(prop);
         }}
       >
-        <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
+        <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
           {/* <animated.mesh
             position={[0.0, 0, 0.4]}
             material={fg1Mat}
-            scale={0.7}
+            scale={1.0}
           >
             <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0, 0.3]}
             material={fg2Mat}
-            scale={0.7}
+            scale={1.0}
           >
             <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.2]}
             material={mgMat}
-            scale={0.7}
+            scale={1.0}
           >
             <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.0]}
             material={bgMat}
-            scale={0.7}
+            scale={1.0}
           >
             <SimplePlane />
           </animated.mesh> */}
-        </AnimatedGroup>
+        </group>
       </ARAnchor>
     </>
   );
@@ -785,6 +759,7 @@ function SpreadThreeA(targetIndex) {
   const { gl, scene, camera } = useThree();
   gl.toneMapping = THREE.NoToneMapping;
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
+  const ref = useRef();
 
   const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
   const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
@@ -804,34 +779,24 @@ function SpreadThreeA(targetIndex) {
     sound.setVolume(0.2);
   });
 
-  const [trails, api] = useTrail(
-    4,
-    () => ({ videoScale: 0, config: config.wobbly }),
-    []
-  );
-
-  const handleCover = (prop) => {
-    api.start({ videoScale: prop.scale });
-  };
   return (
     <>
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
+          actionTexture(ref, "play");
           gl.setClearColor(0x4d4d4d, 0.6);
 
-          videoLibrary[targetIndexInt].forEach((video) => video.play());
-          let prop = { scale: 0.0 };
-          handleCover(prop);
-          prop.scale = 0.5;
-          handleCover(prop);
+          // videoLibrary[targetIndexInt].forEach((video) => video.play());
+
           sound.play();
         }}
         onAnchorLost={() => {
+          actionTexture(ref, "pause");
           sound.pause();
-          videoLibrary[targetIndexInt].forEach((video) => {
-            video.pause();
-          });
+          // videoLibrary[targetIndexInt].forEach((video) => {
+          //   video.pause();
+          // });
           // videoLibrary[targetIndexInt] = [];
           // console.log(videoLibrary[targetIndexInt], "target INT");
 
@@ -840,36 +805,36 @@ function SpreadThreeA(targetIndex) {
           // handleCover(prop);
         }}
       >
-        <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
+        <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
           {/* <animated.mesh
             position={[0.0, 0, 0.4]}
             material={fg1Mat}
-            scale={0.7}
+            scale={1.0}
           >
             <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0, 0.3]}
             material={fg2Mat}
-            scale={0.7}
+            scale={1.0}
           >
             <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.2]}
             material={mgMat}
-            scale={0.7}
+            scale={1.0}
           >
             <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.0]}
             material={bgMat}
-            scale={0.7}
+            scale={1.0}
           >
             <SimplePlane />
           </animated.mesh> */}
-        </AnimatedGroup>
+        </group>
       </ARAnchor>
     </>
   );
@@ -878,6 +843,7 @@ function SpreadThreeB(targetIndex) {
   const { gl, scene, camera } = useThree();
   gl.toneMapping = THREE.NoToneMapping;
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
+  const ref = useRef();
 
   const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
   const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
@@ -897,34 +863,24 @@ function SpreadThreeB(targetIndex) {
     sound.setVolume(0.2);
   });
 
-  const [trails, api] = useTrail(
-    4,
-    () => ({ videoScale: 0, config: config.wobbly }),
-    []
-  );
-
-  const handleCover = (prop) => {
-    api.start({ videoScale: prop.scale });
-  };
   return (
     <>
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
+          actionTexture(ref, "play");
           gl.setClearColor(0x4d4d4d, 0.6);
 
-          videoLibrary[targetIndexInt].forEach((video) => video.play());
-          let prop = { scale: 0.0 };
-          handleCover(prop);
-          prop.scale = 0.5;
-          handleCover(prop);
+          // videoLibrary[targetIndexInt].forEach((video) => video.play());
+
           sound.play();
         }}
         onAnchorLost={() => {
+          actionTexture(ref, "pause");
           sound.pause();
-          videoLibrary[targetIndexInt].forEach((video) => {
-            video.pause();
-          });
+          // videoLibrary[targetIndexInt].forEach((video) => {
+          //   video.pause();
+          // });
           // videoLibrary[targetIndexInt] = [];
           // console.log(videoLibrary[targetIndexInt], "target INT");
 
@@ -933,36 +889,36 @@ function SpreadThreeB(targetIndex) {
           // handleCover(prop);
         }}
       >
-        <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
+        <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
           {/* <animated.mesh
             position={[0.0, 0, 0.4]}
             material={fg1Mat}
-            scale={0.7}
+            scale={1.0}
           >
             <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0, 0.3]}
             material={fg2Mat}
-            scale={0.7}
+            scale={1.0}
           >
             <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.2]}
             material={mgMat}
-            scale={0.7}
+            scale={1.0}
           >
             <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.0]}
             material={bgMat}
-            scale={0.7}
+            scale={1.0}
           >
             <SimplePlane />
           </animated.mesh> */}
-        </AnimatedGroup>
+        </group>
       </ARAnchor>
     </>
   );
@@ -971,6 +927,7 @@ function SpreadFourA(targetIndex) {
   const { gl, scene, camera } = useThree();
   gl.toneMapping = THREE.NoToneMapping;
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
+  const ref = useRef();
 
   const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
   const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
@@ -990,34 +947,24 @@ function SpreadFourA(targetIndex) {
     sound.setVolume(0.2);
   });
 
-  const [trails, api] = useTrail(
-    4,
-    () => ({ videoScale: 0, config: config.wobbly }),
-    []
-  );
-
-  const handleCover = (prop) => {
-    api.start({ videoScale: prop.scale });
-  };
   return (
     <>
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
+          actionTexture(ref, "play");
           gl.setClearColor(0x4d4d4d, 0.6);
 
-          videoLibrary[targetIndexInt].forEach((video) => video.play());
-          let prop = { scale: 0.0 };
-          handleCover(prop);
-          prop.scale = 0.5;
-          handleCover(prop);
+          // videoLibrary[targetIndexInt].forEach((video) => video.play());
+
           sound.play();
         }}
         onAnchorLost={() => {
+          actionTexture(ref, "pause");
           sound.pause();
-          videoLibrary[targetIndexInt].forEach((video) => {
-            video.pause();
-          });
+          // videoLibrary[targetIndexInt].forEach((video) => {
+          //   video.pause();
+          // });
           // videoLibrary[targetIndexInt] = [];
           // console.log(videoLibrary[targetIndexInt], "target INT");
 
@@ -1026,36 +973,36 @@ function SpreadFourA(targetIndex) {
           // handleCover(prop);
         }}
       >
-        <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
+        <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
           {/* <animated.mesh
             position={[0.0, 0, 0.4]}
             material={fg1Mat}
-            scale={0.7}
+            scale={1.0}
           >
             <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0, 0.3]}
             material={fg2Mat}
-            scale={0.7}
+            scale={1.0}
           >
             <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.2]}
             material={mgMat}
-            scale={0.7}
+            scale={1.0}
           >
             <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.0]}
             material={bgMat}
-            scale={0.7}
+            scale={1.0}
           >
             <SimplePlane />
           </animated.mesh> */}
-        </AnimatedGroup>
+        </group>
       </ARAnchor>
     </>
   );
@@ -1064,6 +1011,7 @@ function SpreadFourB(targetIndex) {
   const { gl, scene, camera } = useThree();
   gl.toneMapping = THREE.NoToneMapping;
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
+  const ref = useRef();
 
   const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
   const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
@@ -1083,34 +1031,24 @@ function SpreadFourB(targetIndex) {
     sound.setVolume(0.2);
   });
 
-  const [trails, api] = useTrail(
-    4,
-    () => ({ videoScale: 0, config: config.wobbly }),
-    []
-  );
-
-  const handleCover = (prop) => {
-    api.start({ videoScale: prop.scale });
-  };
   return (
     <>
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
+          actionTexture(ref, "play");
           gl.setClearColor(0x4d4d4d, 0.6);
 
-          videoLibrary[targetIndexInt].forEach((video) => video.play());
-          let prop = { scale: 0.0 };
-          handleCover(prop);
-          prop.scale = 0.5;
-          handleCover(prop);
+          // videoLibrary[targetIndexInt].forEach((video) => video.play());
+
           sound.play();
         }}
         onAnchorLost={() => {
+          actionTexture(ref, "pause");
           sound.pause();
-          videoLibrary[targetIndexInt].forEach((video) => {
-            video.pause();
-          });
+          // videoLibrary[targetIndexInt].forEach((video) => {
+          //   video.pause();
+          // });
           // videoLibrary[targetIndexInt] = [];
           // console.log(videoLibrary[targetIndexInt], "target INT");
 
@@ -1119,36 +1057,36 @@ function SpreadFourB(targetIndex) {
           // handleCover(prop);
         }}
       >
-        <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
+        <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
           {/* <animated.mesh
             position={[0.0, 0, 0.4]}
             material={fg1Mat}
-            scale={0.7}
+            scale={1.0}
           >
             <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0, 0.3]}
             material={fg2Mat}
-            scale={0.7}
+            scale={1.0}
           >
             <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.2]}
             material={mgMat}
-            scale={0.7}
+            scale={1.0}
           >
             <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.0]}
             material={bgMat}
-            scale={0.7}
+            scale={1.0}
           >
             <SimplePlane />
           </animated.mesh> */}
-        </AnimatedGroup>
+        </group>
       </ARAnchor>
     </>
   );
@@ -1157,6 +1095,7 @@ function SpreadFiveA(targetIndex) {
   const { gl, scene, camera } = useThree();
   gl.toneMapping = THREE.NoToneMapping;
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
+  const ref = useRef();
 
   const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
   const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
@@ -1176,34 +1115,24 @@ function SpreadFiveA(targetIndex) {
     sound.setVolume(0.2);
   });
 
-  const [trails, api] = useTrail(
-    4,
-    () => ({ videoScale: 0, config: config.wobbly }),
-    []
-  );
-
-  const handleCover = (prop) => {
-    api.start({ videoScale: prop.scale });
-  };
   return (
     <>
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
+          actionTexture(ref, "play");
           gl.setClearColor(0x4d4d4d, 0.6);
 
-          videoLibrary[targetIndexInt].forEach((video) => video.play());
-          let prop = { scale: 0.0 };
-          handleCover(prop);
-          prop.scale = 0.5;
-          handleCover(prop);
+          // videoLibrary[targetIndexInt].forEach((video) => video.play());
+
           sound.play();
         }}
         onAnchorLost={() => {
+          actionTexture(ref, "pause");
           sound.pause();
-          videoLibrary[targetIndexInt].forEach((video) => {
-            video.pause();
-          });
+          // videoLibrary[targetIndexInt].forEach((video) => {
+          //   video.pause();
+          // });
           // videoLibrary[targetIndexInt] = [];
           // console.log(videoLibrary[targetIndexInt], "target INT");
 
@@ -1212,36 +1141,36 @@ function SpreadFiveA(targetIndex) {
           // handleCover(prop);
         }}
       >
-        <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
+        <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
           {/* <animated.mesh
             position={[0.0, 0, 0.4]}
             material={fg1Mat}
-            scale={0.7}
+            scale={1.0}
           >
             <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0, 0.3]}
             material={fg2Mat}
-            scale={0.7}
+            scale={1.0}
           >
             <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.2]}
             material={mgMat}
-            scale={0.7}
+            scale={1.0}
           >
             <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.0]}
             material={bgMat}
-            scale={0.7}
+            scale={1.0}
           >
             <SimplePlane />
           </animated.mesh> */}
-        </AnimatedGroup>
+        </group>
       </ARAnchor>
     </>
   );
@@ -1250,6 +1179,7 @@ function SpreadFiveB(targetIndex) {
   const { gl, scene, camera } = useThree();
   gl.toneMapping = THREE.NoToneMapping;
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
+  const ref = useRef();
 
   const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
   const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
@@ -1269,34 +1199,24 @@ function SpreadFiveB(targetIndex) {
     sound.setVolume(0.2);
   });
 
-  const [trails, api] = useTrail(
-    4,
-    () => ({ videoScale: 0, config: config.wobbly }),
-    []
-  );
-
-  const handleCover = (prop) => {
-    api.start({ videoScale: prop.scale });
-  };
   return (
     <>
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
+          actionTexture(ref, "play");
           gl.setClearColor(0x4d4d4d, 0.6);
 
-          videoLibrary[targetIndexInt].forEach((video) => video.play());
-          let prop = { scale: 0.0 };
-          handleCover(prop);
-          prop.scale = 0.5;
-          handleCover(prop);
+          // videoLibrary[targetIndexInt].forEach((video) => video.play());
+
           sound.play();
         }}
         onAnchorLost={() => {
+          actionTexture(ref, "pause");
           sound.pause();
-          videoLibrary[targetIndexInt].forEach((video) => {
-            video.pause();
-          });
+          // videoLibrary[targetIndexInt].forEach((video) => {
+          //   video.pause();
+          // });
           // videoLibrary[targetIndexInt] = [];
           // console.log(videoLibrary[targetIndexInt], "target INT");
 
@@ -1305,36 +1225,36 @@ function SpreadFiveB(targetIndex) {
           // handleCover(prop);
         }}
       >
-        <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
+        <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
           {/* <animated.mesh
             position={[0.0, 0, 0.4]}
             material={fg1Mat}
-            scale={0.7}
+            scale={1.0}
           >
             <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0, 0.3]}
             material={fg2Mat}
-            scale={0.7}
+            scale={1.0}
           >
             <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.2]}
             material={mgMat}
-            scale={0.7}
+            scale={1.0}
           >
             <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.0]}
             material={bgMat}
-            scale={0.7}
+            scale={1.0}
           >
             <SimplePlane />
           </animated.mesh> */}
-        </AnimatedGroup>
+        </group>
       </ARAnchor>
     </>
   );
@@ -1344,6 +1264,7 @@ function SpreadSixA(targetIndex) {
   const { gl, scene, camera } = useThree();
   gl.toneMapping = THREE.NoToneMapping;
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
+  const ref = useRef();
 
   const matSixAFG = idToVideoMat("videoSixAfg", false, targetIndexInt);
   const matSixAMG = idToVideoMat("videoSixAmg", false, targetIndexInt);
@@ -1368,34 +1289,24 @@ function SpreadSixA(targetIndex) {
     sound.setVolume(0.2);
   });
 
-  const [trails, api] = useTrail(
-    4,
-    () => ({ videoScale: 0, config: config.wobbly }),
-    []
-  );
-
-  const handleCover = (prop) => {
-    api.start({ videoScale: prop.scale });
-  };
   return (
     <>
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
+          actionTexture(ref, "play");
           gl.setClearColor(0x4d4d4d, 0.6);
 
-          videoLibrary[targetIndexInt].forEach((video) => video.play());
-          let prop = { scale: 0.0 };
-          handleCover(prop);
-          prop.scale = 0.5;
-          handleCover(prop);
+          // videoLibrary[targetIndexInt].forEach((video) => video.play());
+
           sound.play();
         }}
         onAnchorLost={() => {
+          actionTexture(ref, "pause");
           sound.pause();
-          videoLibrary[targetIndexInt].forEach((video) => {
-            video.pause();
-          });
+          // videoLibrary[targetIndexInt].forEach((video) => {
+          //   video.pause();
+          // });
           // videoLibrary[targetIndexInt] = [];
           // console.log(videoLibrary[targetIndexInt], "target INT");
 
@@ -1407,11 +1318,11 @@ function SpreadSixA(targetIndex) {
           // handleCover(prop);
         }}
       >
-        <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
+        <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
           <animated.mesh
             position={[0.0, 0, 0.4]}
             // material={matSixAFG}
-            scale={0.7}
+            scale={1.0}
           >
             <Suspense fallback={FallbackMaterial}>
               <primitive object={matSixAFG} />
@@ -1421,14 +1332,14 @@ function SpreadSixA(targetIndex) {
           <animated.mesh
             position={[0.0, 0, 0.3]}
             // material={matSixAMG}
-            scale={0.7}
+            scale={1.0}
           >
             <Suspense fallback={FallbackMaterial}>
               <primitive object={matSixAMG} />
             </Suspense>
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
-        </AnimatedGroup>
+        </group>
       </ARAnchor>
     </>
   );
@@ -1437,6 +1348,7 @@ function SpreadSixB(targetIndex) {
   const { gl, scene, camera } = useThree();
   gl.toneMapping = THREE.NoToneMapping;
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
+  const ref = useRef();
 
   const matSixBFG = idToVideoMat("videoSixBfg", false, targetIndexInt);
   const matSixBMG = idToVideoMat("videoSixBmg", false, targetIndexInt);
@@ -1461,34 +1373,24 @@ function SpreadSixB(targetIndex) {
     sound.setVolume(0.2);
   });
 
-  const [trails, api] = useTrail(
-    4,
-    () => ({ videoScale: 0, config: config.wobbly }),
-    []
-  );
-
-  const handleCover = (prop) => {
-    api.start({ videoScale: prop.scale });
-  };
   return (
     <>
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
+          actionTexture(ref, "play");
           gl.setClearColor(0x4d4d4d, 0.6);
 
-          videoLibrary[targetIndexInt].forEach((video) => video.play());
-          let prop = { scale: 0.0 };
-          handleCover(prop);
-          prop.scale = 0.5;
-          handleCover(prop);
+          // videoLibrary[targetIndexInt].forEach((video) => video.play());
+
           sound.play();
         }}
         onAnchorLost={() => {
+          actionTexture(ref, "pause");
           sound.pause();
-          videoLibrary[targetIndexInt].forEach((video) => {
-            video.pause();
-          });
+          // videoLibrary[targetIndexInt].forEach((video) => {
+          //   video.pause();
+          // });
           // videoLibrary[targetIndexInt] = [];
           // console.log(videoLibrary[targetIndexInt], "target INT");
 
@@ -1504,7 +1406,7 @@ function SpreadSixB(targetIndex) {
           <animated.mesh
             position={[0.0, 0, 0.4]}
             // material={matSixBFG}
-            scale={0.7}
+            scale={1.0}
           >
             <Suspense fallback={FallbackMaterial}>
               <primitive object={matSixBFG} />
@@ -1514,7 +1416,7 @@ function SpreadSixB(targetIndex) {
           <animated.mesh
             position={[0.0, 0, -10.3]}
             // material={matSixBMG}
-            scale={0.7}
+            scale={1.0}
           >
             <Suspense fallback={FallbackMaterial}>
               <primitive object={matSixBMG} />
@@ -1530,6 +1432,7 @@ function SpreadEightA(targetIndex) {
   const { gl, scene, camera } = useThree();
   gl.toneMapping = THREE.NoToneMapping;
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
+  const ref = useRef();
 
   const matEigthAFg = idToVideoMat("videoEightAfg", false, targetIndexInt);
   const matEightAmg = idToVideoMat("videoEightAmg", false, targetIndexInt);
@@ -1554,30 +1457,18 @@ function SpreadEightA(targetIndex) {
     sound.setVolume(0.2);
   });
 
-  const [trails, api] = useTrail(
-    4,
-    () => ({ videoScale: 0, config: config.wobbly }),
-    []
-  );
-
-  const handleCover = (prop) => {
-    api.start({ videoScale: prop.scale });
-  };
   return (
     <>
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
+          actionTexture(ref, "play");
           gl.setClearColor(0xf5f0e4, 0.6);
           // gl.toneMapping(THREE.NoToneMapping);
           // fadeOnAction.play()
 
-          videoLibrary[targetIndexInt].forEach((video) => video.play());
+          // videoLibrary[targetIndexInt].forEach((video) => video.play());
 
-          let prop = { scale: 0.0 };
-          handleCover(prop);
-          prop.scale = 0.5;
-          handleCover(prop);
           // if (soundPlayed === false) {
           //   soundPlayed = true;
           // console.log(soundPlayed, true);
@@ -1585,10 +1476,11 @@ function SpreadEightA(targetIndex) {
           // }
         }}
         onAnchorLost={() => {
+          actionTexture(ref, "pause");
           sound.pause();
-          videoLibrary[targetIndexInt].forEach((video) => {
-            video.pause();
-          });
+          // videoLibrary[targetIndexInt].forEach((video) => {
+          //   video.pause();
+          // });
           // videoLibrary[targetIndexInt] = [];
           // console.log(videoLibrary[targetIndexInt], "target INT");
 
@@ -1604,7 +1496,7 @@ function SpreadEightA(targetIndex) {
           <animated.mesh
             position={[0.0, 0, 0.3]}
             // material={matEigthAFg}
-            scale={0.7}
+            scale={1.0}
           >
             <Suspense fallback={FallbackMaterial}>
               <primitive object={matEigthAFg} />
@@ -1614,7 +1506,7 @@ function SpreadEightA(targetIndex) {
           <animated.mesh
             position={[0.0, 0.0, 0.2]}
             // material={matEightAmg}
-            scale={0.7}
+            scale={1.0}
           >
             <Suspense fallback={FallbackMaterial}>
               <primitive object={matEightAmg} />
@@ -1624,7 +1516,7 @@ function SpreadEightA(targetIndex) {
           {/* <animated.mesh
             position={[0.0, 0.0, 0.0]}
             material={bgMat}
-            scale={0.7}
+            scale={1.0}
           >
             <SimplePlane />
           </animated.mesh> */}
@@ -1638,6 +1530,7 @@ function SpreadEightB(targetIndex) {
   const { gl, scene, camera } = useThree();
   gl.toneMapping = THREE.NoToneMapping;
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
+  const ref = useRef();
 
   const listener = new THREE.AudioListener();
 
@@ -1668,35 +1561,25 @@ function SpreadEightB(targetIndex) {
     sound.setVolume(0.2);
   });
 
-  const [trails, api] = useTrail(
-    4,
-    () => ({ videoScale: 0, config: config.wobbly }),
-    []
-  );
-
-  const handleCover = (prop) => {
-    api.start({ videoScale: prop.scale });
-  };
   return (
     <>
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
+          actionTexture(ref, "play");
           gl.setClearColor(0x4d4d4d, 0.6);
 
-          videoLibrary[targetIndexInt].forEach((video) => video.play());
-          let prop = { scale: 0.0 };
-          handleCover(prop);
-          prop.scale = 0.5;
-          handleCover(prop);
+          // videoLibrary[targetIndexInt].forEach((video) => video.play());
+
           sound.play();
         }}
         onAnchorLost={() => {
+          actionTexture(ref, "pause");
           sound.pause();
           gl.setClearColor(0x4d4d4d, 0.0);
-          videoLibrary[targetIndexInt].forEach((video) => {
-            video.pause();
-          });
+          // videoLibrary[targetIndexInt].forEach((video) => {
+          //   video.pause();
+          // });
           // videoLibrary[targetIndexInt] = [];
           // console.log(videoLibrary[targetIndexInt], "target INT");
           // targetTextures.forEach((texture) => {
@@ -1706,11 +1589,11 @@ function SpreadEightB(targetIndex) {
           // handleCover(prop);
         }}
       >
-        <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
+        <group scale={0.7} position={[0.0, -0.05, 0]}>
           <animated.mesh
             position={[0.0, 0, 0.4]}
             // material={matEightBFg1}
-            scale={0.7}
+            scale={1.0}
           >
             <Suspense fallback={FallbackMaterial}>
               <primitive object={matEightBFg1} />
@@ -1720,7 +1603,7 @@ function SpreadEightB(targetIndex) {
           <animated.mesh
             position={[0.0, 0, 0.3]}
             // material={matEightBFg2}
-            scale={0.7}
+            scale={1.0}
           >
             <Suspense fallback={FallbackMaterial}>
               <primitive object={matEightBFg2} />
@@ -1730,7 +1613,7 @@ function SpreadEightB(targetIndex) {
           <animated.mesh
             position={[0.0, 0.0, 0.2]}
             // material={matEightBMg}
-            scale={0.7}
+            scale={1.0}
           >
             <Suspense fallback={FallbackMaterial}>
               <primitive object={matEightBMg} />
@@ -1740,14 +1623,14 @@ function SpreadEightB(targetIndex) {
           <animated.mesh
             position={[0.0, 0.0, 0.0]}
             // material={matEightBBg}
-            scale={0.7}
+            scale={1.0}
           >
             <Suspense fallback={FallbackMaterial}>
               <primitive object={matEightBBg} />
             </Suspense>
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
-        </AnimatedGroup>
+        </group>
       </ARAnchor>
     </>
   );
