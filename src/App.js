@@ -44,7 +44,7 @@ function StartUi() {
 
 let soundPlayed = false;
 
-const videoLibrary = {};
+// const videoLibrary = {};
 
 const handleVideoLibrary = (targetIndex) => {
   const targetIndexInt = targetIndex.targetIndex;
@@ -66,10 +66,10 @@ const FallbackMaterial = () => {
 
 const idToVideoMat = (id, depthTest, targetIndexInt, alphaId) => {
   const video = document.getElementById(id);
-  if (videoLibrary[targetIndexInt] === undefined) {
-    videoLibrary[targetIndexInt] = [];
-  }
-  videoLibrary[targetIndexInt].push(video);
+  // if (videoLibrary[targetIndexInt] === undefined) {
+  //   videoLibrary[targetIndexInt] = [];
+  // }
+  // videoLibrary[targetIndexInt].push(video);
   const texture = new THREE.VideoTexture(video);
   texture.format = THREE.RGBAFormat;
   const materialVideo = new THREE.MeshBasicMaterial({
@@ -1414,7 +1414,7 @@ function SpreadSixB(targetIndex) {
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
           <animated.mesh
-            position={[0.0, 0, -10.3]}
+            position={[0.0, 0, -5.3]}
             // material={matSixBMG}
             scale={1.0}
           >
