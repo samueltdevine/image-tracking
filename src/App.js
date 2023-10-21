@@ -1402,7 +1402,7 @@ function SpreadSixB(targetIndex) {
           // handleCover(prop);
         }}
       >
-        <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
+        <group scale={0.7} position={[0.0, -0.05, 0]}>
           <animated.mesh
             position={[0.0, 0, 0.4]}
             // material={matSixBFG}
@@ -1423,7 +1423,7 @@ function SpreadSixB(targetIndex) {
             </Suspense>
             <planeGeometry args={[12.0, 10, 1]} />
           </animated.mesh>
-        </AnimatedGroup>
+        </group>
       </ARAnchor>
     </>
   );
@@ -1492,7 +1492,7 @@ function SpreadEightA(targetIndex) {
           // handleCover(prop);
         }}
       >
-        <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
+        <group scale={0.7} position={[0.0, -0.05, 0]}>
           <animated.mesh
             position={[0.0, 0, 0.3]}
             // material={matEigthAFg}
@@ -1520,7 +1520,7 @@ function SpreadEightA(targetIndex) {
           >
             <SimplePlane />
           </animated.mesh> */}
-        </AnimatedGroup>
+        </group>
       </ARAnchor>
     </>
   );
