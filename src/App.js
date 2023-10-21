@@ -1636,13 +1636,6 @@ function SpreadEightB(targetIndex) {
   );
 }
 
-// const matEightBFg1 = idToVideoMat("videoEightOne", false, 15);
-// const matEightBFg2 = idToVideoMat("videoEightTwo", false, 15);
-// const matEightBMg = idToVideoMat("videoEightThree", false, 15);
-// const matEightBBg = idToVideoMat("videoEightFour", false, 15);
-// const matEigthAFg = idToVideoMat("videoEightAfg", false, 14);
-// const matEightAmg = idToVideoMat("videoEightAmg", false, 14);
-
 const TargetWrap = (props) => {
   return (
     <>
@@ -1659,11 +1652,6 @@ const TargetWrap = (props) => {
       <SpreadFiveB targetIndex={11} />
       <SpreadSixA targetIndex={12} />
       <SpreadSixB targetIndex={13} />
-      {/* <SpreadThree targetIndex={3} /> */}
-      {/* <SpreadFour targetIndex={4} /> */}
-      {/* <SpreadFive targetIndex={5} /> */}
-      {/* <SpreadSix targetIndex={6} /> */}
-      {/* <SpreadSeven targetIndex={7} /> */}
       <SpreadEightB targetIndex={15} />
       <SpreadEightA targetIndex={14} />
     </>
@@ -1686,15 +1674,6 @@ function App() {
       >
         <TargetWrap />
       </ARView>
-      {/* <ARView
-        imageTargets={multiTargets2}
-        filterMinCF={0.00005}
-        filterBeta={0.001}
-        missTolerance={10}
-        warmupTolerance={0}
-      >
-        <SpredEight targetIndex={2} />
-      </ARView> */}
     </>
   );
 }
