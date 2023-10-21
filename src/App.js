@@ -345,9 +345,9 @@ function CoverTarget(targetIndex) {
           });
           // videoLibrary[targetIndexInt] = [];
           // console.log(videoLibrary[targetIndexInt], "target INT");
-          targetTextures.forEach((texture) => {
-            texture.dispose();
-          });
+          // targetTextures.forEach((texture) => {
+          //   texture.dispose();
+          // });
         }}
       >
         <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
@@ -674,9 +674,9 @@ function SpreadTwoA(targetIndex) {
           // console.log(videoLibrary[targetIndexInt], "target INT");
 
           gl.setClearColor(0x4d4d4d, 0.0);
-          targetTextures.forEach((texture) => {
-            texture.dispose();
-          });
+          // targetTextures.forEach((texture) => {
+          //   texture.dispose();
+          // });
         }}
       >
         <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
@@ -1473,9 +1473,9 @@ function SpreadSixA(targetIndex) {
           // console.log(videoLibrary[targetIndexInt], "target INT");
 
           gl.setClearColor(0x4d4d4d, 0.0);
-          targetTextures.forEach((texture) => {
-            texture.dispose();
-          });
+          // targetTextures.forEach((texture) => {
+          //   texture.dispose();
+          // });
           // let prop = { scale: 0.0 };
           // handleCover(prop);
         }}
@@ -1573,9 +1573,9 @@ function SpreadSixB(targetIndex) {
           // console.log(videoLibrary[targetIndexInt], "target INT");
 
           gl.setClearColor(0x4d4d4d, 0.0);
-          targetTextures.forEach((texture) => {
-            texture.dispose();
-          });
+          // targetTextures.forEach((texture) => {
+          //   texture.dispose();
+          // });
           // let prop = { scale: 0.0 };
           // handleCover(prop);
         }}
@@ -1680,9 +1680,9 @@ function SpreadEightA(targetIndex) {
           // console.log(videoLibrary[targetIndexInt], "target INT");
 
           gl.setClearColor(0xf5f0e4, 0.0);
-          targetTextures.forEach((texture) => {
-            texture.dispose();
-          });
+          // targetTextures.forEach((texture) => {
+          //   texture.dispose();
+          // });
           // let prop = { scale: 0.0 };
           // handleCover(prop);
         }}
@@ -1793,9 +1793,9 @@ function SpreadEightB(targetIndex) {
           });
           // videoLibrary[targetIndexInt] = [];
           // console.log(videoLibrary[targetIndexInt], "target INT");
-          targetTextures.forEach((texture) => {
-            texture.dispose();
-          });
+          // targetTextures.forEach((texture) => {
+          //   texture.dispose();
+          // });
           // let prop = { scale: 0.0 };
           // handleCover(prop);
         }}
