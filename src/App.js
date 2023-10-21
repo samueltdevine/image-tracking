@@ -103,7 +103,7 @@ const FallbackMaterial = () => {
     // depthTest: depthTest,
     toneMapped: false,
   });
-  return material;
+  return <primitive object={material} />;
 };
 
 const fontPath = "/Nunito_Medium_Regular.json";
@@ -436,13 +436,6 @@ function SpreadOneA(targetIndex) {
     []
   );
 
-  const [active, setActive] = useState(false);
-  const springs = useSpring({ scale: active ? 0.0 : 0.5 });
-  const { scale } = useSpring({
-    scale: active ? 0.5 : 0,
-    config: config.wobbly,
-  });
-
   const handleCover = (prop) => {
     api.start({ videoScale: prop.scale });
   };
@@ -535,13 +528,6 @@ function SpreadOneB(targetIndex) {
     () => ({ videoScale: 0, config: config.wobbly }),
     []
   );
-
-  const [active, setActive] = useState(false);
-  const springs = useSpring({ scale: active ? 0.0 : 0.5 });
-  const { scale } = useSpring({
-    scale: active ? 0.5 : 0,
-    config: config.wobbly,
-  });
 
   const handleCover = (prop) => {
     api.start({ videoScale: prop.scale });
@@ -636,17 +622,10 @@ function SpreadTwoA(targetIndex) {
   });
 
   const [trails, api] = useTrail(
-    4,
+    2,
     () => ({ videoScale: 0, config: config.wobbly }),
     []
   );
-
-  const [active, setActive] = useState(false);
-  const springs = useSpring({ scale: active ? 0.0 : 0.5 });
-  const { scale } = useSpring({
-    scale: active ? 0.5 : 0,
-    config: config.wobbly,
-  });
 
   const handleCover = (prop) => {
     api.start({ videoScale: prop.scale });
@@ -661,7 +640,7 @@ function SpreadTwoA(targetIndex) {
           videoLibrary[targetIndexInt].forEach((video) => video.play());
           let prop = { scale: 0.0 };
           handleCover(prop);
-          prop.scale = 0.5;
+          prop.scale = 0.7;
           handleCover(prop);
           sound.play();
         }}
@@ -683,7 +662,7 @@ function SpreadTwoA(targetIndex) {
           <animated.mesh
             position={[0.0, 0, 0.4]}
             // material={matTwoAFG}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <Suspense fallback={FallbackMaterial}>
               <primitive object={matTwoAFG} />
@@ -693,7 +672,7 @@ function SpreadTwoA(targetIndex) {
           <animated.mesh
             position={[0.0, 0, 0.3]}
             // material={matTwoAMG}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <Suspense fallback={FallbackMaterial}>
               <primitive object={matTwoAMG} />
@@ -734,13 +713,6 @@ function SpreadTwoB(targetIndex) {
     []
   );
 
-  const [active, setActive] = useState(false);
-  const springs = useSpring({ scale: active ? 0.0 : 0.5 });
-  const { scale } = useSpring({
-    scale: active ? 0.5 : 0,
-    config: config.wobbly,
-  });
-
   const handleCover = (prop) => {
     api.start({ videoScale: prop.scale });
   };
@@ -775,28 +747,28 @@ function SpreadTwoB(targetIndex) {
           {/* <animated.mesh
             position={[0.0, 0, 0.4]}
             material={fg1Mat}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0, 0.3]}
             material={fg2Mat}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.2]}
             material={mgMat}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.0]}
             material={bgMat}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh> */}
@@ -834,13 +806,6 @@ function SpreadThreeA(targetIndex) {
     []
   );
 
-  const [active, setActive] = useState(false);
-  const springs = useSpring({ scale: active ? 0.0 : 0.5 });
-  const { scale } = useSpring({
-    scale: active ? 0.5 : 0,
-    config: config.wobbly,
-  });
-
   const handleCover = (prop) => {
     api.start({ videoScale: prop.scale });
   };
@@ -875,28 +840,28 @@ function SpreadThreeA(targetIndex) {
           {/* <animated.mesh
             position={[0.0, 0, 0.4]}
             material={fg1Mat}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0, 0.3]}
             material={fg2Mat}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.2]}
             material={mgMat}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.0]}
             material={bgMat}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh> */}
@@ -934,13 +899,6 @@ function SpreadThreeB(targetIndex) {
     []
   );
 
-  const [active, setActive] = useState(false);
-  const springs = useSpring({ scale: active ? 0.0 : 0.5 });
-  const { scale } = useSpring({
-    scale: active ? 0.5 : 0,
-    config: config.wobbly,
-  });
-
   const handleCover = (prop) => {
     api.start({ videoScale: prop.scale });
   };
@@ -975,28 +933,28 @@ function SpreadThreeB(targetIndex) {
           {/* <animated.mesh
             position={[0.0, 0, 0.4]}
             material={fg1Mat}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0, 0.3]}
             material={fg2Mat}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.2]}
             material={mgMat}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.0]}
             material={bgMat}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh> */}
@@ -1034,13 +992,6 @@ function SpreadFourA(targetIndex) {
     []
   );
 
-  const [active, setActive] = useState(false);
-  const springs = useSpring({ scale: active ? 0.0 : 0.5 });
-  const { scale } = useSpring({
-    scale: active ? 0.5 : 0,
-    config: config.wobbly,
-  });
-
   const handleCover = (prop) => {
     api.start({ videoScale: prop.scale });
   };
@@ -1075,28 +1026,28 @@ function SpreadFourA(targetIndex) {
           {/* <animated.mesh
             position={[0.0, 0, 0.4]}
             material={fg1Mat}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0, 0.3]}
             material={fg2Mat}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.2]}
             material={mgMat}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.0]}
             material={bgMat}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh> */}
@@ -1134,13 +1085,6 @@ function SpreadFourB(targetIndex) {
     []
   );
 
-  const [active, setActive] = useState(false);
-  const springs = useSpring({ scale: active ? 0.0 : 0.5 });
-  const { scale } = useSpring({
-    scale: active ? 0.5 : 0,
-    config: config.wobbly,
-  });
-
   const handleCover = (prop) => {
     api.start({ videoScale: prop.scale });
   };
@@ -1175,28 +1119,28 @@ function SpreadFourB(targetIndex) {
           {/* <animated.mesh
             position={[0.0, 0, 0.4]}
             material={fg1Mat}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0, 0.3]}
             material={fg2Mat}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.2]}
             material={mgMat}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.0]}
             material={bgMat}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh> */}
@@ -1234,13 +1178,6 @@ function SpreadFiveA(targetIndex) {
     []
   );
 
-  const [active, setActive] = useState(false);
-  const springs = useSpring({ scale: active ? 0.0 : 0.5 });
-  const { scale } = useSpring({
-    scale: active ? 0.5 : 0,
-    config: config.wobbly,
-  });
-
   const handleCover = (prop) => {
     api.start({ videoScale: prop.scale });
   };
@@ -1275,28 +1212,28 @@ function SpreadFiveA(targetIndex) {
           {/* <animated.mesh
             position={[0.0, 0, 0.4]}
             material={fg1Mat}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0, 0.3]}
             material={fg2Mat}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.2]}
             material={mgMat}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.0]}
             material={bgMat}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh> */}
@@ -1334,13 +1271,6 @@ function SpreadFiveB(targetIndex) {
     []
   );
 
-  const [active, setActive] = useState(false);
-  const springs = useSpring({ scale: active ? 0.0 : 0.5 });
-  const { scale } = useSpring({
-    scale: active ? 0.5 : 0,
-    config: config.wobbly,
-  });
-
   const handleCover = (prop) => {
     api.start({ videoScale: prop.scale });
   };
@@ -1375,28 +1305,28 @@ function SpreadFiveB(targetIndex) {
           {/* <animated.mesh
             position={[0.0, 0, 0.4]}
             material={fg1Mat}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0, 0.3]}
             material={fg2Mat}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.2]}
             material={mgMat}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh>
           <animated.mesh
             position={[0.0, 0.0, 0.0]}
             material={bgMat}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh> */}
@@ -1440,13 +1370,6 @@ function SpreadSixA(targetIndex) {
     []
   );
 
-  const [active, setActive] = useState(false);
-  const springs = useSpring({ scale: active ? 0.0 : 0.5 });
-  const { scale } = useSpring({
-    scale: active ? 0.5 : 0,
-    config: config.wobbly,
-  });
-
   const handleCover = (prop) => {
     api.start({ videoScale: prop.scale });
   };
@@ -1484,7 +1407,7 @@ function SpreadSixA(targetIndex) {
           <animated.mesh
             position={[0.0, 0, 0.4]}
             // material={matSixAFG}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <Suspense fallback={FallbackMaterial}>
               <primitive object={matSixAFG} />
@@ -1494,7 +1417,7 @@ function SpreadSixA(targetIndex) {
           <animated.mesh
             position={[0.0, 0, 0.3]}
             // material={matSixAMG}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <Suspense fallback={FallbackMaterial}>
               <primitive object={matSixAMG} />
@@ -1540,13 +1463,6 @@ function SpreadSixB(targetIndex) {
     []
   );
 
-  const [active, setActive] = useState(false);
-  const springs = useSpring({ scale: active ? 0.0 : 0.5 });
-  const { scale } = useSpring({
-    scale: active ? 0.5 : 0,
-    config: config.wobbly,
-  });
-
   const handleCover = (prop) => {
     api.start({ videoScale: prop.scale });
   };
@@ -1584,7 +1500,7 @@ function SpreadSixB(targetIndex) {
           <animated.mesh
             position={[0.0, 0, 0.4]}
             // material={matSixBFG}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <Suspense fallback={FallbackMaterial}>
               <primitive object={matSixBFG} />
@@ -1594,7 +1510,7 @@ function SpreadSixB(targetIndex) {
           <animated.mesh
             position={[0.0, 0, -10.3]}
             // material={matSixBMG}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <Suspense fallback={FallbackMaterial}>
               <primitive object={matSixBMG} />
@@ -1640,13 +1556,6 @@ function SpreadEightA(targetIndex) {
     []
   );
 
-  const [active, setActive] = useState(false);
-  const springs = useSpring({ scale: active ? 0.0 : 0.5 });
-  const { scale } = useSpring({
-    scale: active ? 0.5 : 0,
-    config: config.wobbly,
-  });
-
   const handleCover = (prop) => {
     api.start({ videoScale: prop.scale });
   };
@@ -1691,7 +1600,7 @@ function SpreadEightA(targetIndex) {
           <animated.mesh
             position={[0.0, 0, 0.3]}
             // material={matEigthAFg}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <Suspense fallback={FallbackMaterial}>
               <primitive object={matEigthAFg} />
@@ -1701,7 +1610,7 @@ function SpreadEightA(targetIndex) {
           <animated.mesh
             position={[0.0, 0.0, 0.2]}
             // material={matEightAmg}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <Suspense fallback={FallbackMaterial}>
               <primitive object={matEightAmg} />
@@ -1711,7 +1620,7 @@ function SpreadEightA(targetIndex) {
           {/* <animated.mesh
             position={[0.0, 0.0, 0.0]}
             material={bgMat}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <planeGeometry args={[1, 1, 1]} />
           </animated.mesh> */}
@@ -1761,13 +1670,6 @@ function SpreadEightB(targetIndex) {
     []
   );
 
-  const [active, setActive] = useState(false);
-  const springs = useSpring({ scale: active ? 0.0 : 0.5 });
-  const { scale } = useSpring({
-    scale: active ? 0.5 : 0,
-    config: config.wobbly,
-  });
-
   const handleCover = (prop) => {
     api.start({ videoScale: prop.scale });
   };
@@ -1804,7 +1706,7 @@ function SpreadEightB(targetIndex) {
           <animated.mesh
             position={[0.0, 0, 0.4]}
             // material={matEightBFg1}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <Suspense fallback={FallbackMaterial}>
               <primitive object={matEightBFg1} />
@@ -1814,7 +1716,7 @@ function SpreadEightB(targetIndex) {
           <animated.mesh
             position={[0.0, 0, 0.3]}
             // material={matEightBFg2}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <Suspense fallback={FallbackMaterial}>
               <primitive object={matEightBFg2} />
@@ -1824,7 +1726,7 @@ function SpreadEightB(targetIndex) {
           <animated.mesh
             position={[0.0, 0.0, 0.2]}
             // material={matEightBMg}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <Suspense fallback={FallbackMaterial}>
               <primitive object={matEightBMg} />
@@ -1834,7 +1736,7 @@ function SpreadEightB(targetIndex) {
           <animated.mesh
             position={[0.0, 0.0, 0.0]}
             // material={matEightBBg}
-            scale={trails[0].scale}
+            scale={0.7}
           >
             <Suspense fallback={FallbackMaterial}>
               <primitive object={matEightBBg} />
