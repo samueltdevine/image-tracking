@@ -60,8 +60,8 @@ const handleVideoLibrary = (targetIndex) => {
 const FallbackMaterial = () => {
   const material = new THREE.MeshBasicMaterial({
     transparent: true,
-    opacity: 100,
-    side: THREE.DoubleSide,
+    opacity: 99,
+    side: THREE.BackSide,
     // depthWrite: true,
     // depthTest: depthTest,
     toneMapped: false,
@@ -136,7 +136,7 @@ const ImageMaterial = (id) => {
 };
 
 const SimplePlane = () => {
-  return <SimplePlane />;
+  return <planeGeometry args={[1.24, 1, 1]} />;
 };
 
 const fontPath = "/Nunito_Medium_Regular.json";
@@ -732,7 +732,7 @@ function SpreadTwoA(targetIndex) {
 
                 {/* <primitive object={matTwoAFG} /> */}
               </Suspense>
-              <SimplePlane />
+              <planeGeometry args={[1.24, 1, 1]} />
             </animated.mesh>
             <animated.mesh
               position={[0.0, 0, 0.3]}
@@ -743,7 +743,7 @@ function SpreadTwoA(targetIndex) {
                 {/* <primitive object={matTwoAMG} /> */}
                 <VideoMat id={"MXT_CLM_030_Comp_Green_SD_01-1.mov"} />
               </Suspense>
-              <SimplePlane />
+              <planeGeometry args={[1.24, 1, 1]} />
             </animated.mesh>
           </group>
         ) : (
@@ -1406,14 +1406,14 @@ function SpreadSixA(targetIndex) {
                 <VideoMat id={"MXT_CLM_120_Comp_Couch_SD_01-1.mov"} />
                 {/* <primitive object={matSixAFG} /> */}
               </Suspense>
-              <SimplePlane />
+              <planeGeometry args={[1.24, 1, 1]} />
             </animated.mesh>
             <animated.mesh position={[0.0, 0, 0.3]} scale={1.0}>
               <Suspense fallback={FallbackMaterial}>
                 {/* <primitive object={matSixAMG} /> */}
                 <VideoMat id={"MXT_CLM_120_Comp_Lamp_SD_01-1.mov"} />
               </Suspense>
-              <SimplePlane />
+              <planeGeometry args={[1.24, 1, 1]} />
             </animated.mesh>
           </group>
         ) : (
@@ -1490,7 +1490,7 @@ function SpreadSixB(targetIndex) {
                 {/* <primitive object={matSixBFG} /> */}
                 <VideoMat id={"MXT_CLM_130_FG_SD_01-1.mov"} />
               </Suspense>
-              <SimplePlane />
+              <planeGeometry args={[1.24, 1, 1]} />
             </animated.mesh>
             <animated.mesh
               position={[0.0, 0, -5.3]}
@@ -1592,7 +1592,7 @@ function SpreadEightA(targetIndex) {
                 {/* <primitive object={matEigthAFg} /> */}
                 <VideoMat id={"MXT_CLM_140_FG_SD_06_hvec.mov"} />
               </Suspense>
-              <SimplePlane />
+              <planeGeometry args={[1.24, 1, 1]} />
             </animated.mesh>
             <animated.mesh
               position={[0.0, 0.0, 0.2]}
@@ -1604,7 +1604,7 @@ function SpreadEightA(targetIndex) {
 
                 {/* <primitive object={matEightAmg} /> */}
               </Suspense>
-              <SimplePlane />
+              <planeGeometry args={[1.24, 1, 1]} />
             </animated.mesh>
             {/* <animated.mesh
             position={[0.0, 0.0, 0.0]}
@@ -1702,7 +1702,7 @@ function SpreadEightB(targetIndex) {
                 <VideoMat id={"MXT_CLM_COMP_FG1_150_SD_10.mp4"} />
                 {/* <primitive object={matEightBFg1} /> */}
               </Suspense>
-              <SimplePlane />
+              <planeGeometry args={[1.24, 1, 1]} />
             </animated.mesh>
             <animated.mesh
               position={[0.0, 0, 0.3]}
@@ -1713,7 +1713,7 @@ function SpreadEightB(targetIndex) {
                 <VideoMat id={"MXT_CLM_COMP_FG2_150_SD_10.mp4"} />
                 {/* <primitive object={matEightBFg2} /> */}
               </Suspense>
-              <SimplePlane />
+              <planeGeometry args={[1.24, 1, 1]} />
             </animated.mesh>
             <animated.mesh
               position={[0.0, 0.0, 0.2]}
@@ -1724,7 +1724,7 @@ function SpreadEightB(targetIndex) {
                 {/* <primitive object={matEightBMg} /> */}
                 <VideoMat id={"MXT_CLM_COMP_MG_150_SD_10.mp4"} />
               </Suspense>
-              <SimplePlane />
+              <planeGeometry args={[1.24, 1, 1]} />
             </animated.mesh>
             <animated.mesh
               position={[0.0, 0.0, 0.0]}
@@ -1735,7 +1735,7 @@ function SpreadEightB(targetIndex) {
                 {/* <primitive object={matEightBBg} /> */}
                 <VideoMat id={"MXT_CLM_COMP_BG_150_SD_10.mp4"} />
               </Suspense>
-              <SimplePlane />
+              <planeGeometry args={[1.24, 1, 1]} />
             </animated.mesh>
           </group>
         ) : (
