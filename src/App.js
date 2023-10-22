@@ -103,9 +103,9 @@ const idToVideoMat = (id, depthTest, targetIndexInt, alphaId) => {
 };
 
 const VideoMat = (props) => {
-  const video = document.getElementById(props.id);
-  const src = video.children[0].src;
-  const texture = useVideoTexture(src);
+  // const video = document.getElementById(props.id);
+  // const src = video.children[0].src;
+  const texture = useVideoTexture(props.id);
   texture.format = THREE.RGBAFormat;
   return (
     <>
@@ -325,11 +325,11 @@ function CoverTarget(targetIndex) {
 
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
 
-  const logoMat = idToVideoMat("logo", true, targetIndexInt);
-  const yellowMat = idToVideoMat("videoYellow", false, targetIndexInt);
-  const pinkMat = idToVideoMat("videoPink", true, targetIndexInt);
-  const orangeMat = idToVideoMat("videoOrange", false, targetIndexInt);
-  const greenMat = idToVideoMat("videoGreen", false, targetIndexInt);
+  // const logoMat = idToVideoMat("logo", true, targetIndexInt);
+  // const yellowMat = idToVideoMat("videoYellow", false, targetIndexInt);
+  // const pinkMat = idToVideoMat("videoPink", true, targetIndexInt);
+  // const orangeMat = idToVideoMat("videoOrange", false, targetIndexInt);
+  // const greenMat = idToVideoMat("videoGreen", false, targetIndexInt);
 
   const ref = useRef();
 
@@ -404,7 +404,7 @@ function CoverTarget(targetIndex) {
             scale={trails[3].scale}
           >
             <Suspense fallback={FallbackMaterial}>
-              <primitive object={logoMat} />
+              <VideoMat id={"MXT_CLM_Comp_LogoAnimation_SD_01-1.mov"} />
             </Suspense>
             <planeGeometry args={[1.92, 1.08, 1]} />
           </animated.mesh>
@@ -414,27 +414,31 @@ function CoverTarget(targetIndex) {
             scale={trails[3].scale}
           >
             <Suspense fallback={FallbackMaterial}>
-              <primitive object={pinkMat} />
+              <VideoMat id={"MXT_CLM_Comp_LogoAnimtion_PinkMonster_CV_.mp4"} />
+
+              {/* <primitive object={pinkMat} /> */}
             </Suspense>
             <SimplePlane />
           </animated.mesh>
           <animated.mesh
             position={[0, -0.1, 0]}
-            material={greenMat}
+            // material={greenMat}
             scale={trails[0].scale}
           >
             <Suspense fallback={FallbackMaterial}>
-              <primitive object={greenMat} />
+              <VideoMat id={"MXT_CLM_Comp_LogoAnimtion_GreenMonster_CV_.mp4"} />
             </Suspense>
             <SimplePlane />
           </animated.mesh>
           <animated.mesh
-            position={[-0.3, 0, 0]}
+            position={[-0.3, 0, 0.1]}
             // material={yellowMat}
             scale={trails[1].scale}
           >
             <Suspense fallback={FallbackMaterial}>
-              <primitive object={yellowMat} />
+              <VideoMat
+                id={"MXT_CLM_Comp_LogoAnimtion_YellowMonster_CV_h265.mp4"}
+              />
             </Suspense>
             <SimplePlane />
           </animated.mesh>
@@ -444,7 +448,10 @@ function CoverTarget(targetIndex) {
             scale={trails[2].scale}
           >
             <Suspense fallback={FallbackMaterial}>
-              <primitive object={orangeMat} />
+              {/* <primitive object={orangeMat} /> */}
+              <VideoMat
+                id={"MXT_CLM_Comp_LogoAnimtion_OrangeMonster_CV_.mp4"}
+              />
             </Suspense>
             <SimplePlane />
           </animated.mesh>
@@ -507,9 +514,9 @@ function SpreadOneA(targetIndex) {
         <>
           <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
             <animated.mesh position={[0.0, 0, 0.2]} scale={1}>
-              {/* <Suspense fallback={FallbackMaterial}> */}
-              {/* </Suspense> */}
-              <VideoMat id={"videoOneAmg"} />
+              <Suspense fallback={FallbackMaterial}>
+                <VideoMat id={"MXT_CLM_010_MG_SD_05-1.mov"} />
+              </Suspense>
               <SimplePlane />
             </animated.mesh>
           </group>
@@ -538,10 +545,10 @@ function SpreadOneB(targetIndex) {
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
   const ref = useRef();
 
-  const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
-  const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
-  const mgMat = idToVideoMat("videoEightThree", false, targetIndexInt);
-  const bgMat = idToVideoMat("videoEightFour", false, targetIndexInt);
+  // const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
+  // const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
+  // const mgMat = idToVideoMat("videoEightThree", false, targetIndexInt);
+  // const bgMat = idToVideoMat("videoEightFour", false, targetIndexInt);
 
   const listener = new THREE.AudioListener();
 
@@ -622,8 +629,8 @@ function SpreadTwoA(targetIndex) {
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
   const ref = useRef();
 
-  const matTwoAFG = idToVideoMat("videoTwoAfg", false, targetIndexInt);
-  const matTwoAMG = idToVideoMat("videoTwoAmg", false, targetIndexInt);
+  // const matTwoAFG = idToVideoMat("videoTwoAfg", false, targetIndexInt);
+  // const matTwoAMG = idToVideoMat("videoTwoAmg", false, targetIndexInt);
 
   const listener = new THREE.AudioListener();
 
@@ -684,7 +691,9 @@ function SpreadTwoA(targetIndex) {
             scale={1.0}
           >
             <Suspense fallback={FallbackMaterial}>
-              <primitive object={matTwoAFG} />
+              <VideoMat id={"MXT_CLM_030_Comp_Music_SD_01-1.mov"} />
+
+              {/* <primitive object={matTwoAFG} /> */}
             </Suspense>
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
@@ -694,7 +703,8 @@ function SpreadTwoA(targetIndex) {
             scale={1.0}
           >
             <Suspense fallback={FallbackMaterial}>
-              <primitive object={matTwoAMG} />
+              {/* <primitive object={matTwoAMG} /> */}
+              <VideoMat id={"MXT_CLM_030_Comp_Green_SD_01-1.mov"} />
             </Suspense>
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
@@ -709,10 +719,10 @@ function SpreadTwoB(targetIndex) {
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
   const ref = useRef();
 
-  const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
-  const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
-  const mgMat = idToVideoMat("videoEightThree", false, targetIndexInt);
-  const bgMat = idToVideoMat("videoEightFour", false, targetIndexInt);
+  // const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
+  // const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
+  // const mgMat = idToVideoMat("videoEightThree", false, targetIndexInt);
+  // const bgMat = idToVideoMat("videoEightFour", false, targetIndexInt);
 
   const listener = new THREE.AudioListener();
 
@@ -732,7 +742,7 @@ function SpreadTwoB(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          actionTexture(ref, "play");
+          // actionTexture(ref, "play");
           gl.setClearColor(0xc5df95, 0.6);
 
           // videoLibrary[targetIndexInt].forEach((video) => video.play());
@@ -740,7 +750,7 @@ function SpreadTwoB(targetIndex) {
           sound.play();
         }}
         onAnchorLost={() => {
-          actionTexture(ref, "pause");
+          // actionTexture(ref, "pause");
           sound.pause();
           // videoLibrary[targetIndexInt].forEach((video) => {
           //   video.pause();
@@ -793,10 +803,10 @@ function SpreadThreeA(targetIndex) {
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
   const ref = useRef();
 
-  const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
-  const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
-  const mgMat = idToVideoMat("videoEightThree", false, targetIndexInt);
-  const bgMat = idToVideoMat("videoEightFour", false, targetIndexInt);
+  // const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
+  // const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
+  // const mgMat = idToVideoMat("videoEightThree", false, targetIndexInt);
+  // const bgMat = idToVideoMat("videoEightFour", false, targetIndexInt);
 
   const listener = new THREE.AudioListener();
 
@@ -877,10 +887,10 @@ function SpreadThreeB(targetIndex) {
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
   const ref = useRef();
 
-  const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
-  const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
-  const mgMat = idToVideoMat("videoEightThree", false, targetIndexInt);
-  const bgMat = idToVideoMat("videoEightFour", false, targetIndexInt);
+  // const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
+  // const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
+  // const mgMat = idToVideoMat("videoEightThree", false, targetIndexInt);
+  // const bgMat = idToVideoMat("videoEightFour", false, targetIndexInt);
 
   const listener = new THREE.AudioListener();
 
@@ -900,8 +910,8 @@ function SpreadThreeB(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          actionTexture(ref, "play");
-          // gl.setClearColor(0x4d4d4d, 0.6);
+          // actionTexture(ref, "play");
+          gl.setClearColor(0x4d4d4d, 0.6);
 
           // videoLibrary[targetIndexInt].forEach((video) => video.play());
 
@@ -961,10 +971,10 @@ function SpreadFourA(targetIndex) {
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
   const ref = useRef();
 
-  const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
-  const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
-  const mgMat = idToVideoMat("videoEightThree", false, targetIndexInt);
-  const bgMat = idToVideoMat("videoEightFour", false, targetIndexInt);
+  // const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
+  // const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
+  // const mgMat = idToVideoMat("videoEightThree", false, targetIndexInt);
+  // const bgMat = idToVideoMat("videoEightFour", false, targetIndexInt);
 
   const listener = new THREE.AudioListener();
 
@@ -1045,10 +1055,10 @@ function SpreadFourB(targetIndex) {
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
   const ref = useRef();
 
-  const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
-  const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
-  const mgMat = idToVideoMat("videoEightThree", false, targetIndexInt);
-  const bgMat = idToVideoMat("videoEightFour", false, targetIndexInt);
+  // const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
+  // const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
+  // const mgMat = idToVideoMat("videoEightThree", false, targetIndexInt);
+  // const bgMat = idToVideoMat("videoEightFour", false, targetIndexInt);
 
   const listener = new THREE.AudioListener();
 
@@ -1129,10 +1139,10 @@ function SpreadFiveA(targetIndex) {
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
   const ref = useRef();
 
-  const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
-  const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
-  const mgMat = idToVideoMat("videoEightThree", false, targetIndexInt);
-  const bgMat = idToVideoMat("videoEightFour", false, targetIndexInt);
+  // const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
+  // const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
+  // const mgMat = idToVideoMat("videoEightThree", false, targetIndexInt);
+  // const bgMat = idToVideoMat("videoEightFour", false, targetIndexInt);
 
   const listener = new THREE.AudioListener();
 
@@ -1213,10 +1223,10 @@ function SpreadFiveB(targetIndex) {
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
   const ref = useRef();
 
-  const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
-  const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
-  const mgMat = idToVideoMat("videoEightThree", false, targetIndexInt);
-  const bgMat = idToVideoMat("videoEightFour", false, targetIndexInt);
+  // const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
+  // const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
+  // const mgMat = idToVideoMat("videoEightThree", false, targetIndexInt);
+  // const bgMat = idToVideoMat("videoEightFour", false, targetIndexInt);
 
   const listener = new THREE.AudioListener();
 
@@ -1298,8 +1308,8 @@ function SpreadSixA(targetIndex) {
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
   const ref = useRef();
 
-  const matSixAFG = idToVideoMat("videoSixAfg", false, targetIndexInt);
-  const matSixAMG = idToVideoMat("videoSixAmg", false, targetIndexInt);
+  // const matSixAFG = idToVideoMat("videoSixAfg", false, targetIndexInt);
+  // const matSixAMG = idToVideoMat("videoSixAmg", false, targetIndexInt);
 
   const listener = new THREE.AudioListener();
 
@@ -1333,13 +1343,15 @@ function SpreadSixA(targetIndex) {
         <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
           <animated.mesh position={[0.0, 0, 0.4]} scale={1.0}>
             <Suspense fallback={FallbackMaterial}>
-              <primitive object={matSixAFG} />
+              <VideoMat id={"MXT_CLM_120_Comp_Couch_SD_01-1.mov"} />
+              {/* <primitive object={matSixAFG} /> */}
             </Suspense>
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
           <animated.mesh position={[0.0, 0, 0.3]} scale={1.0}>
             <Suspense fallback={FallbackMaterial}>
-              <primitive object={matSixAMG} />
+              {/* <primitive object={matSixAMG} /> */}
+              <VideoMat id={"MXT_CLM_120_Comp_Lamp_SD_01-1.mov"} />
             </Suspense>
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
@@ -1354,8 +1366,8 @@ function SpreadSixB(targetIndex) {
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
   const ref = useRef();
 
-  const matSixBFG = idToVideoMat("videoSixBfg", false, targetIndexInt);
-  const matSixBMG = idToVideoMat("videoSixBmg", false, targetIndexInt);
+  // const matSixBFG = idToVideoMat("videoSixBfg", false, targetIndexInt);
+  // const matSixBMG = idToVideoMat("videoSixBmg", false, targetIndexInt);
 
   const listener = new THREE.AudioListener();
 
@@ -1406,7 +1418,8 @@ function SpreadSixB(targetIndex) {
             scale={1.0}
           >
             <Suspense fallback={FallbackMaterial}>
-              <primitive object={matSixBFG} />
+              {/* <primitive object={matSixBFG} /> */}
+              <VideoMat id={"MXT_CLM_130_FG_SD_01-1.mov"} />
             </Suspense>
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
@@ -1416,7 +1429,8 @@ function SpreadSixB(targetIndex) {
             scale={1.0}
           >
             <Suspense fallback={FallbackMaterial}>
-              <primitive object={matSixBMG} />
+              {/* <primitive object={matSixBMG} /> */}
+              <VideoMat id={"MXT_CLM_130_BG_SD_01-1.mov"} />
             </Suspense>
             <planeGeometry args={[12.0, 10, 1]} />
           </animated.mesh>
@@ -1431,15 +1445,15 @@ function SpreadEightA(targetIndex) {
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
   const ref = useRef();
 
-  const matEigthAFg = idToVideoMat("videoEightAfg", false, targetIndexInt);
-  const matEightAmg = idToVideoMat("videoEightAmg", false, targetIndexInt);
+  // const matEigthAFg = idToVideoMat("videoEightAfg", false, targetIndexInt);
+  // const matEightAmg = idToVideoMat("videoEightAmg", false, targetIndexInt);
 
-  const targetTextures = [
-    matEightAmg.map,
-    matEightAmg.alphaMap,
-    matEigthAFg.map,
-    matEigthAFg.alphaMap,
-  ];
+  // const targetTextures = [
+  //   matEightAmg.map,
+  //   matEightAmg.alphaMap,
+  //   matEigthAFg.map,
+  //   matEigthAFg.alphaMap,
+  // ];
 
   const listener = new THREE.AudioListener();
 
@@ -1496,7 +1510,8 @@ function SpreadEightA(targetIndex) {
             scale={1.0}
           >
             <Suspense fallback={FallbackMaterial}>
-              <primitive object={matEigthAFg} />
+              {/* <primitive object={matEigthAFg} /> */}
+              <VideoMat id={"MXT_CLM_140_FG_SD_06_hvec.mov"} />
             </Suspense>
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
@@ -1506,7 +1521,9 @@ function SpreadEightA(targetIndex) {
             scale={1.0}
           >
             <Suspense fallback={FallbackMaterial}>
-              <primitive object={matEightAmg} />
+              <VideoMat id={"MXT_CLM_140_MG_SD_12_hvec.mov"} />
+
+              {/* <primitive object={matEightAmg} /> */}
             </Suspense>
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
@@ -1533,21 +1550,21 @@ function SpreadEightB(targetIndex) {
 
   camera.add(listener);
 
-  const matEightBFg1 = idToVideoMat("videoEightOne", false, targetIndexInt);
-  const matEightBFg2 = idToVideoMat("videoEightTwo", false, targetIndexInt);
-  const matEightBMg = idToVideoMat("videoEightThree", false, targetIndexInt);
-  const matEightBBg = idToVideoMat("videoEightFour", false, targetIndexInt);
+  // const matEightBFg1 = idToVideoMat("videoEightOne", false, targetIndexInt);
+  // const matEightBFg2 = idToVideoMat("videoEightTwo", false, targetIndexInt);
+  // const matEightBMg = idToVideoMat("videoEightThree", false, targetIndexInt);
+  // const matEightBBg = idToVideoMat("videoEightFour", false, targetIndexInt);
 
-  const targetTextures = [
-    matEightBFg1.map,
-    matEightBFg2.map,
-    matEightBMg.map,
-    matEightBBg.map,
-    matEightBFg1.alphaMap,
-    matEightBFg2.alphaMap,
-    matEightBMg.alphaMap,
-    matEightBBg.alphaMap,
-  ];
+  // const targetTextures = [
+  //   matEightBFg1.map,
+  //   matEightBFg2.map,
+  //   matEightBMg.map,
+  //   matEightBBg.map,
+  //   matEightBFg1.alphaMap,
+  //   matEightBFg2.alphaMap,
+  //   matEightBMg.alphaMap,
+  //   matEightBBg.alphaMap,
+  // ];
 
   const sound = new THREE.Audio(listener);
 
@@ -1593,7 +1610,8 @@ function SpreadEightB(targetIndex) {
             scale={1.0}
           >
             <Suspense fallback={FallbackMaterial}>
-              <primitive object={matEightBFg1} />
+              <VideoMat id={"MXT_CLM_COMP_FG1_150_SD_10.mp4"} />
+              {/* <primitive object={matEightBFg1} /> */}
             </Suspense>
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
@@ -1603,7 +1621,8 @@ function SpreadEightB(targetIndex) {
             scale={1.0}
           >
             <Suspense fallback={FallbackMaterial}>
-              <primitive object={matEightBFg2} />
+              <VideoMat id={"MXT_CLM_COMP_FG2_150_SD_10.mp4"} />
+              {/* <primitive object={matEightBFg2} /> */}
             </Suspense>
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
@@ -1613,7 +1632,8 @@ function SpreadEightB(targetIndex) {
             scale={1.0}
           >
             <Suspense fallback={FallbackMaterial}>
-              <primitive object={matEightBMg} />
+              {/* <primitive object={matEightBMg} /> */}
+              <VideoMat id={"MXT_CLM_COMP_MG_150_SD_10.mp4"} />
             </Suspense>
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
@@ -1623,7 +1643,8 @@ function SpreadEightB(targetIndex) {
             scale={1.0}
           >
             <Suspense fallback={FallbackMaterial}>
-              <primitive object={matEightBBg} />
+              {/* <primitive object={matEightBBg} /> */}
+              <VideoMat id={"MXT_CLM_COMP_BG_150_SD_10.mp4"} />
             </Suspense>
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
