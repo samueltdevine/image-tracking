@@ -105,7 +105,7 @@ const VideoMat = (props) => {
   // const video = document.getElementById(props.id);
   // const src = video.children[0].src;
   // const texture = useVideoTexture(props.id);
-  texture.format = THREE.RGBAFormat;
+  // texture.format = THREE.RGBAFormat;
   return (
     <>
       <FallbackMaterial />
