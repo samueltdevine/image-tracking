@@ -322,6 +322,7 @@ const actionTexture = (ref, action) => {
 
 function CoverTarget(targetIndex) {
   const { gl, scene, camera } = useThree();
+  const [isFound, setIsFound] = useState(false);
 
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
 
@@ -361,9 +362,10 @@ function CoverTarget(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          actionTexture(ref, "play");
           console.log("cover found");
-          gl.setClearColor(0x272727, 0.6);
+          gl.setClearColor(0x272727, 0.7);
+          setIsFound(true);
+          actionTexture(ref, "play");
 
           // videoLibrary[targetIndexInt].forEach((video) => {
           //   console.log("child video", video);
@@ -381,6 +383,7 @@ function CoverTarget(targetIndex) {
         }}
         onAnchorLost={() => {
           actionTexture(ref, "pause");
+          setIsFound(false);
           sound.pause();
           console.log("lost cover");
           gl.setClearColor(0x272727, 0.0);
@@ -397,65 +400,73 @@ function CoverTarget(targetIndex) {
           // });
         }}
       >
-        <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
-          <animated.mesh
-            position={[0.0, 0.5, -0.3]}
-            // material={}
-            scale={trails[3].scale}
-          >
-            <Suspense fallback={FallbackMaterial}>
-              <VideoMat id={"MXT_CLM_Comp_LogoAnimation_SD_01-1.mov"} />
-            </Suspense>
-            <planeGeometry args={[1.92, 1.08, 1]} />
-          </animated.mesh>
-          <animated.mesh
-            position={[-0.35, 0, -0.1]}
-            // material={pinkMat}
-            scale={trails[3].scale}
-          >
-            <Suspense fallback={FallbackMaterial}>
-              <VideoMat id={"MXT_CLM_Comp_LogoAnimtion_PinkMonster_CV_.mp4"} />
+        {isFound ? (
+          <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
+            <animated.mesh
+              position={[0.0, 0.5, -0.3]}
+              // material={}
+              scale={trails[3].scale}
+            >
+              <Suspense fallback={FallbackMaterial}>
+                <VideoMat id={"MXT_CLM_Comp_LogoAnimation_SD_01-1.mov"} />
+              </Suspense>
+              <planeGeometry args={[1.92, 1.08, 1]} />
+            </animated.mesh>
+            <animated.mesh
+              position={[-0.35, 0, -0.1]}
+              // material={pinkMat}
+              scale={trails[3].scale}
+            >
+              <Suspense fallback={FallbackMaterial}>
+                <VideoMat
+                  id={"MXT_CLM_Comp_LogoAnimtion_PinkMonster_CV_.mp4"}
+                />
 
-              {/* <primitive object={pinkMat} /> */}
-            </Suspense>
-            <SimplePlane />
-          </animated.mesh>
-          <animated.mesh
-            position={[0, -0.1, 0]}
-            // material={greenMat}
-            scale={trails[0].scale}
-          >
-            <Suspense fallback={FallbackMaterial}>
-              <VideoMat id={"MXT_CLM_Comp_LogoAnimtion_GreenMonster_CV_.mp4"} />
-            </Suspense>
-            <SimplePlane />
-          </animated.mesh>
-          <animated.mesh
-            position={[-0.3, 0, 0.1]}
-            // material={yellowMat}
-            scale={trails[1].scale}
-          >
-            <Suspense fallback={FallbackMaterial}>
-              <VideoMat
-                id={"MXT_CLM_Comp_LogoAnimtion_YellowMonster_CV_h265.mp4"}
-              />
-            </Suspense>
-            <SimplePlane />
-          </animated.mesh>
-          <animated.mesh
-            position={[0.3, 0, -0.2]}
-            // material={orangeMat}
-            scale={trails[2].scale}
-          >
-            <Suspense fallback={FallbackMaterial}>
-              {/* <primitive object={orangeMat} /> */}
-              <VideoMat
-                id={"MXT_CLM_Comp_LogoAnimtion_OrangeMonster_CV_.mp4"}
-              />
-            </Suspense>
-            <SimplePlane />
-          </animated.mesh>
-        </group>
+                {/* <primitive object={pinkMat} /> */}
+              </Suspense>
+              <SimplePlane />
+            </animated.mesh>
+            <animated.mesh
+              position={[0, -0.1, 0]}
+              // material={greenMat}
+              scale={trails[0].scale}
+            >
+              <Suspense fallback={FallbackMaterial}>
+                <VideoMat
+                  id={"MXT_CLM_Comp_LogoAnimtion_GreenMonster_CV_.mp4"}
+                />
+              </Suspense>
+              <SimplePlane />
+            </animated.mesh>
+            <animated.mesh
+              position={[-0.3, 0, 0.1]}
+              // material={yellowMat}
+              scale={trails[1].scale}
+            >
+              <Suspense fallback={FallbackMaterial}>
+                <VideoMat
+                  id={"MXT_CLM_Comp_LogoAnimtion_YellowMonster_CV_h265.mp4"}
+                />
+              </Suspense>
+              <SimplePlane />
+            </animated.mesh>
+            <animated.mesh
+              position={[0.3, 0, -0.2]}
+              // material={orangeMat}
+              scale={trails[2].scale}
+            >
+              <Suspense fallback={FallbackMaterial}>
+                {/* <primitive object={orangeMat} /> */}
+                <VideoMat
+                  id={"MXT_CLM_Comp_LogoAnimtion_OrangeMonster_CV_.mp4"}
+                />
+              </Suspense>
+              <SimplePlane />
+            </animated.mesh>
+          </group>
+        ) : (
+          <group ref={ref}></group>
+        )}
       </ARAnchor>
     </>
   );
@@ -465,6 +476,8 @@ function SpreadOneA(targetIndex) {
   const { gl, scene, camera } = useThree();
   gl.toneMapping = THREE.NoToneMapping;
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
+  const [isFound, setIsFound] = useState(false);
+
   const ref = useRef();
 
   // const mgMat = idToVideoMat("videoOneAmg", false, targetIndexInt);
@@ -487,8 +500,9 @@ function SpreadOneA(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
+          setIsFound(true);
           actionTexture(ref, "play");
-          gl.setClearColor(0x4d4d4d, 0.6);
+          gl.setClearColor(0x272727, 0.7);
 
           // videoLibrary[targetIndexInt].forEach((video) => video.play());
 
@@ -496,8 +510,9 @@ function SpreadOneA(targetIndex) {
         }}
         onAnchorLost={() => {
           actionTexture(ref, "pause");
+          setIsFound("false");
           sound.pause();
-          gl.setClearColor(0x4d4d4d, 0.0);
+          gl.setClearColor(0x272727, 0.0);
           // videoLibrary[targetIndexInt].forEach((video) => {
           //   video.pause();
           // });
@@ -511,30 +526,34 @@ function SpreadOneA(targetIndex) {
           // const bg2Mat = idToPictureMat("picOneAbg2");
         }}
       >
-        <>
-          <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
-            <animated.mesh position={[0.0, 0, 0.2]} scale={1}>
-              <Suspense fallback={FallbackMaterial}>
-                <VideoMat id={"MXT_CLM_010_MG_SD_05-1.mov"} />
-              </Suspense>
-              <SimplePlane />
-            </animated.mesh>
-          </group>
-          <group scale={0.7} position={[0.0, -0.05, 0]}>
-            <animated.mesh position={[-0.1, 0, 0.0]} scale={1}>
-              <SimplePlane />
-              <ImageMaterial id={"picOneAfg"} />
-            </animated.mesh>
-            <animated.mesh position={[0.0, 0.0, -0.4]} scale={1}>
-              <ImageMaterial id={"picOneAbg1"} />
-              <SimplePlane />
-            </animated.mesh>
-            <animated.mesh position={[-0.2, 0.0, -0.5]} scale={1}>
-              <ImageMaterial id={"picOneAbg2"} />
-              <SimplePlane />
-            </animated.mesh>
-          </group>
-        </>
+        {isFound ? (
+          <>
+            <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
+              <animated.mesh position={[0.0, 0, 0.2]} scale={1}>
+                <Suspense fallback={FallbackMaterial}>
+                  <VideoMat id={"MXT_CLM_010_MG_SD_05-1.mov"} />
+                </Suspense>
+                <SimplePlane />
+              </animated.mesh>
+            </group>
+            <group scale={0.7} position={[0.0, -0.05, 0]}>
+              <animated.mesh position={[-0.1, 0, 0.0]} scale={1}>
+                <SimplePlane />
+                <ImageMaterial id={"picOneAfg"} />
+              </animated.mesh>
+              <animated.mesh position={[0.0, 0.0, -0.4]} scale={1}>
+                <ImageMaterial id={"picOneAbg1"} />
+                <SimplePlane />
+              </animated.mesh>
+              <animated.mesh position={[-0.2, 0.0, -0.5]} scale={1}>
+                <ImageMaterial id={"picOneAbg2"} />
+                <SimplePlane />
+              </animated.mesh>
+            </group>
+          </>
+        ) : (
+          <group ref={ref}></group>
+        )}
       </ARAnchor>
     </>
   );
@@ -569,7 +588,7 @@ function SpreadOneB(targetIndex) {
         target={targetIndexInt}
         onAnchorFound={() => {
           // actionTexture(ref, "play");
-          gl.setClearColor(0x4d4d4d, 0.6);
+          gl.setClearColor(0x272727, 0.7);
 
           // videoLibrary[targetIndexInt].forEach((video) => video.play());
 
@@ -584,7 +603,7 @@ function SpreadOneB(targetIndex) {
           // videoLibrary[targetIndexInt] = [];
           // console.log(videoLibrary[targetIndexInt], "target INT");
 
-          gl.setClearColor(0x4d4d4d, 0.0);
+          gl.setClearColor(0x272727, 0.0);
           // let prop = { scale: 0.0 };
           // handleCover(prop);
         }}
@@ -627,6 +646,7 @@ function SpreadTwoA(targetIndex) {
   const { gl, scene, camera } = useThree();
   gl.toneMapping = THREE.NoToneMapping;
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
+  const [isFound, setIsFound] = useState(false);
   const ref = useRef();
 
   // const matTwoAFG = idToVideoMat("videoTwoAfg", false, targetIndexInt);
@@ -659,8 +679,9 @@ function SpreadTwoA(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
+          setIsFound(true);
           actionTexture(ref, "play");
-          gl.setClearColor(0xc5df95, 0.6);
+          gl.setClearColor(0x272727, 0.7);
 
           // videoLibrary[targetIndexInt].forEach((video) => video.play());
           let prop = { scale: 0.0 };
@@ -671,6 +692,7 @@ function SpreadTwoA(targetIndex) {
         }}
         onAnchorLost={() => {
           actionTexture(ref, "pause");
+          setIsFound(false);
           sound.pause();
           // videoLibrary[targetIndexInt].forEach((video) => {
           //   video.pause();
@@ -678,37 +700,41 @@ function SpreadTwoA(targetIndex) {
           // videoLibrary[targetIndexInt] = [];
           // console.log(videoLibrary[targetIndexInt], "target INT");
 
-          gl.setClearColor(0x4d4d4d, 0.0);
+          gl.setClearColor(0x272727, 0.0);
           // targetTextures.forEach((texture) => {
           //   texture.dispose();
           // });
         }}
       >
-        <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
-          <animated.mesh
-            position={[0.0, 0, 0.4]}
-            // material={matTwoAFG}
-            scale={1.0}
-          >
-            <Suspense fallback={FallbackMaterial}>
-              <VideoMat id={"MXT_CLM_030_Comp_Music_SD_01-1.mov"} />
+        {isFound ? (
+          <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
+            <animated.mesh
+              position={[0.0, 0, 0.4]}
+              // material={matTwoAFG}
+              scale={1.0}
+            >
+              <Suspense fallback={FallbackMaterial}>
+                <VideoMat id={"MXT_CLM_030_Comp_Music_SD_01-1.mov"} />
 
-              {/* <primitive object={matTwoAFG} /> */}
-            </Suspense>
-            <planeGeometry args={[1.24, 1, 1]} />
-          </animated.mesh>
-          <animated.mesh
-            position={[0.0, 0, 0.3]}
-            // material={matTwoAMG}
-            scale={1.0}
-          >
-            <Suspense fallback={FallbackMaterial}>
-              {/* <primitive object={matTwoAMG} /> */}
-              <VideoMat id={"MXT_CLM_030_Comp_Green_SD_01-1.mov"} />
-            </Suspense>
-            <planeGeometry args={[1.24, 1, 1]} />
-          </animated.mesh>
-        </group>
+                {/* <primitive object={matTwoAFG} /> */}
+              </Suspense>
+              <planeGeometry args={[1.24, 1, 1]} />
+            </animated.mesh>
+            <animated.mesh
+              position={[0.0, 0, 0.3]}
+              // material={matTwoAMG}
+              scale={1.0}
+            >
+              <Suspense fallback={FallbackMaterial}>
+                {/* <primitive object={matTwoAMG} /> */}
+                <VideoMat id={"MXT_CLM_030_Comp_Green_SD_01-1.mov"} />
+              </Suspense>
+              <planeGeometry args={[1.24, 1, 1]} />
+            </animated.mesh>
+          </group>
+        ) : (
+          <group ref={ref}></group>
+        )}
       </ARAnchor>
     </>
   );
@@ -743,7 +769,7 @@ function SpreadTwoB(targetIndex) {
         target={targetIndexInt}
         onAnchorFound={() => {
           // actionTexture(ref, "play");
-          gl.setClearColor(0xc5df95, 0.6);
+          gl.setClearColor(0x272727, 0.7);
 
           // videoLibrary[targetIndexInt].forEach((video) => video.play());
 
@@ -758,7 +784,7 @@ function SpreadTwoB(targetIndex) {
           // videoLibrary[targetIndexInt] = [];
           // console.log(videoLibrary[targetIndexInt], "target INT");
 
-          gl.setClearColor(0x4d4d4d, 0.0);
+          gl.setClearColor(0x272727, 0.0);
           // let prop = { scale: 0.0 };
           // handleCover(prop);
         }}
@@ -827,7 +853,7 @@ function SpreadThreeA(targetIndex) {
         target={targetIndexInt}
         onAnchorFound={() => {
           // actionTexture(ref, "play");
-          gl.setClearColor(0x4d4d4d, 0.6);
+          gl.setClearColor(0x272727, 0.7);
 
           // videoLibrary[targetIndexInt].forEach((video) => video.play());
 
@@ -842,7 +868,7 @@ function SpreadThreeA(targetIndex) {
           // videoLibrary[targetIndexInt] = [];
           // console.log(videoLibrary[targetIndexInt], "target INT");
 
-          gl.setClearColor(0x4d4d4d, 0.0);
+          gl.setClearColor(0x272727, 0.0);
           // let prop = { scale: 0.0 };
           // handleCover(prop);
         }}
@@ -911,7 +937,7 @@ function SpreadThreeB(targetIndex) {
         target={targetIndexInt}
         onAnchorFound={() => {
           // actionTexture(ref, "play");
-          gl.setClearColor(0x4d4d4d, 0.6);
+          gl.setClearColor(0x272727, 0.7);
 
           // videoLibrary[targetIndexInt].forEach((video) => video.play());
 
@@ -926,7 +952,7 @@ function SpreadThreeB(targetIndex) {
           // videoLibrary[targetIndexInt] = [];
           // console.log(videoLibrary[targetIndexInt], "target INT");
 
-          gl.setClearColor(0x4d4d4d, 0.0);
+          gl.setClearColor(0x272727, 0.0);
           // let prop = { scale: 0.0 };
           // handleCover(prop);
         }}
@@ -995,7 +1021,7 @@ function SpreadFourA(targetIndex) {
         target={targetIndexInt}
         onAnchorFound={() => {
           // actionTexture(ref, "play");
-          gl.setClearColor(0x4d4d4d, 0.6);
+          gl.setClearColor(0x272727, 0.7);
 
           // videoLibrary[targetIndexInt].forEach((video) => video.play());
 
@@ -1010,7 +1036,7 @@ function SpreadFourA(targetIndex) {
           // videoLibrary[targetIndexInt] = [];
           // console.log(videoLibrary[targetIndexInt], "target INT");
 
-          gl.setClearColor(0x4d4d4d, 0.0);
+          gl.setClearColor(0x272727, 0.0);
           // let prop = { scale: 0.0 };
           // handleCover(prop);
         }}
@@ -1079,7 +1105,7 @@ function SpreadFourB(targetIndex) {
         target={targetIndexInt}
         onAnchorFound={() => {
           // actionTexture(ref, "play");
-          gl.setClearColor(0x4d4d4d, 0.6);
+          gl.setClearColor(0x272727, 0.7);
 
           // videoLibrary[targetIndexInt].forEach((video) => video.play());
 
@@ -1094,7 +1120,7 @@ function SpreadFourB(targetIndex) {
           // videoLibrary[targetIndexInt] = [];
           // console.log(videoLibrary[targetIndexInt], "target INT");
 
-          gl.setClearColor(0x4d4d4d, 0.0);
+          gl.setClearColor(0x272727, 0.0);
           // let prop = { scale: 0.0 };
           // handleCover(prop);
         }}
@@ -1163,7 +1189,7 @@ function SpreadFiveA(targetIndex) {
         target={targetIndexInt}
         onAnchorFound={() => {
           // actionTexture(ref, "play");
-          gl.setClearColor(0x4d4d4d, 0.6);
+          gl.setClearColor(0x272727, 0.7);
 
           // videoLibrary[targetIndexInt].forEach((video) => video.play());
 
@@ -1178,7 +1204,7 @@ function SpreadFiveA(targetIndex) {
           // videoLibrary[targetIndexInt] = [];
           // console.log(videoLibrary[targetIndexInt], "target INT");
 
-          gl.setClearColor(0x4d4d4d, 0.0);
+          gl.setClearColor(0x272727, 0.0);
           // let prop = { scale: 0.0 };
           // handleCover(prop);
         }}
@@ -1247,7 +1273,7 @@ function SpreadFiveB(targetIndex) {
         target={targetIndexInt}
         onAnchorFound={() => {
           // actionTexture(ref, "play");
-          gl.setClearColor(0x4d4d4d, 0.6);
+          gl.setClearColor(0x272727, 0.7);
 
           // videoLibrary[targetIndexInt].forEach((video) => video.play());
 
@@ -1262,7 +1288,7 @@ function SpreadFiveB(targetIndex) {
           // videoLibrary[targetIndexInt] = [];
           // console.log(videoLibrary[targetIndexInt], "target INT");
 
-          gl.setClearColor(0x4d4d4d, 0.0);
+          gl.setClearColor(0x272727, 0.0);
           // let prop = { scale: 0.0 };
           // handleCover(prop);
         }}
@@ -1306,6 +1332,7 @@ function SpreadSixA(targetIndex) {
   const { gl, scene, camera } = useThree();
   gl.toneMapping = THREE.NoToneMapping;
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
+  const [isFound, setIsFound] = useState(false);
   const ref = useRef();
 
   // const matSixAFG = idToVideoMat("videoSixAfg", false, targetIndexInt);
@@ -1329,33 +1356,39 @@ function SpreadSixA(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
+          setIsFound(true);
           actionTexture(ref, "play");
-          gl.setClearColor(0x4d4d4d, 0.6);
+          gl.setClearColor(0x272727, 0.7);
           sound.play();
         }}
         onAnchorLost={() => {
           actionTexture(ref, "pause");
+          setIsFound(false);
           sound.pause();
 
-          gl.setClearColor(0x4d4d4d, 0.0);
+          gl.setClearColor(0x272727, 0.0);
         }}
       >
-        <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
-          <animated.mesh position={[0.0, 0, 0.4]} scale={1.0}>
-            <Suspense fallback={FallbackMaterial}>
-              <VideoMat id={"MXT_CLM_120_Comp_Couch_SD_01-1.mov"} />
-              {/* <primitive object={matSixAFG} /> */}
-            </Suspense>
-            <planeGeometry args={[1.24, 1, 1]} />
-          </animated.mesh>
-          <animated.mesh position={[0.0, 0, 0.3]} scale={1.0}>
-            <Suspense fallback={FallbackMaterial}>
-              {/* <primitive object={matSixAMG} /> */}
-              <VideoMat id={"MXT_CLM_120_Comp_Lamp_SD_01-1.mov"} />
-            </Suspense>
-            <planeGeometry args={[1.24, 1, 1]} />
-          </animated.mesh>
-        </group>
+        {isFound ? (
+          <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
+            <animated.mesh position={[0.0, 0, 0.4]} scale={1.0}>
+              <Suspense fallback={FallbackMaterial}>
+                <VideoMat id={"MXT_CLM_120_Comp_Couch_SD_01-1.mov"} />
+                {/* <primitive object={matSixAFG} /> */}
+              </Suspense>
+              <planeGeometry args={[1.24, 1, 1]} />
+            </animated.mesh>
+            <animated.mesh position={[0.0, 0, 0.3]} scale={1.0}>
+              <Suspense fallback={FallbackMaterial}>
+                {/* <primitive object={matSixAMG} /> */}
+                <VideoMat id={"MXT_CLM_120_Comp_Lamp_SD_01-1.mov"} />
+              </Suspense>
+              <planeGeometry args={[1.24, 1, 1]} />
+            </animated.mesh>
+          </group>
+        ) : (
+          <group ref={ref}></group>
+        )}
       </ARAnchor>
     </>
   );
@@ -1364,6 +1397,7 @@ function SpreadSixB(targetIndex) {
   const { gl, scene, camera } = useThree();
   gl.toneMapping = THREE.NoToneMapping;
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
+  const [isFound, setIsFound] = useState(false);
   const ref = useRef();
 
   // const matSixBFG = idToVideoMat("videoSixBfg", false, targetIndexInt);
@@ -1387,8 +1421,9 @@ function SpreadSixB(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
+          setIsFound(true);
           actionTexture(ref, "play");
-          gl.setClearColor(0x4d4d4d, 0.6);
+          gl.setClearColor(0x272727, 0.7);
 
           // videoLibrary[targetIndexInt].forEach((video) => video.play());
 
@@ -1396,6 +1431,7 @@ function SpreadSixB(targetIndex) {
         }}
         onAnchorLost={() => {
           actionTexture(ref, "pause");
+          setIsFound(false);
           sound.pause();
           // videoLibrary[targetIndexInt].forEach((video) => {
           //   video.pause();
@@ -1403,7 +1439,7 @@ function SpreadSixB(targetIndex) {
           // videoLibrary[targetIndexInt] = [];
           // console.log(videoLibrary[targetIndexInt], "target INT");
 
-          gl.setClearColor(0x4d4d4d, 0.0);
+          gl.setClearColor(0x272727, 0.0);
           // targetTextures.forEach((texture) => {
           //   texture.dispose();
           // });
@@ -1411,30 +1447,34 @@ function SpreadSixB(targetIndex) {
           // handleCover(prop);
         }}
       >
-        <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
-          <animated.mesh
-            position={[0.0, 0, 0.4]}
-            // material={matSixBFG}
-            scale={1.0}
-          >
-            <Suspense fallback={FallbackMaterial}>
-              {/* <primitive object={matSixBFG} /> */}
-              <VideoMat id={"MXT_CLM_130_FG_SD_01-1.mov"} />
-            </Suspense>
-            <planeGeometry args={[1.24, 1, 1]} />
-          </animated.mesh>
-          <animated.mesh
-            position={[0.0, 0, -5.3]}
-            // material={matSixBMG}
-            scale={1.0}
-          >
-            <Suspense fallback={FallbackMaterial}>
-              {/* <primitive object={matSixBMG} /> */}
-              <VideoMat id={"MXT_CLM_130_BG_SD_01-1.mov"} />
-            </Suspense>
-            <planeGeometry args={[12.0, 10, 1]} />
-          </animated.mesh>
-        </group>
+        {isFound ? (
+          <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
+            <animated.mesh
+              position={[0.0, 0, 0.4]}
+              // material={matSixBFG}
+              scale={1.0}
+            >
+              <Suspense fallback={FallbackMaterial}>
+                {/* <primitive object={matSixBFG} /> */}
+                <VideoMat id={"MXT_CLM_130_FG_SD_01-1.mov"} />
+              </Suspense>
+              <planeGeometry args={[1.24, 1, 1]} />
+            </animated.mesh>
+            <animated.mesh
+              position={[0.0, 0, -5.3]}
+              // material={matSixBMG}
+              scale={1.0}
+            >
+              <Suspense fallback={FallbackMaterial}>
+                {/* <primitive object={matSixBMG} /> */}
+                <VideoMat id={"MXT_CLM_130_BG_SD_01-1.mov"} />
+              </Suspense>
+              <planeGeometry args={[12.0, 10, 1]} />
+            </animated.mesh>
+          </group>
+        ) : (
+          <group ref={ref}></group>
+        )}
       </ARAnchor>
     </>
   );
@@ -1443,6 +1483,8 @@ function SpreadEightA(targetIndex) {
   const { gl, scene, camera } = useThree();
   gl.toneMapping = THREE.NoToneMapping;
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
+  const [isFound, setIsFound] = useState(false);
+
   const ref = useRef();
 
   // const matEigthAFg = idToVideoMat("videoEightAfg", false, targetIndexInt);
@@ -1473,8 +1515,9 @@ function SpreadEightA(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
+          setIsFound(true);
           actionTexture(ref, "play");
-          gl.setClearColor(0xf5f0e4, 0.6);
+          gl.setClearColor(0x272727, 0.7);
           // gl.toneMapping(THREE.NoToneMapping);
           // fadeOnAction.play()
 
@@ -1488,6 +1531,7 @@ function SpreadEightA(targetIndex) {
         }}
         onAnchorLost={() => {
           actionTexture(ref, "pause");
+          setIsFound(false);
           sound.pause();
           // videoLibrary[targetIndexInt].forEach((video) => {
           //   video.pause();
@@ -1495,7 +1539,7 @@ function SpreadEightA(targetIndex) {
           // videoLibrary[targetIndexInt] = [];
           // console.log(videoLibrary[targetIndexInt], "target INT");
 
-          gl.setClearColor(0xf5f0e4, 0.0);
+          gl.setClearColor(0x272727, 0.0);
           // targetTextures.forEach((texture) => {
           //   texture.dispose();
           // });
@@ -1503,38 +1547,42 @@ function SpreadEightA(targetIndex) {
           // handleCover(prop);
         }}
       >
-        <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
-          <animated.mesh
-            position={[0.0, 0, 0.3]}
-            // material={matEigthAFg}
-            scale={1.0}
-          >
-            <Suspense fallback={FallbackMaterial}>
-              {/* <primitive object={matEigthAFg} /> */}
-              <VideoMat id={"MXT_CLM_140_FG_SD_06_hvec.mov"} />
-            </Suspense>
-            <planeGeometry args={[1.24, 1, 1]} />
-          </animated.mesh>
-          <animated.mesh
-            position={[0.0, 0.0, 0.2]}
-            // material={matEightAmg}
-            scale={1.0}
-          >
-            <Suspense fallback={FallbackMaterial}>
-              <VideoMat id={"MXT_CLM_140_MG_SD_12_hvec.mov"} />
+        {isFound ? (
+          <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
+            <animated.mesh
+              position={[0.0, 0, 0.3]}
+              // material={matEigthAFg}
+              scale={1.0}
+            >
+              <Suspense fallback={FallbackMaterial}>
+                {/* <primitive object={matEigthAFg} /> */}
+                <VideoMat id={"MXT_CLM_140_FG_SD_06_hvec.mov"} />
+              </Suspense>
+              <planeGeometry args={[1.24, 1, 1]} />
+            </animated.mesh>
+            <animated.mesh
+              position={[0.0, 0.0, 0.2]}
+              // material={matEightAmg}
+              scale={1.0}
+            >
+              <Suspense fallback={FallbackMaterial}>
+                <VideoMat id={"MXT_CLM_140_MG_SD_12_hvec.mov"} />
 
-              {/* <primitive object={matEightAmg} /> */}
-            </Suspense>
-            <planeGeometry args={[1.24, 1, 1]} />
-          </animated.mesh>
-          {/* <animated.mesh
+                {/* <primitive object={matEightAmg} /> */}
+              </Suspense>
+              <planeGeometry args={[1.24, 1, 1]} />
+            </animated.mesh>
+            {/* <animated.mesh
             position={[0.0, 0.0, 0.0]}
             material={bgMat}
             scale={1.0}
           >
             <SimplePlane />
           </animated.mesh> */}
-        </group>
+          </group>
+        ) : (
+          <group ref={ref}></group>
+        )}
       </ARAnchor>
     </>
   );
@@ -1544,6 +1592,8 @@ function SpreadEightB(targetIndex) {
   const { gl, scene, camera } = useThree();
   gl.toneMapping = THREE.NoToneMapping;
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
+  const [isFound, setIsFound] = useState(false);
+
   const ref = useRef();
 
   const listener = new THREE.AudioListener();
@@ -1580,8 +1630,9 @@ function SpreadEightB(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
+          setIsFound(true);
           actionTexture(ref, "play");
-          gl.setClearColor(0x4d4d4d, 0.6);
+          gl.setClearColor(0x272727, 0.7);
 
           // videoLibrary[targetIndexInt].forEach((video) => video.play());
 
@@ -1589,8 +1640,9 @@ function SpreadEightB(targetIndex) {
         }}
         onAnchorLost={() => {
           actionTexture(ref, "pause");
+          setIsFound(false);
           sound.pause();
-          gl.setClearColor(0x4d4d4d, 0.0);
+          gl.setClearColor(0x272727, 0.0);
           // videoLibrary[targetIndexInt].forEach((video) => {
           //   video.pause();
           // });
@@ -1603,52 +1655,56 @@ function SpreadEightB(targetIndex) {
           // handleCover(prop);
         }}
       >
-        <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
-          <animated.mesh
-            position={[0.0, 0, 0.4]}
-            // material={matEightBFg1}
-            scale={1.0}
-          >
-            <Suspense fallback={FallbackMaterial}>
-              <VideoMat id={"MXT_CLM_COMP_FG1_150_SD_10.mp4"} />
-              {/* <primitive object={matEightBFg1} /> */}
-            </Suspense>
-            <planeGeometry args={[1.24, 1, 1]} />
-          </animated.mesh>
-          <animated.mesh
-            position={[0.0, 0, 0.3]}
-            // material={matEightBFg2}
-            scale={1.0}
-          >
-            <Suspense fallback={FallbackMaterial}>
-              <VideoMat id={"MXT_CLM_COMP_FG2_150_SD_10.mp4"} />
-              {/* <primitive object={matEightBFg2} /> */}
-            </Suspense>
-            <planeGeometry args={[1.24, 1, 1]} />
-          </animated.mesh>
-          <animated.mesh
-            position={[0.0, 0.0, 0.2]}
-            // material={matEightBMg}
-            scale={1.0}
-          >
-            <Suspense fallback={FallbackMaterial}>
-              {/* <primitive object={matEightBMg} /> */}
-              <VideoMat id={"MXT_CLM_COMP_MG_150_SD_10.mp4"} />
-            </Suspense>
-            <planeGeometry args={[1.24, 1, 1]} />
-          </animated.mesh>
-          <animated.mesh
-            position={[0.0, 0.0, 0.0]}
-            // material={matEightBBg}
-            scale={1.0}
-          >
-            <Suspense fallback={FallbackMaterial}>
-              {/* <primitive object={matEightBBg} /> */}
-              <VideoMat id={"MXT_CLM_COMP_BG_150_SD_10.mp4"} />
-            </Suspense>
-            <planeGeometry args={[1.24, 1, 1]} />
-          </animated.mesh>
-        </group>
+        {isFound ? (
+          <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
+            <animated.mesh
+              position={[0.0, 0, 0.4]}
+              // material={matEightBFg1}
+              scale={1.0}
+            >
+              <Suspense fallback={FallbackMaterial}>
+                <VideoMat id={"MXT_CLM_COMP_FG1_150_SD_10.mp4"} />
+                {/* <primitive object={matEightBFg1} /> */}
+              </Suspense>
+              <planeGeometry args={[1.24, 1, 1]} />
+            </animated.mesh>
+            <animated.mesh
+              position={[0.0, 0, 0.3]}
+              // material={matEightBFg2}
+              scale={1.0}
+            >
+              <Suspense fallback={FallbackMaterial}>
+                <VideoMat id={"MXT_CLM_COMP_FG2_150_SD_10.mp4"} />
+                {/* <primitive object={matEightBFg2} /> */}
+              </Suspense>
+              <planeGeometry args={[1.24, 1, 1]} />
+            </animated.mesh>
+            <animated.mesh
+              position={[0.0, 0.0, 0.2]}
+              // material={matEightBMg}
+              scale={1.0}
+            >
+              <Suspense fallback={FallbackMaterial}>
+                {/* <primitive object={matEightBMg} /> */}
+                <VideoMat id={"MXT_CLM_COMP_MG_150_SD_10.mp4"} />
+              </Suspense>
+              <planeGeometry args={[1.24, 1, 1]} />
+            </animated.mesh>
+            <animated.mesh
+              position={[0.0, 0.0, 0.0]}
+              // material={matEightBBg}
+              scale={1.0}
+            >
+              <Suspense fallback={FallbackMaterial}>
+                {/* <primitive object={matEightBBg} /> */}
+                <VideoMat id={"MXT_CLM_COMP_BG_150_SD_10.mp4"} />
+              </Suspense>
+              <planeGeometry args={[1.24, 1, 1]} />
+            </animated.mesh>
+          </group>
+        ) : (
+          <group ref={ref}></group>
+        )}
       </ARAnchor>
     </>
   );
