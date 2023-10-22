@@ -309,6 +309,8 @@ const actionTexture = (ref, action) => {
   const childArray = [];
   children.forEach((child) => {
     const source = child.material.map.source.data;
+    const map = child.material.map;
+    const material = child.material;
     // const source = document.getElementById(sourceId);
     // childArray.push(source);
     if (action === "play") {
@@ -316,6 +318,10 @@ const actionTexture = (ref, action) => {
     }
     if (action === "pause") {
       source.pause();
+    }
+    if (action === "dispose") {
+      map.dispose();
+      material.dispose();
     }
   });
 };
@@ -383,6 +389,8 @@ function CoverTarget(targetIndex) {
         }}
         onAnchorLost={() => {
           actionTexture(ref, "pause");
+          actionTexture(ref, "dispose");
+
           setIsFound(false);
           sound.pause();
           console.log("lost cover");
@@ -510,6 +518,8 @@ function SpreadOneA(targetIndex) {
         }}
         onAnchorLost={() => {
           actionTexture(ref, "pause");
+          actionTexture(ref, "dispose");
+
           setIsFound("false");
           sound.pause();
           gl.setClearColor(0x272727, 0.0);
@@ -596,6 +606,8 @@ function SpreadOneB(targetIndex) {
         }}
         onAnchorLost={() => {
           // actionTexture(ref, "pause");
+          // actionTexture(ref, "dispose");
+
           sound.pause();
           // videoLibrary[targetIndexInt].forEach((video) => {
           //   video.pause();
@@ -692,6 +704,8 @@ function SpreadTwoA(targetIndex) {
         }}
         onAnchorLost={() => {
           actionTexture(ref, "pause");
+          actionTexture(ref, "dispose");
+
           setIsFound(false);
           sound.pause();
           // videoLibrary[targetIndexInt].forEach((video) => {
@@ -777,6 +791,8 @@ function SpreadTwoB(targetIndex) {
         }}
         onAnchorLost={() => {
           // actionTexture(ref, "pause");
+          // actionTexture(ref, "dispose");
+
           sound.pause();
           // videoLibrary[targetIndexInt].forEach((video) => {
           //   video.pause();
@@ -861,6 +877,8 @@ function SpreadThreeA(targetIndex) {
         }}
         onAnchorLost={() => {
           // actionTexture(ref, "pause");
+          // actionTexture(ref, "dispose");
+
           sound.pause();
           // videoLibrary[targetIndexInt].forEach((video) => {
           //   video.pause();
@@ -945,6 +963,8 @@ function SpreadThreeB(targetIndex) {
         }}
         onAnchorLost={() => {
           // actionTexture(ref, "pause");
+          // actionTexture(ref, "dispose");
+
           sound.pause();
           // videoLibrary[targetIndexInt].forEach((video) => {
           //   video.pause();
@@ -1029,6 +1049,8 @@ function SpreadFourA(targetIndex) {
         }}
         onAnchorLost={() => {
           // actionTexture(ref, "pause");
+          // actionTexture(ref, "dispose");
+
           sound.pause();
           // videoLibrary[targetIndexInt].forEach((video) => {
           //   video.pause();
@@ -1113,6 +1135,8 @@ function SpreadFourB(targetIndex) {
         }}
         onAnchorLost={() => {
           // actionTexture(ref, "pause");
+          // actionTexture(ref, "dispose");
+
           sound.pause();
           // videoLibrary[targetIndexInt].forEach((video) => {
           //   video.pause();
@@ -1197,6 +1221,8 @@ function SpreadFiveA(targetIndex) {
         }}
         onAnchorLost={() => {
           // actionTexture(ref, "pause");
+          // actionTexture(ref, "dispose");
+
           sound.pause();
           // videoLibrary[targetIndexInt].forEach((video) => {
           //   video.pause();
@@ -1281,6 +1307,8 @@ function SpreadFiveB(targetIndex) {
         }}
         onAnchorLost={() => {
           // actionTexture(ref, "pause");
+          // actionTexture(ref, "dispose");
+
           sound.pause();
           // videoLibrary[targetIndexInt].forEach((video) => {
           //   video.pause();
@@ -1363,6 +1391,8 @@ function SpreadSixA(targetIndex) {
         }}
         onAnchorLost={() => {
           actionTexture(ref, "pause");
+          actionTexture(ref, "dispose");
+
           setIsFound(false);
           sound.pause();
 
@@ -1431,6 +1461,8 @@ function SpreadSixB(targetIndex) {
         }}
         onAnchorLost={() => {
           actionTexture(ref, "pause");
+          actionTexture(ref, "dispose");
+
           setIsFound(false);
           sound.pause();
           // videoLibrary[targetIndexInt].forEach((video) => {
@@ -1531,6 +1563,8 @@ function SpreadEightA(targetIndex) {
         }}
         onAnchorLost={() => {
           actionTexture(ref, "pause");
+          actionTexture(ref, "dispose");
+
           setIsFound(false);
           sound.pause();
           // videoLibrary[targetIndexInt].forEach((video) => {
@@ -1640,6 +1674,8 @@ function SpreadEightB(targetIndex) {
         }}
         onAnchorLost={() => {
           actionTexture(ref, "pause");
+          actionTexture(ref, "dispose");
+
           setIsFound(false);
           sound.pause();
           gl.setClearColor(0x272727, 0.0);
