@@ -104,7 +104,7 @@ const idToVideoMat = (id, depthTest, targetIndexInt, alphaId) => {
 const VideoMat = (props) => {
   // const video = document.getElementById(props.id);
   // const src = video.children[0].src;
-  const texture = useVideoTexture(props.id);
+  // const texture = useVideoTexture(props.id);
   texture.format = THREE.RGBAFormat;
   return (
     <>
