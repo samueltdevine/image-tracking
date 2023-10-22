@@ -102,24 +102,22 @@ const idToVideoMat = (id, depthTest, targetIndexInt, alphaId) => {
 };
 
 const VideoMat = (props) => {
-  // const video = document.getElementById(props.id);
+  const video = document.getElementById(props.id);
+  const texture = new THREE.VideoTexture(video);
   // const src = video.children[0].src;
-  const texture = useVideoTexture(props.id);
+  // const texture = useVideoTexture(props.id);
   texture.format = THREE.RGBAFormat;
-  return (
-    <>
-      <meshBasicMaterial
-        map={texture}
-        alphaMap={texture}
-        transparent={true}
-        opacity={100}
-        side={THREE.DoubleSide}
-        depthWrite={true}
-        // depthTest={depthTest}
-        toneMapped={false}
-      />
-    </>
-  );
+  const materialVideo = new THREE.MeshBasicMaterial({
+    map: texture,
+    alphaMap: texture,
+    transparent: true,
+    opacity: 100,
+    side: THREE.DoubleSide,
+    depthWrite: true,
+    // depthTest: depthTest,
+    toneMapped: false,
+  });
+  return <primitive object={materialVideo} />;
 };
 
 const ImageMaterial = (id) => {
