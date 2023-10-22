@@ -60,7 +60,7 @@ const FallbackMaterial = () => {
   const material = new THREE.MeshBasicMaterial({
     transparent: true,
     opacity: 99,
-    side: THREE.BackSide,
+    side: THREE.DoubleSide,
     // depthWrite: true,
     // depthTest: depthTest,
     toneMapped: false,
