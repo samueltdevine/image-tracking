@@ -4,7 +4,6 @@ import multiTargets from "./multiTargets7.mind";
 // import multiTargets2 from "./multiTargets_lastHalf.mind";
 import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
-import { Compiler } from "mind-ar/src/image-target/compiler";
 import { useState, useRef, useEffect, useCallback, Suspense } from "react";
 import {
   useSpring,
@@ -468,6 +467,70 @@ function CoverTarget(props) {
                 <VideoMat
                   id={"MXT_CLM_Comp_LogoAnimtion_OrangeMonster_CV_.mp4"}
                 />
+              </Suspense>
+              <SimplePlane />
+            </animated.mesh>
+            <animated.mesh
+              position={[0.0, 0, 0.4]}
+              // material={matEightBFg1}
+              scale={1.0}
+            >
+              <Suspense fallback={FallbackMaterial}>
+                <VideoMat id={"MXT_CLM_COMP_FG1_150_SD_10.mp4"} />
+                {/* <primitive object={matEightBFg1} /> */}
+              </Suspense>
+              <planeGeometry args={[1.24, 1, 1]} />
+            </animated.mesh>
+            <animated.mesh
+              position={[0.0, 0, 0.3]}
+              // material={matEightBFg2}
+              scale={1.0}
+            >
+              <Suspense fallback={FallbackMaterial}>
+                <VideoMat id={"MXT_CLM_COMP_FG2_150_SD_10.mp4"} />
+                {/* <primitive object={matEightBFg2} /> */}
+              </Suspense>
+              <planeGeometry args={[1.24, 1, 1]} />
+            </animated.mesh>
+            <animated.mesh
+              position={[0.0, 0.0, 0.2]}
+              // material={matEightBMg}
+              scale={1.0}
+            >
+              <Suspense fallback={FallbackMaterial}>
+                {/* <primitive object={matEightBMg} /> */}
+                <VideoMat id={"MXT_CLM_COMP_MG_150_SD_10.mp4"} />
+              </Suspense>
+              <planeGeometry args={[1.24, 1, 1]} />
+            </animated.mesh>
+            <animated.mesh
+              position={[0.0, 0.0, 0.0]}
+              // material={matEightBBg}
+              scale={1.0}
+            >
+              <Suspense fallback={FallbackMaterial}>
+                {/* <primitive object={matEightBBg} /> */}
+                <VideoMat id={"MXT_CLM_COMP_BG_150_SD_10.mp4"} />
+              </Suspense>
+              <planeGeometry args={[1.24, 1, 1]} />
+            </animated.mesh>
+            <animated.mesh position={[0.0, 0, 0.4]} scale={1.0}>
+              <Suspense fallback={FallbackMaterial}>
+                <VideoMat id={"MXT_CLM_120_Comp_Couch_SD_01-1.mov"} />
+                {/* <primitive object={matSixAFG} /> */}
+              </Suspense>
+              <planeGeometry args={[1.24, 1, 1]} />
+            </animated.mesh>
+            <animated.mesh position={[0.0, 0, 0.3]} scale={1.0}>
+              <Suspense fallback={FallbackMaterial}>
+                {/* <primitive object={matSixAMG} /> */}
+                <VideoMat id={"MXT_CLM_120_Comp_Lamp_SD_01-1.mov"} />
+              </Suspense>
+              <planeGeometry args={[1.24, 1, 1]} />
+            </animated.mesh>
+            <animated.mesh position={[0.0, 0, 0.2]} scale={1}>
+              <Suspense fallback={FallbackMaterial}>
+                <VideoMat id={"MXT_CLM_010_MG_SD_05-1.mov"} />
               </Suspense>
               <SimplePlane />
             </animated.mesh>
