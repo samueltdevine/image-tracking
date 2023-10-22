@@ -306,24 +306,25 @@ function BouncyText(props) {
 const actionTexture = (ref, action) => {
   const refCurrent = ref.current;
   const children = refCurrent.children;
-  const childArray = [];
   children.forEach((child) => {
-    const source = child.material.map.source.data;
-    const geo = child.geometry;
-    const map = child.material.map;
-    const material = child.material;
-    // const source = document.getElementById(sourceId);
-    // childArray.push(source);
-    if (action === "play") {
-      source.play();
-    }
-    if (action === "pause") {
-      source.pause();
-    }
-    if (action === "dispose") {
-      map.dispose();
-      material.dispose();
-      geo.dispose();
+    if (child.material.map !== null) {
+      const source = child.material.map.source.data;
+      // const geo = child.geometry;
+      const map = child.material.map;
+      const material = child.material;
+      // const source = document.getElementById(sourceId);
+      // childArray.push(source);
+      if (action === "play") {
+        source.play();
+      }
+      if (action === "pause") {
+        source.pause();
+      }
+      if (action === "dispose") {
+        map.dispose();
+        material.dispose();
+        // geo.dispose();
+      }
     }
   });
 };
