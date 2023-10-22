@@ -108,7 +108,8 @@ const VideoMat = (props) => {
   texture.format = THREE.RGBAFormat;
   return (
     <>
-      <meshBasicMaterial
+      <FallbackMaterial />
+      {/* <meshBasicMaterial
         map={texture}
         alphaMap={texture}
         transparent={true}
@@ -117,7 +118,7 @@ const VideoMat = (props) => {
         depthWrite={true}
         // depthTest={depthTest}
         toneMapped={false}
-      />
+      /> */}
     </>
   );
 };
