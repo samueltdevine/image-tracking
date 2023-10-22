@@ -326,11 +326,10 @@ const actionTexture = (ref, action) => {
   });
 };
 
-function CoverTarget(targetIndex) {
+function CoverTarget(props) {
   const { gl, scene, camera } = useThree();
   const [isFound, setIsFound] = useState(false);
-
-  const { targetIndexInt } = handleVideoLibrary(targetIndex);
+  const { targetIndexInt, latestFind, setLatestFind } = props;
 
   // const logoMat = idToVideoMat("logo", true, targetIndexInt);
   // const yellowMat = idToVideoMat("videoYellow", false, targetIndexInt);
@@ -370,8 +369,9 @@ function CoverTarget(targetIndex) {
         onAnchorFound={() => {
           console.log("cover found");
           gl.setClearColor(0x272727, 0.7);
-          setIsFound(true);
+          console.log("latest", latestFind);
           actionTexture(ref, "play");
+          setLatestFind(targetIndexInt);
 
           // videoLibrary[targetIndexInt].forEach((video) => {
           //   console.log("child video", video);
@@ -408,7 +408,7 @@ function CoverTarget(targetIndex) {
           // });
         }}
       >
-        {isFound ? (
+        {targetIndexInt === latestFind ? (
           <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
             <animated.mesh
               position={[0.0, 0.5, -0.3]}
@@ -480,10 +480,10 @@ function CoverTarget(targetIndex) {
   );
 }
 
-function SpreadOneA(targetIndex) {
+function SpreadOneA(props) {
+  const { targetIndexInt, latestFind, setLatestFind } = props;
   const { gl, scene, camera } = useThree();
   gl.toneMapping = THREE.NoToneMapping;
-  const { targetIndexInt } = handleVideoLibrary(targetIndex);
   const [isFound, setIsFound] = useState(false);
 
   const ref = useRef();
@@ -508,8 +508,8 @@ function SpreadOneA(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          setIsFound(true);
           actionTexture(ref, "play");
+          setLatestFind(targetIndexInt);
           gl.setClearColor(0x272727, 0.7);
 
           // videoLibrary[targetIndexInt].forEach((video) => video.play());
@@ -536,7 +536,7 @@ function SpreadOneA(targetIndex) {
           // const bg2Mat = idToPictureMat("picOneAbg2");
         }}
       >
-        {isFound ? (
+        {targetIndexInt === latestFind ? (
           <>
             <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
               <animated.mesh position={[0.0, 0, 0.2]} scale={1}>
@@ -568,10 +568,10 @@ function SpreadOneA(targetIndex) {
     </>
   );
 }
-function SpreadOneB(targetIndex) {
+function SpreadOneB(props) {
+  const { targetIndexInt, latestFind, setLatestFind } = props;
   const { gl, scene, camera } = useThree();
   gl.toneMapping = THREE.NoToneMapping;
-  const { targetIndexInt } = handleVideoLibrary(targetIndex);
   const ref = useRef();
 
   // const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
@@ -654,10 +654,10 @@ function SpreadOneB(targetIndex) {
     </>
   );
 }
-function SpreadTwoA(targetIndex) {
+function SpreadTwoA(props) {
+  const { targetIndexInt, latestFind, setLatestFind } = props;
   const { gl, scene, camera } = useThree();
   gl.toneMapping = THREE.NoToneMapping;
-  const { targetIndexInt } = handleVideoLibrary(targetIndex);
   const [isFound, setIsFound] = useState(false);
   const ref = useRef();
 
@@ -691,8 +691,9 @@ function SpreadTwoA(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          setIsFound(true);
+          console.log("latest", latestFind);
           actionTexture(ref, "play");
+          setLatestFind(targetIndexInt);
           gl.setClearColor(0x272727, 0.7);
 
           // videoLibrary[targetIndexInt].forEach((video) => video.play());
@@ -720,7 +721,7 @@ function SpreadTwoA(targetIndex) {
           // });
         }}
       >
-        {isFound ? (
+        {targetIndexInt === latestFind ? (
           <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
             <animated.mesh
               position={[0.0, 0, 0.4]}
@@ -753,10 +754,10 @@ function SpreadTwoA(targetIndex) {
     </>
   );
 }
-function SpreadTwoB(targetIndex) {
+function SpreadTwoB(props) {
+  const { targetIndexInt, latestFind, setLatestFind } = props;
   const { gl, scene, camera } = useThree();
   gl.toneMapping = THREE.NoToneMapping;
-  const { targetIndexInt } = handleVideoLibrary(targetIndex);
   const ref = useRef();
 
   // const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
@@ -839,10 +840,10 @@ function SpreadTwoB(targetIndex) {
     </>
   );
 }
-function SpreadThreeA(targetIndex) {
+function SpreadThreeA(props) {
+  const { targetIndexInt, latestFind, setLatestFind } = props;
   const { gl, scene, camera } = useThree();
   gl.toneMapping = THREE.NoToneMapping;
-  const { targetIndexInt } = handleVideoLibrary(targetIndex);
   const ref = useRef();
 
   // const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
@@ -925,10 +926,10 @@ function SpreadThreeA(targetIndex) {
     </>
   );
 }
-function SpreadThreeB(targetIndex) {
+function SpreadThreeB(props) {
+  const { targetIndexInt, latestFind, setLatestFind } = props;
   const { gl, scene, camera } = useThree();
   gl.toneMapping = THREE.NoToneMapping;
-  const { targetIndexInt } = handleVideoLibrary(targetIndex);
   const ref = useRef();
 
   // const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
@@ -1011,10 +1012,10 @@ function SpreadThreeB(targetIndex) {
     </>
   );
 }
-function SpreadFourA(targetIndex) {
+function SpreadFourA(props) {
+  const { targetIndexInt, latestFind, setLatestFind } = props;
   const { gl, scene, camera } = useThree();
   gl.toneMapping = THREE.NoToneMapping;
-  const { targetIndexInt } = handleVideoLibrary(targetIndex);
   const ref = useRef();
 
   // const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
@@ -1097,10 +1098,10 @@ function SpreadFourA(targetIndex) {
     </>
   );
 }
-function SpreadFourB(targetIndex) {
+function SpreadFourB(props) {
+  const { targetIndexInt, latestFind, setLatestFind } = props;
   const { gl, scene, camera } = useThree();
   gl.toneMapping = THREE.NoToneMapping;
-  const { targetIndexInt } = handleVideoLibrary(targetIndex);
   const ref = useRef();
 
   // const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
@@ -1183,10 +1184,10 @@ function SpreadFourB(targetIndex) {
     </>
   );
 }
-function SpreadFiveA(targetIndex) {
+function SpreadFiveA(props) {
+  const { targetIndexInt, latestFind, setLatestFind } = props;
   const { gl, scene, camera } = useThree();
   gl.toneMapping = THREE.NoToneMapping;
-  const { targetIndexInt } = handleVideoLibrary(targetIndex);
   const ref = useRef();
 
   // const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
@@ -1269,10 +1270,10 @@ function SpreadFiveA(targetIndex) {
     </>
   );
 }
-function SpreadFiveB(targetIndex) {
+function SpreadFiveB(props) {
+  const { targetIndexInt, latestFind, setLatestFind } = props;
   const { gl, scene, camera } = useThree();
   gl.toneMapping = THREE.NoToneMapping;
-  const { targetIndexInt } = handleVideoLibrary(targetIndex);
   const ref = useRef();
 
   // const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
@@ -1356,10 +1357,10 @@ function SpreadFiveB(targetIndex) {
   );
 }
 
-function SpreadSixA(targetIndex) {
+function SpreadSixA(props) {
+  const { targetIndexInt, latestFind, setLatestFind } = props;
   const { gl, scene, camera } = useThree();
   gl.toneMapping = THREE.NoToneMapping;
-  const { targetIndexInt } = handleVideoLibrary(targetIndex);
   const [isFound, setIsFound] = useState(false);
   const ref = useRef();
 
@@ -1384,8 +1385,9 @@ function SpreadSixA(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          setIsFound(true);
+          console.log("latest", latestFind);
           actionTexture(ref, "play");
+          setLatestFind(targetIndexInt);
           gl.setClearColor(0x272727, 0.7);
           sound.play();
         }}
@@ -1399,7 +1401,7 @@ function SpreadSixA(targetIndex) {
           gl.setClearColor(0x272727, 0.0);
         }}
       >
-        {isFound ? (
+        {targetIndexInt === latestFind ? (
           <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
             <animated.mesh position={[0.0, 0, 0.4]} scale={1.0}>
               <Suspense fallback={FallbackMaterial}>
@@ -1423,10 +1425,10 @@ function SpreadSixA(targetIndex) {
     </>
   );
 }
-function SpreadSixB(targetIndex) {
+function SpreadSixB(props) {
+  const { targetIndexInt, latestFind, setLatestFind } = props;
   const { gl, scene, camera } = useThree();
   gl.toneMapping = THREE.NoToneMapping;
-  const { targetIndexInt } = handleVideoLibrary(targetIndex);
   const [isFound, setIsFound] = useState(false);
   const ref = useRef();
 
@@ -1451,8 +1453,9 @@ function SpreadSixB(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          setIsFound(true);
+          console.log("latest", latestFind);
           actionTexture(ref, "play");
+          setLatestFind(targetIndexInt);
           gl.setClearColor(0x272727, 0.7);
 
           // videoLibrary[targetIndexInt].forEach((video) => video.play());
@@ -1479,7 +1482,7 @@ function SpreadSixB(targetIndex) {
           // handleCover(prop);
         }}
       >
-        {isFound ? (
+        {targetIndexInt === latestFind ? (
           <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
             <animated.mesh
               position={[0.0, 0, 0.4]}
@@ -1511,10 +1514,10 @@ function SpreadSixB(targetIndex) {
     </>
   );
 }
-function SpreadEightA(targetIndex) {
+function SpreadEightA(props) {
+  const { targetIndexInt, latestFind, setLatestFind } = props;
   const { gl, scene, camera } = useThree();
   gl.toneMapping = THREE.NoToneMapping;
-  const { targetIndexInt } = handleVideoLibrary(targetIndex);
   const [isFound, setIsFound] = useState(false);
 
   const ref = useRef();
@@ -1547,8 +1550,9 @@ function SpreadEightA(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          setIsFound(true);
+          console.log("latest", latestFind);
           actionTexture(ref, "play");
+          setLatestFind(targetIndexInt);
           gl.setClearColor(0x272727, 0.7);
           // gl.toneMapping(THREE.NoToneMapping);
           // fadeOnAction.play()
@@ -1581,7 +1585,7 @@ function SpreadEightA(targetIndex) {
           // handleCover(prop);
         }}
       >
-        {isFound ? (
+        {targetIndexInt === latestFind ? (
           <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
             <animated.mesh
               position={[0.0, 0, 0.3]}
@@ -1622,10 +1626,10 @@ function SpreadEightA(targetIndex) {
   );
 }
 
-function SpreadEightB(targetIndex) {
+function SpreadEightB(props) {
+  const { targetIndexInt, latestFind, setLatestFind } = props;
   const { gl, scene, camera } = useThree();
   gl.toneMapping = THREE.NoToneMapping;
-  const { targetIndexInt } = handleVideoLibrary(targetIndex);
   const [isFound, setIsFound] = useState(false);
 
   const ref = useRef();
@@ -1664,8 +1668,9 @@ function SpreadEightB(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          setIsFound(true);
+          console.log("latest", latestFind);
           actionTexture(ref, "play");
+          setLatestFind(targetIndexInt);
           gl.setClearColor(0x272727, 0.7);
 
           // videoLibrary[targetIndexInt].forEach((video) => video.play());
@@ -1691,7 +1696,7 @@ function SpreadEightB(targetIndex) {
           // handleCover(prop);
         }}
       >
-        {isFound ? (
+        {targetIndexInt === latestFind ? (
           <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
             <animated.mesh
               position={[0.0, 0, 0.4]}
@@ -1747,23 +1752,85 @@ function SpreadEightB(targetIndex) {
 }
 
 const TargetWrap = (props) => {
+  const [latestFind, setLatestFind] = useState(null);
+  console.log("latestFind", latestFind);
   return (
     <>
-      <CoverTarget targetIndex={0} />
-      <SpreadOneA targetIndex={2} />
-      <SpreadOneB targetIndex={3} />
-      <SpreadTwoA targetIndex={4} />
-      <SpreadTwoB targetIndex={5} />
-      <SpreadThreeA targetIndex={6} />
-      <SpreadThreeB targetIndex={7} />
-      <SpreadFourA targetIndex={8} />
-      <SpreadFourB targetIndex={9} />
-      <SpreadFiveA targetIndex={10} />
-      <SpreadFiveB targetIndex={11} />
-      <SpreadSixA targetIndex={12} />
-      <SpreadSixB targetIndex={13} />
-      <SpreadEightB targetIndex={15} />
-      <SpreadEightA targetIndex={14} />
+      <CoverTarget
+        targetIndexInt={0}
+        latestFind={latestFind}
+        setLatestFind={setLatestFind}
+      />
+      <SpreadOneA
+        targetIndexInt={2}
+        latestFind={latestFind}
+        setLatestFind={setLatestFind}
+      />
+      <SpreadOneB
+        targetIndexInt={3}
+        latestFind={latestFind}
+        setLatestFind={setLatestFind}
+      />
+      <SpreadTwoA
+        targetIndexInt={4}
+        latestFind={latestFind}
+        setLatestFind={setLatestFind}
+      />
+      <SpreadTwoB
+        targetIndexInt={5}
+        latestFind={latestFind}
+        setLatestFind={setLatestFind}
+      />
+      <SpreadThreeA
+        targetIndexInt={6}
+        latestFind={latestFind}
+        setLatestFind={setLatestFind}
+      />
+      <SpreadThreeB
+        targetIndexInt={7}
+        latestFind={latestFind}
+        setLatestFind={setLatestFind}
+      />
+      <SpreadFourA
+        targetIndexInt={8}
+        latestFind={latestFind}
+        setLatestFind={setLatestFind}
+      />
+      <SpreadFourB
+        targetIndexInt={9}
+        latestFind={latestFind}
+        setLatestFind={setLatestFind}
+      />
+      <SpreadFiveA
+        targetIndexInt={10}
+        latestFind={latestFind}
+        setLatestFind={setLatestFind}
+      />
+      <SpreadFiveB
+        targetIndexInt={11}
+        latestFind={latestFind}
+        setLatestFind={setLatestFind}
+      />
+      <SpreadSixA
+        targetIndexInt={12}
+        latestFind={latestFind}
+        setLatestFind={setLatestFind}
+      />
+      <SpreadSixB
+        targetIndexInt={13}
+        latestFind={latestFind}
+        setLatestFind={setLatestFind}
+      />
+      <SpreadEightB
+        targetIndexInt={15}
+        latestFind={latestFind}
+        setLatestFind={setLatestFind}
+      />
+      <SpreadEightA
+        targetIndexInt={14}
+        latestFind={latestFind}
+        setLatestFind={setLatestFind}
+      />
     </>
   );
 };
