@@ -308,6 +308,7 @@ const actionTexture = (ref, action) => {
   const childArray = [];
   children.forEach((child) => {
     const source = child.material.map.source.data;
+    const geo = child.geometry;
     const map = child.material.map;
     const material = child.material;
     // const source = document.getElementById(sourceId);
@@ -321,12 +322,14 @@ const actionTexture = (ref, action) => {
     if (action === "dispose") {
       map.dispose();
       material.dispose();
+      geo.dispose();
     }
   });
 };
 
 function CoverTarget(props) {
   const { gl, scene, camera } = useThree();
+  console.log("gl", gl);
   const [isFound, setIsFound] = useState(false);
   const { targetIndexInt, latestFind, setLatestFind } = props;
 
@@ -389,6 +392,7 @@ function CoverTarget(props) {
         onAnchorLost={() => {
           actionTexture(ref, "pause");
           actionTexture(ref, "dispose");
+          gl.dispose();
 
           setIsFound(false);
           sound.pause();
@@ -396,7 +400,6 @@ function CoverTarget(props) {
           gl.setClearColor(0x272727, 0.0);
           let prop = { scale: 0.0 };
           handleCover(prop);
-
           // videoLibrary[targetIndexInt].forEach((video) => {
           //   video.pause();
           // });
@@ -470,70 +473,6 @@ function CoverTarget(props) {
               </Suspense>
               <SimplePlane />
             </animated.mesh>
-            <animated.mesh
-              position={[0.0, 0, 0.4]}
-              // material={matEightBFg1}
-              scale={1.0}
-            >
-              <Suspense fallback={FallbackMaterial}>
-                <VideoMat id={"MXT_CLM_COMP_FG1_150_SD_10.mp4"} />
-                {/* <primitive object={matEightBFg1} /> */}
-              </Suspense>
-              <planeGeometry args={[1.24, 1, 1]} />
-            </animated.mesh>
-            <animated.mesh
-              position={[0.0, 0, 0.3]}
-              // material={matEightBFg2}
-              scale={1.0}
-            >
-              <Suspense fallback={FallbackMaterial}>
-                <VideoMat id={"MXT_CLM_COMP_FG2_150_SD_10.mp4"} />
-                {/* <primitive object={matEightBFg2} /> */}
-              </Suspense>
-              <planeGeometry args={[1.24, 1, 1]} />
-            </animated.mesh>
-            <animated.mesh
-              position={[0.0, 0.0, 0.2]}
-              // material={matEightBMg}
-              scale={1.0}
-            >
-              <Suspense fallback={FallbackMaterial}>
-                {/* <primitive object={matEightBMg} /> */}
-                <VideoMat id={"MXT_CLM_COMP_MG_150_SD_10.mp4"} />
-              </Suspense>
-              <planeGeometry args={[1.24, 1, 1]} />
-            </animated.mesh>
-            <animated.mesh
-              position={[0.0, 0.0, 0.0]}
-              // material={matEightBBg}
-              scale={1.0}
-            >
-              <Suspense fallback={FallbackMaterial}>
-                {/* <primitive object={matEightBBg} /> */}
-                <VideoMat id={"MXT_CLM_COMP_BG_150_SD_10.mp4"} />
-              </Suspense>
-              <planeGeometry args={[1.24, 1, 1]} />
-            </animated.mesh>
-            <animated.mesh position={[0.0, 0, 0.4]} scale={1.0}>
-              <Suspense fallback={FallbackMaterial}>
-                <VideoMat id={"MXT_CLM_120_Comp_Couch_SD_01-1.mov"} />
-                {/* <primitive object={matSixAFG} /> */}
-              </Suspense>
-              <planeGeometry args={[1.24, 1, 1]} />
-            </animated.mesh>
-            <animated.mesh position={[0.0, 0, 0.3]} scale={1.0}>
-              <Suspense fallback={FallbackMaterial}>
-                {/* <primitive object={matSixAMG} /> */}
-                <VideoMat id={"MXT_CLM_120_Comp_Lamp_SD_01-1.mov"} />
-              </Suspense>
-              <planeGeometry args={[1.24, 1, 1]} />
-            </animated.mesh>
-            <animated.mesh position={[0.0, 0, 0.2]} scale={1}>
-              <Suspense fallback={FallbackMaterial}>
-                <VideoMat id={"MXT_CLM_010_MG_SD_05-1.mov"} />
-              </Suspense>
-              <SimplePlane />
-            </animated.mesh>
           </group>
         ) : (
           <group ref={ref}></group>
@@ -582,6 +521,7 @@ function SpreadOneA(props) {
         onAnchorLost={() => {
           actionTexture(ref, "pause");
           actionTexture(ref, "dispose");
+          gl.dispose();
 
           setIsFound("false");
           sound.pause();
@@ -769,6 +709,7 @@ function SpreadTwoA(props) {
         onAnchorLost={() => {
           actionTexture(ref, "pause");
           actionTexture(ref, "dispose");
+          gl.dispose();
 
           setIsFound(false);
           sound.pause();
@@ -1457,6 +1398,7 @@ function SpreadSixA(props) {
         onAnchorLost={() => {
           actionTexture(ref, "pause");
           actionTexture(ref, "dispose");
+          gl.dispose();
 
           setIsFound(false);
           sound.pause();
@@ -1528,6 +1470,7 @@ function SpreadSixB(props) {
         onAnchorLost={() => {
           actionTexture(ref, "pause");
           actionTexture(ref, "dispose");
+          gl.dispose();
 
           setIsFound(false);
           sound.pause();
@@ -1631,6 +1574,7 @@ function SpreadEightA(props) {
         onAnchorLost={() => {
           actionTexture(ref, "pause");
           actionTexture(ref, "dispose");
+          gl.dispose();
 
           setIsFound(false);
           sound.pause();
@@ -1743,6 +1687,7 @@ function SpreadEightB(props) {
         onAnchorLost={() => {
           actionTexture(ref, "pause");
           actionTexture(ref, "dispose");
+          gl.dispose();
 
           setIsFound(false);
           sound.pause();
@@ -1816,6 +1761,8 @@ function SpreadEightB(props) {
 
 const TargetWrap = (props) => {
   const [latestFind, setLatestFind] = useState(null);
+  const { gl } = useThree();
+  console.log(gl, "gl");
   console.log("latestFind", latestFind);
   return (
     <>
