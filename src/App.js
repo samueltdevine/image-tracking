@@ -13,7 +13,7 @@ import {
   useTrail,
   useSpringRef,
 } from "@react-spring/three";
-import { PlaneGeometry, Text3D } from "@react-three/drei";
+import { PlaneGeometry, Text3D, useTexture } from "@react-three/drei";
 
 function degToRad(degrees) {
   var pi = Math.PI;
@@ -97,8 +97,33 @@ const idToVideoMat = (id, depthTest, targetIndexInt, alphaId) => {
   // />
 };
 
+const ImageMaterial = (id) => {
+  const img = document.getElementById(id.id);
+  // debugger;
+  const props = useTexture({ map: img.src });
+  // if (videoLibrary[targetIndexInt] === undefined) {
+  //   videoLibrary[targetIndexInt] = [];
+  // }
+  // videoLibrary[targetIndexInt].push(video);
+  props.map.format = THREE.RGBAFormat;
+  props.transparent = true;
+  props.depthTest = true;
+  // const material = new THREE.MeshBasicMaterial({
+  //   map: props.map,
+  //   alphaMap: props.alphaMap,
+  //   transparent: true,
+  //   opacity: 100,
+  //   side: THREE.DoubleSide,
+  //   depthWrite: true,
+  //   // depthTest: depthTest,
+  //   toneMapped: false,
+  // });
+
+  return <meshBasicMaterial {...props} />;
+};
+
 const SimplePlane = () => {
-  return <planeGeometry args={[1, 1, 1]} />;
+  return <planeGeometry args={[1.24, 1, 1]} />;
 };
 
 const fontPath = "/Nunito_Medium_Regular.json";
@@ -422,10 +447,7 @@ function SpreadOneA(targetIndex) {
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
   const ref = useRef();
 
-  const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
-  const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
-  const mgMat = idToVideoMat("videoEightThree", false, targetIndexInt);
-  const bgMat = idToVideoMat("videoEightFour", false, targetIndexInt);
+  const mgMat = idToVideoMat("videoOneAmg", false, targetIndexInt);
 
   const listener = new THREE.AudioListener();
 
@@ -464,38 +486,32 @@ function SpreadOneA(targetIndex) {
 
           // let prop = { scale: 0.0 };
           // handleCover(prop);
+          // const fgMat = idToPictureMat("picOneAfg");
+          // const bg1Mat = idToPictureMat("picOneAbg1");
+          // const bg2Mat = idToPictureMat("picOneAbg2");
         }}
       >
-        <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
-          {/* <animated.mesh
-            position={[0.0, 0, 0.4]}
-            material={fg1Mat}
-            scale={trails[0].scale}
-          >
-            <SimplePlane />
-          </animated.mesh>
-          <animated.mesh
-            position={[0.0, 0, 0.3]}
-            material={fg2Mat}
-            scale={trails[0].scale}
-          >
-            <SimplePlane />
-          </animated.mesh>
-          <animated.mesh
-            position={[0.0, 0.0, 0.2]}
-            material={mgMat}
-            scale={trails[0].scale}
-          >
-            <SimplePlane />
-          </animated.mesh>
-          <animated.mesh
-            position={[0.0, 0.0, 0.0]}
-            material={bgMat}
-            scale={trails[0].scale}
-          >
-            <SimplePlane />
-          </animated.mesh> */}
-        </AnimatedGroup>
+        <>
+          <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
+            <animated.mesh position={[0.0, 0, 0.2]} material={mgMat} scale={1}>
+              <SimplePlane />
+            </animated.mesh>
+          </group>
+          <group scale={0.7} position={[0.0, -0.05, 0]}>
+            <animated.mesh position={[-0.1, 0, 0.0]} scale={1}>
+              <SimplePlane />
+              <ImageMaterial id={"picOneAfg"} />
+            </animated.mesh>
+            <animated.mesh position={[0.0, 0.0, -0.4]} scale={1}>
+              <ImageMaterial id={"picOneAbg1"} />
+              <SimplePlane />
+            </animated.mesh>
+            <animated.mesh position={[-0.2, 0.0, -0.5]} scale={1}>
+              <ImageMaterial id={"picOneAbg2"} />
+              <SimplePlane />
+            </animated.mesh>
+          </group>
+        </>
       </ARAnchor>
     </>
   );
@@ -529,7 +545,7 @@ function SpreadOneB(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          actionTexture(ref, "play");
+          // actionTexture(ref, "play");
           gl.setClearColor(0x4d4d4d, 0.6);
 
           // videoLibrary[targetIndexInt].forEach((video) => video.play());
@@ -537,7 +553,7 @@ function SpreadOneB(targetIndex) {
           sound.play();
         }}
         onAnchorLost={() => {
-          actionTexture(ref, "pause");
+          // actionTexture(ref, "pause");
           sound.pause();
           // videoLibrary[targetIndexInt].forEach((video) => {
           //   video.pause();
@@ -784,7 +800,7 @@ function SpreadThreeA(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          actionTexture(ref, "play");
+          // actionTexture(ref, "play");
           gl.setClearColor(0x4d4d4d, 0.6);
 
           // videoLibrary[targetIndexInt].forEach((video) => video.play());
@@ -792,7 +808,7 @@ function SpreadThreeA(targetIndex) {
           sound.play();
         }}
         onAnchorLost={() => {
-          actionTexture(ref, "pause");
+          // actionTexture(ref, "pause");
           sound.pause();
           // videoLibrary[targetIndexInt].forEach((video) => {
           //   video.pause();
@@ -869,14 +885,14 @@ function SpreadThreeB(targetIndex) {
         target={targetIndexInt}
         onAnchorFound={() => {
           actionTexture(ref, "play");
-          gl.setClearColor(0x4d4d4d, 0.6);
+          // gl.setClearColor(0x4d4d4d, 0.6);
 
           // videoLibrary[targetIndexInt].forEach((video) => video.play());
 
           sound.play();
         }}
         onAnchorLost={() => {
-          actionTexture(ref, "pause");
+          // actionTexture(ref, "pause");
           sound.pause();
           // videoLibrary[targetIndexInt].forEach((video) => {
           //   video.pause();
@@ -952,7 +968,7 @@ function SpreadFourA(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          actionTexture(ref, "play");
+          // actionTexture(ref, "play");
           gl.setClearColor(0x4d4d4d, 0.6);
 
           // videoLibrary[targetIndexInt].forEach((video) => video.play());
@@ -960,7 +976,7 @@ function SpreadFourA(targetIndex) {
           sound.play();
         }}
         onAnchorLost={() => {
-          actionTexture(ref, "pause");
+          // actionTexture(ref, "pause");
           sound.pause();
           // videoLibrary[targetIndexInt].forEach((video) => {
           //   video.pause();
@@ -1036,7 +1052,7 @@ function SpreadFourB(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          actionTexture(ref, "play");
+          // actionTexture(ref, "play");
           gl.setClearColor(0x4d4d4d, 0.6);
 
           // videoLibrary[targetIndexInt].forEach((video) => video.play());
@@ -1044,7 +1060,7 @@ function SpreadFourB(targetIndex) {
           sound.play();
         }}
         onAnchorLost={() => {
-          actionTexture(ref, "pause");
+          // actionTexture(ref, "pause");
           sound.pause();
           // videoLibrary[targetIndexInt].forEach((video) => {
           //   video.pause();
@@ -1120,7 +1136,7 @@ function SpreadFiveA(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          actionTexture(ref, "play");
+          // actionTexture(ref, "play");
           gl.setClearColor(0x4d4d4d, 0.6);
 
           // videoLibrary[targetIndexInt].forEach((video) => video.play());
@@ -1128,7 +1144,7 @@ function SpreadFiveA(targetIndex) {
           sound.play();
         }}
         onAnchorLost={() => {
-          actionTexture(ref, "pause");
+          // actionTexture(ref, "pause");
           sound.pause();
           // videoLibrary[targetIndexInt].forEach((video) => {
           //   video.pause();
@@ -1204,7 +1220,7 @@ function SpreadFiveB(targetIndex) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          actionTexture(ref, "play");
+          // actionTexture(ref, "play");
           gl.setClearColor(0x4d4d4d, 0.6);
 
           // videoLibrary[targetIndexInt].forEach((video) => video.play());
@@ -1212,7 +1228,7 @@ function SpreadFiveB(targetIndex) {
           sound.play();
         }}
         onAnchorLost={() => {
-          actionTexture(ref, "pause");
+          // actionTexture(ref, "pause");
           sound.pause();
           // videoLibrary[targetIndexInt].forEach((video) => {
           //   video.pause();
