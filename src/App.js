@@ -13,7 +13,12 @@ import {
   useTrail,
   useSpringRef,
 } from "@react-spring/three";
-import { PlaneGeometry, Text3D, useTexture } from "@react-three/drei";
+import {
+  PlaneGeometry,
+  Text3D,
+  useTexture,
+  useVideoTexture,
+} from "@react-three/drei";
 
 function degToRad(degrees) {
   var pi = Math.PI;
@@ -97,27 +102,35 @@ const idToVideoMat = (id, depthTest, targetIndexInt, alphaId) => {
   // />
 };
 
+const VideoMat = (props) => {
+  const video = document.getElementById(props.id);
+  const src = video.children[0].src;
+  const texture = useVideoTexture(src);
+  texture.format = THREE.RGBAFormat;
+  return (
+    <>
+      <meshBasicMaterial
+        map={texture}
+        alphaMap={texture}
+        transparent={true}
+        opacity={100}
+        side={THREE.DoubleSide}
+        depthWrite={true}
+        // depthTest={depthTest}
+        toneMapped={false}
+      />
+    </>
+  );
+};
+
 const ImageMaterial = (id) => {
   const img = document.getElementById(id.id);
   // debugger;
   const props = useTexture({ map: img.src });
-  // if (videoLibrary[targetIndexInt] === undefined) {
-  //   videoLibrary[targetIndexInt] = [];
-  // }
-  // videoLibrary[targetIndexInt].push(video);
+
   props.map.format = THREE.RGBAFormat;
   props.transparent = true;
   props.depthTest = true;
-  // const material = new THREE.MeshBasicMaterial({
-  //   map: props.map,
-  //   alphaMap: props.alphaMap,
-  //   transparent: true,
-  //   opacity: 100,
-  //   side: THREE.DoubleSide,
-  //   depthWrite: true,
-  //   // depthTest: depthTest,
-  //   toneMapped: false,
-  // });
 
   return <meshBasicMaterial {...props} />;
 };
@@ -447,7 +460,7 @@ function SpreadOneA(targetIndex) {
   const { targetIndexInt } = handleVideoLibrary(targetIndex);
   const ref = useRef();
 
-  const mgMat = idToVideoMat("videoOneAmg", false, targetIndexInt);
+  // const mgMat = idToVideoMat("videoOneAmg", false, targetIndexInt);
 
   const listener = new THREE.AudioListener();
 
@@ -493,7 +506,10 @@ function SpreadOneA(targetIndex) {
       >
         <>
           <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
-            <animated.mesh position={[0.0, 0, 0.2]} material={mgMat} scale={1}>
+            <animated.mesh position={[0.0, 0, 0.2]} scale={1}>
+              {/* <Suspense fallback={FallbackMaterial}> */}
+              {/* </Suspense> */}
+              <VideoMat id={"videoOneAmg"} />
               <SimplePlane />
             </animated.mesh>
           </group>
@@ -1285,13 +1301,6 @@ function SpreadSixA(targetIndex) {
   const matSixAFG = idToVideoMat("videoSixAfg", false, targetIndexInt);
   const matSixAMG = idToVideoMat("videoSixAmg", false, targetIndexInt);
 
-  const targetTextures = [
-    matSixAFG.map,
-    matSixAFG.alphaMap,
-    matSixAMG.map,
-    matSixAMG.alphaMap,
-  ];
-
   const listener = new THREE.AudioListener();
 
   camera.add(listener);
@@ -1312,44 +1321,23 @@ function SpreadSixA(targetIndex) {
         onAnchorFound={() => {
           actionTexture(ref, "play");
           gl.setClearColor(0x4d4d4d, 0.6);
-
-          // videoLibrary[targetIndexInt].forEach((video) => video.play());
-
           sound.play();
         }}
         onAnchorLost={() => {
           actionTexture(ref, "pause");
           sound.pause();
-          // videoLibrary[targetIndexInt].forEach((video) => {
-          //   video.pause();
-          // });
-          // videoLibrary[targetIndexInt] = [];
-          // console.log(videoLibrary[targetIndexInt], "target INT");
 
           gl.setClearColor(0x4d4d4d, 0.0);
-          // targetTextures.forEach((texture) => {
-          //   texture.dispose();
-          // });
-          // let prop = { scale: 0.0 };
-          // handleCover(prop);
         }}
       >
         <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
-          <animated.mesh
-            position={[0.0, 0, 0.4]}
-            // material={matSixAFG}
-            scale={1.0}
-          >
+          <animated.mesh position={[0.0, 0, 0.4]} scale={1.0}>
             <Suspense fallback={FallbackMaterial}>
               <primitive object={matSixAFG} />
             </Suspense>
             <planeGeometry args={[1.24, 1, 1]} />
           </animated.mesh>
-          <animated.mesh
-            position={[0.0, 0, 0.3]}
-            // material={matSixAMG}
-            scale={1.0}
-          >
+          <animated.mesh position={[0.0, 0, 0.3]} scale={1.0}>
             <Suspense fallback={FallbackMaterial}>
               <primitive object={matSixAMG} />
             </Suspense>
@@ -1368,13 +1356,6 @@ function SpreadSixB(targetIndex) {
 
   const matSixBFG = idToVideoMat("videoSixBfg", false, targetIndexInt);
   const matSixBMG = idToVideoMat("videoSixBmg", false, targetIndexInt);
-
-  const targetTextures = [
-    matSixBFG.map,
-    matSixBFG.alphaMap,
-    matSixBMG.map,
-    matSixBMG.alphaMap,
-  ];
 
   const listener = new THREE.AudioListener();
 
