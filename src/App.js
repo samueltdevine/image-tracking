@@ -2,7 +2,7 @@ import { ARAnchor, ARView } from "react-three-mind";
 import cover from "./cover.mind";
 import multiTargets from "./multiTargets7.mind";
 // import multiTargets2 from "./multiTargets_lastHalf.mind";
-import { Canvas, useThree } from "@react-three/fiber";
+import { Canvas, dispose, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { useState, useRef, useEffect, useCallback, Suspense } from "react";
 import {
@@ -315,7 +315,7 @@ const actionTexture = (ref, action) => {
       // const source = document.getElementById(sourceId);
       // childArray.push(source);
       if (action === "play") {
-        source.play();
+        // source.play();
       }
       if (action === "pause") {
         source.pause();
@@ -328,6 +328,20 @@ const actionTexture = (ref, action) => {
     }
   });
 };
+
+function TargetsUtil(props) {
+  const { gl } = useThree();
+  const func = props.props;
+  console.log(func);
+  if (func === "log") {
+    console.log(gl.renderLists);
+  }
+  if (func === "dispose") {
+    gl.renderLists.dispose();
+    console.log("disposed");
+  }
+  return <></>;
+}
 
 function CoverTarget(props) {
   const { gl, scene, camera } = useThree();
@@ -1848,15 +1862,17 @@ const TargetWrap = (props) => {
 };
 
 function App() {
-  const [group1, setGroup1] = useState(false);
-  const [group2, setGroup2] = useState(false);
-  const [group3, setGroup3] = useState(false);
-  const [group4, setGroup4] = useState(false);
+  // const [group1, setGroup1] = useState(false);
+  // const [group2, setGroup2] = useState(false);
+  // const [group3, setGroup3] = useState(false);
+  // const [group4, setGroup4] = useState(false);
+  // const [targetUtil, settargetUtil] = useState(null);
+  // const { gl } = useThree();
   return (
     <>
       <StartUi />
-      <div style={{ height: "100vh" }}>
-        <button
+      {/* <div style={{ height: "100vh" }}> */}
+      {/* <button
           onClick={() => {
             setGroup1(!group1);
           }}
@@ -1884,8 +1900,11 @@ function App() {
         >
           Group4
         </button>
-        <Canvas>
-          {/* <ARView
+        <button onClick={() => settargetUtil("log")}>Log</button>
+        <button onClick={() => settargetUtil("dispose")}>Dispose</button> */}
+      {/* <Canvas> */}
+      {/* <TargetsUtil props={targetUtil} /> */}
+      <ARView
         imageTargets={multiTargets}
         filterMinCF={0.0001}
         filterBeta={0.004}
@@ -1894,132 +1913,133 @@ function App() {
         // maxTrack={2}
         gl={{ antialias: true, toneMapping: THREE.NoToneMapping }}
         linear
-      > */}
-          {/* <TargetWrap /> */}
-          {group1 && (
-            <group>
-              <animated.mesh
-                position={[0.0, 0, 0.4]}
-                // material={matEightBFg1}
-                scale={1.0}
-              >
-                <Suspense fallback={FallbackMaterial}>
-                  <VideoMat id={"MXT_CLM_COMP_FG1_150_SD_10.mp4"} />
-                  {/* <primitive object={matEightBFg1} /> */}
-                </Suspense>
-                <planeGeometry args={[1.24, 1, 1]} />
-              </animated.mesh>
-              <animated.mesh
-                position={[0.0, 0, 0.3]}
-                // material={matEightBFg2}
-                scale={1.0}
-              >
-                <Suspense fallback={FallbackMaterial}>
-                  <VideoMat id={"MXT_CLM_COMP_FG2_150_SD_10.mp4"} />
-                  {/* <primitive object={matEightBFg2} /> */}
-                </Suspense>
-                <planeGeometry args={[1.24, 1, 1]} />
-              </animated.mesh>
-              <animated.mesh
-                position={[0.0, 0.0, 0.2]}
-                // material={matEightBMg}
-                scale={1.0}
-              >
-                <Suspense fallback={FallbackMaterial}>
-                  {/* <primitive object={matEightBMg} /> */}
-                  <VideoMat id={"MXT_CLM_COMP_MG_150_SD_10.mp4"} />
-                </Suspense>
-                <planeGeometry args={[1.24, 1, 1]} />
-              </animated.mesh>
-              <animated.mesh
-                position={[0.0, 0.0, 0.0]}
-                // material={matEightBBg}
-                scale={1.0}
-              >
-                <Suspense fallback={FallbackMaterial}>
-                  {/* <primitive object={matEightBBg} /> */}
-                  <VideoMat id={"MXT_CLM_COMP_BG_150_SD_10.mp4"} />
-                </Suspense>
-                <planeGeometry args={[1.24, 1, 1]} />
-              </animated.mesh>
-            </group>
-          )}
-          {group2 && (
-            <group position={[0, 0, 1]}>
-              <animated.mesh
-                position={[0.0, 0, 0.3]}
-                // material={matEigthAFg}
-                scale={1.0}
-              >
-                <Suspense fallback={FallbackMaterial}>
-                  {/* <primitive object={matEigthAFg} /> */}
-                  <VideoMat id={"MXT_CLM_140_FG_SD_06_hvec.mov"} />
-                </Suspense>
-                <planeGeometry args={[1.24, 1, 1]} />
-              </animated.mesh>
-              <animated.mesh
-                position={[0.0, 0.0, 0.2]}
-                // material={matEightAmg}
-                scale={1.0}
-              >
-                <Suspense fallback={FallbackMaterial}>
-                  <VideoMat id={"MXT_CLM_140_MG_SD_12_hvec.mov"} />
-
-                  {/* <primitive object={matEightAmg} /> */}
-                </Suspense>
-                <planeGeometry args={[1.24, 1, 1]} />
-              </animated.mesh>
-            </group>
-          )}
-          {group3 && (
-            <group position={[0, 0, 2]}>
-              <animated.mesh
-                position={[0.0, 0, 0.4]}
-                // material={matSixBFG}
-                scale={1.0}
-              >
-                <Suspense fallback={FallbackMaterial}>
-                  {/* <primitive object={matSixBFG} /> */}
-                  <VideoMat id={"MXT_CLM_130_FG_SD_01-1.mov"} />
-                </Suspense>
-                <planeGeometry args={[1.24, 1, 1]} />
-              </animated.mesh>
-              <animated.mesh
-                position={[0.0, 0, -5.3]}
-                // material={matSixBMG}
-                scale={1.0}
-              >
-                <Suspense fallback={FallbackMaterial}>
-                  {/* <primitive object={matSixBMG} /> */}
-                  <VideoMat id={"MXT_CLM_130_BG_SD_01-1.mov"} />
-                </Suspense>
-                <planeGeometry args={[12.0, 10, 1]} />
-              </animated.mesh>
-            </group>
-          )}
-          {group4 && (
-            <group position={[0, 0, 3]}>
-              <animated.mesh position={[0.0, 0, 0.4]} scale={1.0}>
-                <Suspense fallback={FallbackMaterial}>
-                  <VideoMat id={"MXT_CLM_120_Comp_Couch_SD_01-1.mov"} />
-                  {/* <primitive object={matSixAFG} /> */}
-                </Suspense>
-                <planeGeometry args={[1.24, 1, 1]} />
-              </animated.mesh>
-              <animated.mesh position={[0.0, 0, 0.3]} scale={1.0}>
-                <Suspense fallback={FallbackMaterial}>
-                  {/* <primitive object={matSixAMG} /> */}
-                  <VideoMat id={"MXT_CLM_120_Comp_Lamp_SD_01-1.mov"} />
-                </Suspense>
-                <planeGeometry args={[1.24, 1, 1]} />
-              </animated.mesh>
-            </group>
-          )}
-        </Canvas>
-      </div>
-      {/* </ARView> */}
+      >
+        <TargetWrap />
+        {/* </Canvas> */}
+        {/* </div> */}
+      </ARView>
     </>
   );
 }
 
 export default App;
+
+// {group1 && (
+//   <group>
+//     <animated.mesh
+//       position={[0.0, 0, 0.4]}
+//       // material={matEightBFg1}
+//       scale={1.0}
+//     >
+//       <Suspense fallback={FallbackMaterial}>
+//         <VideoMat id={"MXT_CLM_COMP_FG1_150_SD_10.mp4"} />
+//         {/* <primitive object={matEightBFg1} /> */}
+//       </Suspense>
+//       <planeGeometry args={[1.24, 1, 1]} />
+//     </animated.mesh>
+//     <animated.mesh
+//       position={[0.0, 0, 0.3]}
+//       // material={matEightBFg2}
+//       scale={1.0}
+//     >
+//       <Suspense fallback={FallbackMaterial}>
+//         <VideoMat id={"MXT_CLM_COMP_FG2_150_SD_10.mp4"} />
+//         {/* <primitive object={matEightBFg2} /> */}
+//       </Suspense>
+//       <planeGeometry args={[1.24, 1, 1]} />
+//     </animated.mesh>
+//     <animated.mesh
+//       position={[0.0, 0.0, 0.2]}
+//       // material={matEightBMg}
+//       scale={1.0}
+//     >
+//       <Suspense fallback={FallbackMaterial}>
+//         {/* <primitive object={matEightBMg} /> */}
+//         <VideoMat id={"MXT_CLM_COMP_MG_150_SD_10.mp4"} />
+//       </Suspense>
+//       <planeGeometry args={[1.24, 1, 1]} />
+//     </animated.mesh>
+//     <animated.mesh
+//       position={[0.0, 0.0, 0.0]}
+//       // material={matEightBBg}
+//       scale={1.0}
+//     >
+//       <Suspense fallback={FallbackMaterial}>
+//         {/* <primitive object={matEightBBg} /> */}
+//         <VideoMat id={"MXT_CLM_COMP_BG_150_SD_10.mp4"} />
+//       </Suspense>
+//       <planeGeometry args={[1.24, 1, 1]} />
+//     </animated.mesh>
+//   </group>
+// )}
+// {group2 && (
+//   <group position={[0, 0, 1]}>
+//     <animated.mesh
+//       position={[0.0, 0, 0.3]}
+//       // material={matEigthAFg}
+//       scale={1.0}
+//     >
+//       <Suspense fallback={FallbackMaterial}>
+//         {/* <primitive object={matEigthAFg} /> */}
+//         <VideoMat id={"MXT_CLM_140_FG_SD_06_hvec.mov"} />
+//       </Suspense>
+//       <planeGeometry args={[1.24, 1, 1]} />
+//     </animated.mesh>
+//     <animated.mesh
+//       position={[0.0, 0.0, 0.2]}
+//       // material={matEightAmg}
+//       scale={1.0}
+//     >
+//       <Suspense fallback={FallbackMaterial}>
+//         <VideoMat id={"MXT_CLM_140_MG_SD_12_hvec.mov"} />
+
+//         {/* <primitive object={matEightAmg} /> */}
+//       </Suspense>
+//       <planeGeometry args={[1.24, 1, 1]} />
+//     </animated.mesh>
+//   </group>
+// )}
+// {group3 && (
+//   <group position={[0, 0, 2]}>
+//     <animated.mesh
+//       position={[0.0, 0, 0.4]}
+//       // material={matSixBFG}
+//       scale={1.0}
+//     >
+//       <Suspense fallback={FallbackMaterial}>
+//         {/* <primitive object={matSixBFG} /> */}
+//         <VideoMat id={"MXT_CLM_130_FG_SD_01-1.mov"} />
+//       </Suspense>
+//       <planeGeometry args={[1.24, 1, 1]} />
+//     </animated.mesh>
+//     <animated.mesh
+//       position={[0.0, 0, -5.3]}
+//       // material={matSixBMG}
+//       scale={1.0}
+//     >
+//       <Suspense fallback={FallbackMaterial}>
+//         {/* <primitive object={matSixBMG} /> */}
+//         <VideoMat id={"MXT_CLM_130_BG_SD_01-1.mov"} />
+//       </Suspense>
+//       <planeGeometry args={[12.0, 10, 1]} />
+//     </animated.mesh>
+//   </group>
+// )}
+// {group4 && (
+//   <group position={[0, 0, 3]}>
+//     <animated.mesh position={[0.0, 0, 0.4]} scale={1.0}>
+//       <Suspense fallback={FallbackMaterial}>
+//         <VideoMat id={"MXT_CLM_120_Comp_Couch_SD_01-1.mov"} />
+//         {/* <primitive object={matSixAFG} /> */}
+//       </Suspense>
+//       <planeGeometry args={[1.24, 1, 1]} />
+//     </animated.mesh>
+//     <animated.mesh position={[0.0, 0, 0.3]} scale={1.0}>
+//       <Suspense fallback={FallbackMaterial}>
+//         {/* <primitive object={matSixAMG} /> */}
+//         <VideoMat id={"MXT_CLM_120_Comp_Lamp_SD_01-1.mov"} />
+//       </Suspense>
+//       <planeGeometry args={[1.24, 1, 1]} />
+//     </animated.mesh>
+//   </group>
+// )}
