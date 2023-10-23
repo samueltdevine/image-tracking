@@ -60,7 +60,7 @@ const FallbackMaterial = () => {
   const material = new THREE.MeshBasicMaterial({
     transparent: true,
     opacity: 99,
-    side: THREE.DoubleSide,
+    side: THREE.BackSide,
     // depthWrite: true,
     // depthTest: depthTest,
     toneMapped: false,
@@ -108,8 +108,8 @@ const VideoMat = (props) => {
   texture.format = THREE.RGBAFormat;
   return (
     <>
-      <FallbackMaterial />
-      {/* <meshBasicMaterial
+      {/* <FallbackMaterial /> */}
+      <meshBasicMaterial
         map={texture}
         alphaMap={texture}
         transparent={true}
@@ -118,7 +118,7 @@ const VideoMat = (props) => {
         depthWrite={true}
         // depthTest={depthTest}
         toneMapped={false}
-      /> */}
+      />
     </>
   );
 };
