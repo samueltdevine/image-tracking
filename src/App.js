@@ -102,9 +102,9 @@ const idToVideoMat = (id, depthTest, targetIndexInt, alphaId) => {
 };
 
 const VideoMat = (props) => {
-  // const video = document.getElementById(props.id);
+  const video = document.getElementById(props.id);
   // const src = video.children[0].src;
-  const texture = useVideoTexture(props.id);
+  const texture = new THREE.VideoTexture(video);
   texture.format = THREE.RGBAFormat;
   return (
     <>
@@ -315,7 +315,8 @@ const actionTexture = (ref, action) => {
       // const source = document.getElementById(sourceId);
       // childArray.push(source);
       if (action === "play") {
-        // source.play();
+        // source.pause();
+        source.play();
       }
       if (action === "pause") {
         source.pause();
