@@ -322,9 +322,10 @@ const actionTexture = (ref, action) => {
         source.pause();
       }
       if (action === "dispose") {
+        console.log("map material", map, material);
         map.dispose();
         material.dispose();
-        // geo.dispose();
+        console.log("map material disposed", map, material);
       }
     }
   });
@@ -389,8 +390,9 @@ function CoverTarget(props) {
           console.log("cover found");
           gl.setClearColor(0x272727, 0.7);
           console.log("latest", latestFind);
-          actionTexture(ref, "play");
           setLatestFind(targetIndexInt);
+          actionTexture(ref, "play");
+          console.log("gl log before", gl.info.memory);
 
           // videoLibrary[targetIndexInt].forEach((video) => {
           //   console.log("child video", video);
@@ -407,11 +409,11 @@ function CoverTarget(props) {
           }
         }}
         onAnchorLost={() => {
+          setLatestFind(null);
           actionTexture(ref, "pause");
           actionTexture(ref, "dispose");
           gl.dispose();
 
-          setIsFound(false);
           sound.pause();
           console.log("lost cover");
           gl.setClearColor(0x272727, 0.0);
@@ -527,8 +529,8 @@ function SpreadOneA(props) {
       <ARAnchor
         target={targetIndexInt}
         onAnchorFound={() => {
-          actionTexture(ref, "play");
           setLatestFind(targetIndexInt);
+          actionTexture(ref, "play");
           gl.setClearColor(0x272727, 0.7);
 
           // videoLibrary[targetIndexInt].forEach((video) => video.play());
@@ -536,11 +538,11 @@ function SpreadOneA(props) {
           sound.play();
         }}
         onAnchorLost={() => {
+          setIsFound("false");
           actionTexture(ref, "pause");
           actionTexture(ref, "dispose");
           gl.dispose();
 
-          setIsFound("false");
           sound.pause();
           gl.setClearColor(0x272727, 0.0);
           // videoLibrary[targetIndexInt].forEach((video) => {
@@ -712,8 +714,8 @@ function SpreadTwoA(props) {
         target={targetIndexInt}
         onAnchorFound={() => {
           console.log("latest", latestFind);
-          actionTexture(ref, "play");
           setLatestFind(targetIndexInt);
+          actionTexture(ref, "play");
           gl.setClearColor(0x272727, 0.7);
 
           // videoLibrary[targetIndexInt].forEach((video) => video.play());
@@ -724,11 +726,11 @@ function SpreadTwoA(props) {
           sound.play();
         }}
         onAnchorLost={() => {
+          setLatestFind(null);
           actionTexture(ref, "pause");
           actionTexture(ref, "dispose");
           gl.dispose();
 
-          setIsFound(false);
           sound.pause();
           // videoLibrary[targetIndexInt].forEach((video) => {
           //   video.pause();
@@ -1407,17 +1409,17 @@ function SpreadSixA(props) {
         target={targetIndexInt}
         onAnchorFound={() => {
           console.log("latest", latestFind);
-          actionTexture(ref, "play");
           setLatestFind(targetIndexInt);
+          actionTexture(ref, "play");
           gl.setClearColor(0x272727, 0.7);
           sound.play();
         }}
         onAnchorLost={() => {
+          setLatestFind(null);
           actionTexture(ref, "pause");
           actionTexture(ref, "dispose");
           gl.dispose();
 
-          setIsFound(false);
           sound.pause();
 
           gl.setClearColor(0x272727, 0.0);
@@ -1476,8 +1478,8 @@ function SpreadSixB(props) {
         target={targetIndexInt}
         onAnchorFound={() => {
           console.log("latest", latestFind);
-          actionTexture(ref, "play");
           setLatestFind(targetIndexInt);
+          actionTexture(ref, "play");
           gl.setClearColor(0x272727, 0.7);
 
           // videoLibrary[targetIndexInt].forEach((video) => video.play());
@@ -1485,11 +1487,11 @@ function SpreadSixB(props) {
           sound.play();
         }}
         onAnchorLost={() => {
+          setLatestFind(null);
           actionTexture(ref, "pause");
           actionTexture(ref, "dispose");
           gl.dispose();
 
-          setIsFound(false);
           sound.pause();
           // videoLibrary[targetIndexInt].forEach((video) => {
           //   video.pause();
@@ -1589,11 +1591,11 @@ function SpreadEightA(props) {
           // }
         }}
         onAnchorLost={() => {
+          setLatestFind(null);
           actionTexture(ref, "pause");
           actionTexture(ref, "dispose");
           gl.dispose();
 
-          setIsFound(false);
           sound.pause();
           // videoLibrary[targetIndexInt].forEach((video) => {
           //   video.pause();
@@ -1702,11 +1704,11 @@ function SpreadEightB(props) {
           sound.play();
         }}
         onAnchorLost={() => {
+          setLatestFind(null);
           actionTexture(ref, "pause");
           actionTexture(ref, "dispose");
           gl.dispose();
 
-          setIsFound(false);
           sound.pause();
           gl.setClearColor(0x272727, 0.0);
           // videoLibrary[targetIndexInt].forEach((video) => {
@@ -1779,8 +1781,6 @@ function SpreadEightB(props) {
 const TargetWrap = (props) => {
   const [latestFind, setLatestFind] = useState(null);
   const { gl } = useThree();
-  console.log(gl, "gl");
-  console.log("latestFind", latestFind);
   return (
     <>
       <CoverTarget
