@@ -304,39 +304,53 @@ function BouncyText(props) {
 }
 
 const actionTexture = (ref, action) => {
-  console.log("action", ref, action);
+  console.log("action", ref, JSON.stringify(action));
+  const string = JSON.stringify(action);
   const refCurrent = ref.current;
   const children = refCurrent.children;
-  children.forEach((child) => {
-    if (child.material.map !== null) {
-      const source = child.material.map.source.data;
-      // const geo = child.geometry;
-      const map = child.material.map;
-      const alphaMap = child.material.alphaMap;
-      const material = child.material;
-      // const source = document.getElementById(sourceId);
-      // childArray.push(source);
-      if (action === "play") {
-        // }
-        // source.play();
-        console.log("source", source);
-        // if (source.paused === true) {
-        //   console.log("was paused");
-        // source.pause();
-      }
-      if (action === "pause") {
-        // source.pause();
-      }
-      if (action === "dispose") {
-        // console.log("map material", map, material);
-        map.dispose();
-        alphaMap.dispose();
-        material.dispose();
-        console.log("map material disposed", map, material);
-      }
-    } else {
+  console.log("action children", children);
+  console.log("action string", string);
+  for (let i = 0; i < children.length; i++) {
+    const child = children[i];
+    // if (child.material.map !== null) {
+    const source = child.material.map.source.data;
+    // const geo = child.geometry;
+    const map = child.material.map;
+    const alphaMap = child.material.alphaMap;
+    const material = child.material;
+    console.log(
+      "action child",
+      children,
+      child,
+      source,
+      map,
+      alphaMap,
+      material
+    );
+    // const source = document.getElementById(sourceId);
+    // childArray.push(source);
+    if (string === "play") {
+      // }
+      source.play();
+      console.log("action played");
+      // if (source.paused === true) {
+      //   console.log("was paused");
+      // source.pause();
     }
-  });
+    if (string === "pause") {
+      console.log("action paused");
+
+      source.pause();
+      // source.play();
+    }
+    if (string === "dispose") {
+      console.log("action disposed", map, material);
+      map.dispose();
+      alphaMap.dispose();
+      material.dispose();
+    }
+    // } else {
+  }
 };
 
 function TargetsUtil(props) {
@@ -436,67 +450,69 @@ function CoverTarget(props) {
       >
         {targetIndexInt === latestFind ? (
           <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
-            <animated.mesh
-              position={[0.0, 0.5, -0.3]}
-              // material={}
-              scale={trails[3].scale}
-            >
-              <Suspense fallback={FallbackMaterial}>
-                <VideoMat id={"MXT_CLM_Comp_LogoAnimation_SD_01-1.mov"} />
-              </Suspense>
-              <planeGeometry args={[1.92, 1.08, 1]} />
-            </animated.mesh>
-            <animated.mesh
-              position={[-0.35, 0, -0.1]}
-              // material={pinkMat}
-              scale={trails[3].scale}
-            >
-              <Suspense fallback={FallbackMaterial}>
-                <VideoMat
-                  id={"MXT_CLM_Comp_LogoAnimtion_PinkMonster_CV_.mp4"}
-                />
+            <>
+              <animated.mesh
+                position={[0.0, 0.5, -0.3]}
+                // material={}
+                scale={trails[3].scale}
+              >
+                <Suspense fallback={FallbackMaterial}>
+                  <VideoMat id={"MXT_CLM_Comp_LogoAnimation_SD_01-1.mov"} />
+                </Suspense>
+                <planeGeometry args={[1.92, 1.08, 1]} />
+              </animated.mesh>
+              <animated.mesh
+                position={[-0.35, 0, -0.1]}
+                // material={pinkMat}
+                scale={trails[3].scale}
+              >
+                <Suspense fallback={FallbackMaterial}>
+                  <VideoMat
+                    id={"MXT_CLM_Comp_LogoAnimtion_PinkMonster_CV_.mp4"}
+                  />
 
-                {/* <primitive object={pinkMat} /> */}
-              </Suspense>
-              <SimplePlane />
-            </animated.mesh>
-            <animated.mesh
-              position={[0, -0.1, 0]}
-              // material={greenMat}
-              scale={trails[0].scale}
-            >
-              <Suspense fallback={FallbackMaterial}>
-                <VideoMat
-                  id={"MXT_CLM_Comp_LogoAnimtion_GreenMonster_CV_.mp4"}
-                />
-              </Suspense>
-              <SimplePlane />
-            </animated.mesh>
-            <animated.mesh
-              position={[-0.3, 0, 0.1]}
-              // material={yellowMat}
-              scale={trails[1].scale}
-            >
-              <Suspense fallback={FallbackMaterial}>
-                <VideoMat
-                  id={"MXT_CLM_Comp_LogoAnimtion_YellowMonster_CV_h265.mp4"}
-                />
-              </Suspense>
-              <SimplePlane />
-            </animated.mesh>
-            <animated.mesh
-              position={[0.3, 0, -0.2]}
-              // material={orangeMat}
-              scale={trails[2].scale}
-            >
-              <Suspense fallback={FallbackMaterial}>
-                {/* <primitive object={orangeMat} /> */}
-                <VideoMat
-                  id={"MXT_CLM_Comp_LogoAnimtion_OrangeMonster_CV_.mp4"}
-                />
-              </Suspense>
-              <SimplePlane />
-            </animated.mesh>
+                  {/* <primitive object={pinkMat} /> */}
+                </Suspense>
+                <SimplePlane />
+              </animated.mesh>
+              <animated.mesh
+                position={[0, -0.1, 0]}
+                // material={greenMat}
+                scale={trails[0].scale}
+              >
+                <Suspense fallback={FallbackMaterial}>
+                  <VideoMat
+                    id={"MXT_CLM_Comp_LogoAnimtion_GreenMonster_CV_.mp4"}
+                  />
+                </Suspense>
+                <SimplePlane />
+              </animated.mesh>
+              <animated.mesh
+                position={[-0.3, 0, 0.1]}
+                // material={yellowMat}
+                scale={trails[1].scale}
+              >
+                <Suspense fallback={FallbackMaterial}>
+                  <VideoMat
+                    id={"MXT_CLM_Comp_LogoAnimtion_YellowMonster_CV_h265.mp4"}
+                  />
+                </Suspense>
+                <SimplePlane />
+              </animated.mesh>
+              <animated.mesh
+                position={[0.3, 0, -0.2]}
+                // material={orangeMat}
+                scale={trails[2].scale}
+              >
+                <Suspense fallback={FallbackMaterial}>
+                  {/* <primitive object={orangeMat} /> */}
+                  <VideoMat
+                    id={"MXT_CLM_Comp_LogoAnimtion_OrangeMonster_CV_.mp4"}
+                  />
+                </Suspense>
+                <SimplePlane />
+              </animated.mesh>
+            </>
           </group>
         ) : (
           <group ref={ref}></group>
