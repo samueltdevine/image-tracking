@@ -109,8 +109,10 @@ const idToVideoMat = (id, depthTest, targetIndexInt, alphaId) => {
 };
 
 const VideoMat = (props) => {
-  // const src = video.children[0].src;
-  const texture = useVideoTexture(props.id);
+  const video = document.getElementById(props.id);
+  video.play();
+  // const src = ideo.children[0].src;
+  const texture = new THREE.VideoTexture(video);
   console.log("tex", texture);
   texture.format = THREE.RGBAFormat;
   return (
@@ -313,49 +315,35 @@ function BouncyText(props) {
 
 const actionTexture = (ref, action) => {
   console.log("action", ref, JSON.stringify(action));
-  const string = action;
+  const string = JSON.stringify(action);
   const refCurrent = ref.current;
-  // const children = refCurrent.children;
-  // console.log("action children", children);
-  // console.log("action string", string);
-  // for (let i = 0; i < children.length; i++) {
-  //   const child = children[i];
+  const children = refCurrent.children;
+  console.log("action children", children);
+  console.log("action string", string);
+  for (let i = 0; i < children.length; i++) {
+    const child = children[i];
 
-  //   const source = child.material.map.source.data;
+    const source = child.material.map.source.data;
 
-  //   const map = child.material.map;
-  //   const alphaMap = child.material.alphaMap;
-  //   const material = child.material;
-  //   console.log(
-  //     "action child",
-  //     children,
-  //     child,
-  //     source,
-  //     map,
-  //     alphaMap,
-  //     material
-  //   );
+    const map = child.material.map;
+    const alphaMap = child.material.alphaMap;
+    const material = child.material;
 
-  //   if (string === "play") {
-
-  //     source.play();
-  //     console.log("action played");
-
-  //   }
-  //   if (string === "pause") {
-  //     console.log("action paused");
-
-  //     source.pause();
-
-  //   }
-  //   if (string === "dispose") {
-  //     console.log("action disposed", map, material);
-  //     map.dispose();
-  //     alphaMap.dispose();
-  //     material.dispose();
-  //   }
-
-  // }
+    if (string === "play") {
+      source.play();
+      console.log("action played");
+    }
+    if (string === "pause") {
+      // console.log("action paused");
+      // source.pause();
+    }
+    if (string === "dispose") {
+      // console.log("action disposed", map, material);
+      // map.dispose();
+      // alphaMap.dispose();
+      // material.dispose();
+    }
+  }
 };
 
 function TargetsUtil(props) {
@@ -374,7 +362,7 @@ function TargetsUtil(props) {
 
 const AnchorTarget = (props) => {
   const { gl, camera } = useThree();
-  const { targetIndexInt, setLatestFind, children, audioUrl } = props;
+  const { targetIndexInt, setLatestFind, children, audioUrl, posRef } = props;
 
   const ref = useRef();
 
@@ -390,6 +378,7 @@ const AnchorTarget = (props) => {
     sound.setLoop(false);
     sound.setVolume(0.2);
   });
+  // actionTexture(ref, "play");
 
   return (
     <>
@@ -398,8 +387,7 @@ const AnchorTarget = (props) => {
         onAnchorFound={() => {
           gl.setClearColor(0x272727, 0.7);
           setLatestFind(targetIndexInt);
-          actionTexture(ref, "play");
-          sound.play();
+          // sound.play();
         }}
         onAnchorLost={() => {
           console.log("lost");
@@ -411,100 +399,11 @@ const AnchorTarget = (props) => {
           gl.setClearColor(0x272727, 0.0);
         }}
       >
-        {children}
+        <group ref={ref}>{children}</group>
       </ARAnchor>
     </>
   );
 };
-
-function CoverTarget(props) {
-  const { gl, scene, camera } = useThree();
-  console.log("gl", gl);
-  const [isFound, setIsFound] = useState(false);
-  const { targetIndexInt, latestFind, setLatestFind, posRef, children } = props;
-
-  // const logoMat = idToVideoMat("logo", true, targetIndexInt);
-  // const yellowMat = idToVideoMat("videoYellow", false, targetIndexInt);
-  // const pinkMat = idToVideoMat("videoPink", true, targetIndexInt);
-  // const orangeMat = idToVideoMat("videoOrange", false, targetIndexInt);
-  // const greenMat = idToVideoMat("videoGreen", false, targetIndexInt);
-
-  const ref = useRef();
-
-  const listener = new THREE.AudioListener();
-
-  camera.add(listener);
-
-  const sound = new THREE.Audio(listener);
-
-  const audioLoader = new THREE.AudioLoader();
-  audioLoader.load("/CLM.mp3", function (buffer) {
-    sound.setBuffer(buffer);
-    sound.setLoop(false);
-    sound.setVolume(0.2);
-  });
-
-  const [trails, api] = useTrail(
-    4,
-    () => ({ scale: 0, config: config.wobbly }),
-    []
-  );
-
-  const handleCover = (prop) => {
-    api.start({ scale: prop.scale });
-  };
-
-  return (
-    <>
-      <ARAnchor
-        target={targetIndexInt}
-        onAnchorFound={() => {
-          gl.setClearColor(0x272727, 0.7);
-          setLatestFind(targetIndexInt);
-          actionTexture(ref, "play");
-
-          // videoLibrary[targetIndexInt].forEach((video) => {
-          //   console.log("child video", video);
-          //   video.play();
-          // });
-          let prop = { scale: 0.0 };
-          handleCover(prop);
-          prop.scale = 0.7;
-          handleCover(prop);
-          if (soundPlayed === false) {
-            soundPlayed = true;
-            console.log(soundPlayed, true);
-            sound.play();
-          }
-        }}
-        onAnchorLost={() => {
-          actionTexture(ref, "pause");
-          actionTexture(ref, "dispose");
-          setLatestFind(null);
-          gl.dispose();
-
-          sound.pause();
-          console.log("lost cover");
-          gl.setClearColor(0x272727, 0.0);
-          let prop = { scale: 0.0 };
-          handleCover(prop);
-          // videoLibrary[targetIndexInt].forEach((video) => {
-          //   video.pause();
-          // });
-          // videoLibrary[targetIndexInt] = [];
-          // console.log(videoLibrary[targetIndexInt], "target INT");
-          // targetTextures.forEach((texture) => {
-          //   texture.dispose();
-          // });
-        }}
-      >
-        {children}
-
-        <group ref={posRef}></group>
-      </ARAnchor>
-    </>
-  );
-}
 
 function SpreadOneA(props) {
   const { targetIndexInt, latestFind, setLatestFind, children } = props;
@@ -1730,7 +1629,7 @@ function SpreadEightB(props) {
 
 const Cover = () => {
   return (
-    <group>
+    <>
       <animated.mesh position={[0.0, 0.5, -0.3]} scale={0.7}>
         <VideoMat id={"MXT_CLM_Comp_LogoAnimation_SD_01-1.mov"} />
         <planeGeometry args={[1.92, 1.08, 1]} />
@@ -1752,39 +1651,35 @@ const Cover = () => {
         <VideoMat id={"MXT_CLM_Comp_LogoAnimtion_OrangeMonster_CV_.mp4"} />
         <SimplePlane />
       </animated.mesh>
-    </group>
+    </>
   );
 };
 
 const OneA = () => {
   return (
     <>
-      <group scale={0.7} position={[0.0, -0.05, 0]}>
-        <animated.mesh position={[0.0, 0, 0.2]} scale={1}>
-          <VideoMat id={"MXT_CLM_010_MG_SD_05-1.mov"} />
-          <SimplePlane />
-        </animated.mesh>
-      </group>
-      <group scale={0.7} position={[0.0, -0.05, 0]}>
-        <animated.mesh position={[-0.1, 0, 0.0]} scale={1}>
-          <SimplePlane />
-          <ImageMaterial id={"picOneAfg"} />
-        </animated.mesh>
-        <animated.mesh position={[0.0, 0.0, -0.4]} scale={1}>
-          <ImageMaterial id={"picOneAbg1"} />
-          <SimplePlane />
-        </animated.mesh>
-        <animated.mesh position={[-0.2, 0.0, -0.5]} scale={1}>
-          <ImageMaterial id={"picOneAbg2"} />
-          <SimplePlane />
-        </animated.mesh>
-      </group>
+      <animated.mesh position={[0.0, 0, 0.2]} scale={1}>
+        <VideoMat id={"MXT_CLM_010_MG_SD_05-1.mov"} />
+        <SimplePlane />
+      </animated.mesh>
+      <animated.mesh position={[-0.1, 0, 0.0]} scale={1}>
+        <SimplePlane />
+        <ImageMaterial id={"picOneAfg"} />
+      </animated.mesh>
+      <animated.mesh position={[0.0, 0.0, -0.4]} scale={1}>
+        <ImageMaterial id={"picOneAbg1"} />
+        <SimplePlane />
+      </animated.mesh>
+      <animated.mesh position={[-0.2, 0.0, -0.5]} scale={1}>
+        <ImageMaterial id={"picOneAbg2"} />
+        <SimplePlane />
+      </animated.mesh>
     </>
   );
 };
 const TwoA = () => {
   return (
-    <group scale={0.7} position={[0.0, -0.05, 0]}>
+    <>
       <animated.mesh
         position={[0.0, 0, 0.4]}
         // material={matTwoAFG}
@@ -1804,13 +1699,13 @@ const TwoA = () => {
         <VideoMat id={"MXT_CLM_030_Comp_Green_SD_01-1.mov"} />
         <planeGeometry args={[1.24, 1, 1]} />
       </animated.mesh>
-    </group>
+    </>
   );
 };
 
 const SixA = () => {
   return (
-    <group scale={0.7} position={[0.0, -0.05, 0]}>
+    <>
       <animated.mesh position={[0.0, 0, 0.4]} scale={1.0}>
         <VideoMat id={"MXT_CLM_120_Comp_Couch_SD_01-1.mov"} />
         <planeGeometry args={[1.24, 1, 1]} />
@@ -1819,13 +1714,13 @@ const SixA = () => {
         <VideoMat id={"MXT_CLM_120_Comp_Lamp_SD_01-1.mov"} />
         <planeGeometry args={[1.24, 1, 1]} />
       </animated.mesh>
-    </group>
+    </>
   );
 };
 
 const SixB = () => {
   return (
-    <group scale={0.7} position={[0.0, -0.05, 0]}>
+    <>
       <animated.mesh
         position={[0.0, 0, 0.4]}
         // material={matSixBFG}
@@ -1838,13 +1733,13 @@ const SixB = () => {
         <VideoMat id={"MXT_CLM_130_BG_SD_01-1.mov"} />
         <planeGeometry args={[12.0, 10, 1]} />
       </animated.mesh>
-    </group>
+    </>
   );
 };
 
 const EightA = () => {
   return (
-    <group scale={0.7} position={[0.0, -0.05, 0]}>
+    <>
       <animated.mesh
         position={[0.0, 0, 0.3]}
         // material={matEigthAFg}
@@ -1861,12 +1756,12 @@ const EightA = () => {
         <VideoMat id={"MXT_CLM_140_MG_SD_12_hvec.mov"} />
         <planeGeometry args={[1.24, 1, 1]} />
       </animated.mesh>
-    </group>
+    </>
   );
 };
 const EightB = () => {
   return (
-    <group scale={0.7} position={[0.0, -0.05, 0]}>
+    <>
       <animated.mesh position={[0.0, 0, 0.4]} scale={1.0}>
         <VideoMat id={"MXT_CLM_COMP_FG1_150_SD_10.mp4"} />
         <planeGeometry args={[1.24, 1, 1]} />
@@ -1883,7 +1778,7 @@ const EightB = () => {
         <VideoMat id={"MXT_CLM_COMP_BG_150_SD_10.mp4"} />
         <planeGeometry args={[1.24, 1, 1]} />
       </animated.mesh>
-    </group>
+    </>
   );
 };
 
@@ -1896,7 +1791,7 @@ const TargetWrap = (props) => {
   console.log("current", posRef.current);
   console.log("scene", scene);
 
-  const AnchorTargetMemo = useMemo(() => AnchorTarget, []);
+  const AnchorTargetMemo = useMemo(() => AnchorTarget, [latestFind]);
 
   return (
     <>
@@ -1913,6 +1808,7 @@ const TargetWrap = (props) => {
         targetIndexInt={2}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
+        posRef={posRef}
         audioUrl={"/Read_01a.mp3"}
       >
         {latestFind === 2 ? <OneA /> : <></>}
@@ -1926,6 +1822,7 @@ const TargetWrap = (props) => {
         targetIndexInt={4}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
+        posRef={posRef}
         audioUrl={"/Read_02a.mp3"}
       >
         {latestFind === 4 ? <TwoA /> : <></>}
@@ -1969,6 +1866,7 @@ const TargetWrap = (props) => {
         targetIndexInt={12}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
+        posRef={posRef}
         audioUrl={"/Read_06a.mp3"}
       >
         {latestFind === 12 ? <SixA /> : <></>}
@@ -1977,6 +1875,7 @@ const TargetWrap = (props) => {
         targetIndexInt={13}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
+        posRef={posRef}
         audioUrl={"/Read_06b.mp3"}
       >
         {latestFind === 13 ? <SixB /> : <></>}
@@ -1985,6 +1884,7 @@ const TargetWrap = (props) => {
         targetIndexInt={15}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
+        posRef={posRef}
         audioUrl={"/Read_08b.mp3"}
       >
         {latestFind === 15 ? <EightB /> : <></>}
@@ -1993,6 +1893,7 @@ const TargetWrap = (props) => {
         targetIndexInt={14}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
+        posRef={posRef}
         audioUrl={"/Read_08a.mp3"}
       >
         {latestFind === 14 ? <EightA /> : <></>}
