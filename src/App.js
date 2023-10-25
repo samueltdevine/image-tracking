@@ -305,7 +305,7 @@ function BouncyText(props) {
 
 const actionTexture = (ref, action) => {
   console.log("action", ref, JSON.stringify(action));
-  const string = JSON.stringify(action);
+  const string = action;
   const refCurrent = ref.current;
   const children = refCurrent.children;
   console.log("action children", children);
