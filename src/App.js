@@ -4,7 +4,14 @@ import multiTargets from "./multiTargets7.mind";
 // import multiTargets2 from "./multiTargets_lastHalf.mind";
 import { Canvas, dispose, useThree } from "@react-three/fiber";
 import * as THREE from "three";
-import { useState, useRef, useEffect, useCallback, Suspense } from "react";
+import {
+  useState,
+  useRef,
+  useMemo,
+  useEffect,
+  useCallback,
+  Suspense,
+} from "react";
 import {
   useSpring,
   animated,
@@ -65,7 +72,7 @@ const FallbackMaterial = () => {
     // depthTest: depthTest,
     toneMapped: false,
   });
-  return <primitive object={material} />;
+  return material;
 };
 
 const idToVideoMat = (id, depthTest, targetIndexInt, alphaId) => {
@@ -81,7 +88,7 @@ const idToVideoMat = (id, depthTest, targetIndexInt, alphaId) => {
     alphaMap: texture,
     transparent: true,
     opacity: 100,
-    side: THREE.DoubleSide,
+    side: THREE.BackSide,
     depthWrite: true,
     depthTest: depthTest,
     toneMapped: false,
@@ -102,23 +109,24 @@ const idToVideoMat = (id, depthTest, targetIndexInt, alphaId) => {
 };
 
 const VideoMat = (props) => {
-  const video = document.getElementById(props.id);
   // const src = video.children[0].src;
-  const texture = new THREE.VideoTexture(video);
+  const texture = useVideoTexture(props.id);
+  console.log("tex", texture);
   texture.format = THREE.RGBAFormat;
   return (
     <>
-      {/* <FallbackMaterial /> */}
+      {/* <Suspense fallback={FallbackMaterial}> */}
       <meshBasicMaterial
         map={texture}
         alphaMap={texture}
         transparent={true}
-        opacity={100}
+        opacity={10}
         side={THREE.DoubleSide}
         depthWrite={true}
         // depthTest={depthTest}
         toneMapped={false}
       />
+      {/* </Suspense> */}
     </>
   );
 };
@@ -364,16 +372,9 @@ function TargetsUtil(props) {
   return <></>;
 }
 
-function AnchorTarget(props) {
-  const { gl, scene, camera } = useThree();
-  const {
-    targetIndexInt,
-    latestFind,
-    setLatestFind,
-    posRef,
-    children,
-    audioUrl,
-  } = props;
+const AnchorTarget = (props) => {
+  const { gl, camera } = useThree();
+  const { targetIndexInt, setLatestFind, children, audioUrl } = props;
 
   const ref = useRef();
 
@@ -398,29 +399,23 @@ function AnchorTarget(props) {
           gl.setClearColor(0x272727, 0.7);
           setLatestFind(targetIndexInt);
           actionTexture(ref, "play");
-          let prop = { scale: 0.0 };
-          if (soundPlayed === false) {
-            soundPlayed = true;
-            console.log(soundPlayed, true);
-            sound.play();
-          }
+          sound.play();
         }}
         onAnchorLost={() => {
+          console.log("lost");
+          sound.pause();
           actionTexture(ref, "pause");
           actionTexture(ref, "dispose");
           setLatestFind(null);
           gl.dispose();
-          sound.pause();
           gl.setClearColor(0x272727, 0.0);
         }}
       >
         {children}
-
-        <group ref={posRef}></group>
       </ARAnchor>
     </>
   );
-}
+};
 
 function CoverTarget(props) {
   const { gl, scene, camera } = useThree();
@@ -1733,67 +1728,28 @@ function SpreadEightB(props) {
   );
 }
 
-const CoverBox = () => {
+const Cover = () => {
   return (
     <group>
-      <animated.mesh
-        position={[0.0, 0.5, -0.3]}
-        // material={}
-        scale={0.7}
-        // scale={trails[3].scale}
-      >
-        <Suspense fallback={FallbackMaterial}>
-          <VideoMat id={"MXT_CLM_Comp_LogoAnimation_SD_01-1.mov"} />
-        </Suspense>
+      <animated.mesh position={[0.0, 0.5, -0.3]} scale={0.7}>
+        <VideoMat id={"MXT_CLM_Comp_LogoAnimation_SD_01-1.mov"} />
         <planeGeometry args={[1.92, 1.08, 1]} />
       </animated.mesh>
-      <animated.mesh
-        position={[-0.35, 0, -0.1]}
-        // material={pinkMat}
-        scale={0.7}
-        // scale={trails[3].scale}
-      >
-        <Suspense fallback={FallbackMaterial}>
-          <VideoMat id={"MXT_CLM_Comp_LogoAnimtion_PinkMonster_CV_.mp4"} />
+      <animated.mesh position={[-0.35, 0, -0.1]} scale={0.7}>
+        <VideoMat id={"MXT_CLM_Comp_LogoAnimtion_PinkMonster_CV_.mp4"} />
 
-          {/* <primitive object={pinkMat} /> */}
-        </Suspense>
         <SimplePlane />
       </animated.mesh>
-      <animated.mesh
-        position={[0, -0.1, 0]}
-        // material={greenMat}
-        scale={0.7}
-        // scale={trails[0].scale}
-      >
-        <Suspense fallback={FallbackMaterial}>
-          <VideoMat id={"MXT_CLM_Comp_LogoAnimtion_GreenMonster_CV_.mp4"} />
-        </Suspense>
+      <animated.mesh position={[0, -0.1, 0]} scale={0.7}>
+        <VideoMat id={"MXT_CLM_Comp_LogoAnimtion_GreenMonster_CV_.mp4"} />
         <SimplePlane />
       </animated.mesh>
-      <animated.mesh
-        position={[-0.3, 0, 0.1]}
-        // material={yellowMat}
-        scale={0.7}
-        // scale={trails[1].scale}
-      >
-        <Suspense fallback={FallbackMaterial}>
-          <VideoMat
-            id={"MXT_CLM_Comp_LogoAnimtion_YellowMonster_CV_h265.mp4"}
-          />
-        </Suspense>
+      <animated.mesh position={[-0.3, 0, 0.1]} scale={0.7}>
+        <VideoMat id={"MXT_CLM_Comp_LogoAnimtion_YellowMonster_CV_h265.mp4"} />
         <SimplePlane />
       </animated.mesh>
-      <animated.mesh
-        position={[0.3, 0, -0.2]}
-        // material={orangeMat}
-        scale={0.7}
-        // scale={trails[2].scale}
-      >
-        <Suspense fallback={FallbackMaterial}>
-          {/* <primitive object={orangeMat} /> */}
-          <VideoMat id={"MXT_CLM_Comp_LogoAnimtion_OrangeMonster_CV_.mp4"} />
-        </Suspense>
+      <animated.mesh position={[0.3, 0, -0.2]} scale={0.7}>
+        <VideoMat id={"MXT_CLM_Comp_LogoAnimtion_OrangeMonster_CV_.mp4"} />
         <SimplePlane />
       </animated.mesh>
     </group>
@@ -1805,9 +1761,7 @@ const OneA = () => {
     <>
       <group scale={0.7} position={[0.0, -0.05, 0]}>
         <animated.mesh position={[0.0, 0, 0.2]} scale={1}>
-          <Suspense fallback={FallbackMaterial}>
-            <VideoMat id={"MXT_CLM_010_MG_SD_05-1.mov"} />
-          </Suspense>
+          <VideoMat id={"MXT_CLM_010_MG_SD_05-1.mov"} />
           <SimplePlane />
         </animated.mesh>
       </group>
@@ -1836,11 +1790,9 @@ const TwoA = () => {
         // material={matTwoAFG}
         scale={1.0}
       >
-        <Suspense fallback={FallbackMaterial}>
-          <VideoMat id={"MXT_CLM_030_Comp_Music_SD_01-1.mov"} />
+        <VideoMat id={"MXT_CLM_030_Comp_Music_SD_01-1.mov"} />
 
-          {/* <primitive object={matTwoAFG} /> */}
-        </Suspense>
+        {/* <primitive object={matTwoAFG} /> */}
         <planeGeometry args={[1.24, 1, 1]} />
       </animated.mesh>
       <animated.mesh
@@ -1848,10 +1800,8 @@ const TwoA = () => {
         // material={matTwoAMG}
         scale={1.0}
       >
-        <Suspense fallback={FallbackMaterial}>
-          {/* <primitive object={matTwoAMG} /> */}
-          <VideoMat id={"MXT_CLM_030_Comp_Green_SD_01-1.mov"} />
-        </Suspense>
+        {/* <primitive object={matTwoAMG} /> */}
+        <VideoMat id={"MXT_CLM_030_Comp_Green_SD_01-1.mov"} />
         <planeGeometry args={[1.24, 1, 1]} />
       </animated.mesh>
     </group>
@@ -1862,17 +1812,11 @@ const SixA = () => {
   return (
     <group scale={0.7} position={[0.0, -0.05, 0]}>
       <animated.mesh position={[0.0, 0, 0.4]} scale={1.0}>
-        <Suspense fallback={FallbackMaterial}>
-          <VideoMat id={"MXT_CLM_120_Comp_Couch_SD_01-1.mov"} />
-          {/* <primitive object={matSixAFG} /> */}
-        </Suspense>
+        <VideoMat id={"MXT_CLM_120_Comp_Couch_SD_01-1.mov"} />
         <planeGeometry args={[1.24, 1, 1]} />
       </animated.mesh>
       <animated.mesh position={[0.0, 0, 0.3]} scale={1.0}>
-        <Suspense fallback={FallbackMaterial}>
-          {/* <primitive object={matSixAMG} /> */}
-          <VideoMat id={"MXT_CLM_120_Comp_Lamp_SD_01-1.mov"} />
-        </Suspense>
+        <VideoMat id={"MXT_CLM_120_Comp_Lamp_SD_01-1.mov"} />
         <planeGeometry args={[1.24, 1, 1]} />
       </animated.mesh>
     </group>
@@ -1887,21 +1831,11 @@ const SixB = () => {
         // material={matSixBFG}
         scale={1.0}
       >
-        <Suspense fallback={FallbackMaterial}>
-          {/* <primitive object={matSixBFG} /> */}
-          <VideoMat id={"MXT_CLM_130_FG_SD_01-1.mov"} />
-        </Suspense>
+        <VideoMat id={"MXT_CLM_130_FG_SD_01-1.mov"} />
         <planeGeometry args={[1.24, 1, 1]} />
       </animated.mesh>
-      <animated.mesh
-        position={[0.0, 0, -5.3]}
-        // material={matSixBMG}
-        scale={1.0}
-      >
-        <Suspense fallback={FallbackMaterial}>
-          {/* <primitive object={matSixBMG} /> */}
-          <VideoMat id={"MXT_CLM_130_BG_SD_01-1.mov"} />
-        </Suspense>
+      <animated.mesh position={[0.0, 0, -5.3]} scale={1.0}>
+        <VideoMat id={"MXT_CLM_130_BG_SD_01-1.mov"} />
         <planeGeometry args={[12.0, 10, 1]} />
       </animated.mesh>
     </group>
@@ -1916,10 +1850,7 @@ const EightA = () => {
         // material={matEigthAFg}
         scale={1.0}
       >
-        <Suspense fallback={FallbackMaterial}>
-          {/* <primitive object={matEigthAFg} /> */}
-          <VideoMat id={"MXT_CLM_140_FG_SD_06_hvec.mov"} />
-        </Suspense>
+        <VideoMat id={"MXT_CLM_140_FG_SD_06_hvec.mov"} />
         <planeGeometry args={[1.24, 1, 1]} />
       </animated.mesh>
       <animated.mesh
@@ -1927,9 +1858,7 @@ const EightA = () => {
         // material={matEightAmg}
         scale={1.0}
       >
-        <Suspense fallback={FallbackMaterial}>
-          <VideoMat id={"MXT_CLM_140_MG_SD_12_hvec.mov"} />
-        </Suspense>
+        <VideoMat id={"MXT_CLM_140_MG_SD_12_hvec.mov"} />
         <planeGeometry args={[1.24, 1, 1]} />
       </animated.mesh>
     </group>
@@ -1938,48 +1867,20 @@ const EightA = () => {
 const EightB = () => {
   return (
     <group scale={0.7} position={[0.0, -0.05, 0]}>
-      <animated.mesh
-        position={[0.0, 0, 0.4]}
-        // material={matEightBFg1}
-        scale={1.0}
-      >
-        <Suspense fallback={FallbackMaterial}>
-          <VideoMat id={"MXT_CLM_COMP_FG1_150_SD_10.mp4"} />
-          {/* <primitive object={matEightBFg1} /> */}
-        </Suspense>
+      <animated.mesh position={[0.0, 0, 0.4]} scale={1.0}>
+        <VideoMat id={"MXT_CLM_COMP_FG1_150_SD_10.mp4"} />
         <planeGeometry args={[1.24, 1, 1]} />
       </animated.mesh>
-      <animated.mesh
-        position={[0.0, 0, 0.3]}
-        // material={matEightBFg2}
-        scale={1.0}
-      >
-        <Suspense fallback={FallbackMaterial}>
-          <VideoMat id={"MXT_CLM_COMP_FG2_150_SD_10.mp4"} />
-          {/* <primitive object={matEightBFg2} /> */}
-        </Suspense>
+      <animated.mesh position={[0.0, 0, 0.3]} scale={1.0}>
+        <VideoMat id={"MXT_CLM_COMP_FG2_150_SD_10.mp4"} />
         <planeGeometry args={[1.24, 1, 1]} />
       </animated.mesh>
-      <animated.mesh
-        position={[0.0, 0.0, 0.2]}
-        // material={matEightBMg}
-        scale={1.0}
-      >
-        <Suspense fallback={FallbackMaterial}>
-          {/* <primitive object={matEightBMg} /> */}
-          <VideoMat id={"MXT_CLM_COMP_MG_150_SD_10.mp4"} />
-        </Suspense>
+      <animated.mesh position={[0.0, 0.0, 0.2]} scale={1.0}>
+        <VideoMat id={"MXT_CLM_COMP_MG_150_SD_10.mp4"} />
         <planeGeometry args={[1.24, 1, 1]} />
       </animated.mesh>
-      <animated.mesh
-        position={[0.0, 0.0, 0.0]}
-        // material={matEightBBg}
-        scale={1.0}
-      >
-        <Suspense fallback={FallbackMaterial}>
-          {/* <primitive object={matEightBBg} /> */}
-          <VideoMat id={"MXT_CLM_COMP_BG_150_SD_10.mp4"} />
-        </Suspense>
+      <animated.mesh position={[0.0, 0.0, 0.0]} scale={1.0}>
+        <VideoMat id={"MXT_CLM_COMP_BG_150_SD_10.mp4"} />
         <planeGeometry args={[1.24, 1, 1]} />
       </animated.mesh>
     </group>
@@ -1995,39 +1896,41 @@ const TargetWrap = (props) => {
   console.log("current", posRef.current);
   console.log("scene", scene);
 
+  const AnchorTargetMemo = useMemo(() => AnchorTarget, []);
+
   return (
     <>
-      <AnchorTarget
+      <AnchorTargetMemo
         targetIndexInt={0}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
         posRef={posRef}
         audioUrl={"/CLM.mp3"}
       >
-        {latestFind === 0 ? <CoverBox /> : <></>}
-      </AnchorTarget>
-      <AnchorTarget
+        {latestFind === 0 ? <Cover /> : <></>}
+      </AnchorTargetMemo>
+      <AnchorTargetMemo
         targetIndexInt={2}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
         audioUrl={"/Read_01a.mp3"}
       >
         {latestFind === 2 ? <OneA /> : <></>}
-      </AnchorTarget>
-      <SpreadOneB
+      </AnchorTargetMemo>
+      {/* <SpreadOneB
         targetIndexInt={3}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
-      />
-      <AnchorTarget
+      /> */}
+      <AnchorTargetMemo
         targetIndexInt={4}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
         audioUrl={"/Read_02a.mp3"}
       >
         {latestFind === 4 ? <TwoA /> : <></>}
-      </AnchorTarget>
-      <SpreadTwoB
+      </AnchorTargetMemo>
+      {/* <SpreadTwoB
         targetIndexInt={5}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
@@ -2061,39 +1964,39 @@ const TargetWrap = (props) => {
         targetIndexInt={11}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
-      />
-      <AnchorTarget
+      /> */}
+      <AnchorTargetMemo
         targetIndexInt={12}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
         audioUrl={"/Read_06a.mp3"}
       >
         {latestFind === 12 ? <SixA /> : <></>}
-      </AnchorTarget>
-      <AnchorTarget
+      </AnchorTargetMemo>
+      <AnchorTargetMemo
         targetIndexInt={13}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
         audioUrl={"/Read_06b.mp3"}
       >
         {latestFind === 13 ? <SixB /> : <></>}
-      </AnchorTarget>
-      <AnchorTarget
+      </AnchorTargetMemo>
+      <AnchorTargetMemo
         targetIndexInt={15}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
         audioUrl={"/Read_08b.mp3"}
       >
         {latestFind === 15 ? <EightB /> : <></>}
-      </AnchorTarget>
-      <AnchorTarget
+      </AnchorTargetMemo>
+      <AnchorTargetMemo
         targetIndexInt={14}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
         audioUrl={"/Read_08a.mp3"}
       >
         {latestFind === 14 ? <EightA /> : <></>}
-      </AnchorTarget>
+      </AnchorTargetMemo>
     </>
   );
 };
