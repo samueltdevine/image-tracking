@@ -399,7 +399,9 @@ const AnchorTarget = (props) => {
           gl.setClearColor(0x272727, 0.0);
         }}
       >
-        <group ref={ref}>{children}</group>
+        <group scale={0.7} position={[0, 0, 0]} ref={ref}>
+          {children}
+        </group>
       </ARAnchor>
     </>
   );
@@ -1787,9 +1789,6 @@ const TargetWrap = (props) => {
   console.log("latest", latestFind);
   const { gl, scene } = useThree();
   const posRef = useRef();
-  const current = posRef.current;
-  console.log("current", posRef.current);
-  console.log("scene", scene);
 
   const AnchorTargetMemo = useMemo(() => AnchorTarget, [latestFind]);
 
