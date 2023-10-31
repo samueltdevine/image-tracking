@@ -757,19 +757,19 @@ const SevenA = ({ trails }) => {
 const SevenB = ({ trails }) => {
   return (
     <>
-      <animated.mesh position={[0.0, 0, 0.4]} scale={1.0}>
+      <animated.mesh position={[0.0, 0, 0.4]} scale={trails[0].videoScale}>
         <VideoMat id={"MXT_CLM_COMP_FG1_150_SD_10.mp4"} />
         <planeGeometry args={[1.24, 1, 1]} />
       </animated.mesh>
-      <animated.mesh position={[0.0, 0, 0.3]} scale={1.0}>
+      <animated.mesh position={[0.0, 0, 0.3]} scale={trails[1].videoScale}>
         <VideoMat id={"MXT_CLM_COMP_FG2_150_SD_10.mp4"} />
         <planeGeometry args={[1.24, 1, 1]} />
       </animated.mesh>
-      <animated.mesh position={[0.0, 0.0, 0.2]} scale={1.0}>
+      <animated.mesh position={[0.0, 0.0, 0.2]} scale={trails[2].videoScale}>
         <VideoMat id={"MXT_CLM_COMP_MG_150_SD_10.mp4"} />
         <planeGeometry args={[1.24, 1, 1]} />
       </animated.mesh>
-      <animated.mesh position={[0.0, 0.0, 0.0]} scale={1.0}>
+      <animated.mesh position={[0.0, 0.0, 0.0]} scale={trails[4].videoScale}>
         <VideoMat id={"MXT_CLM_COMP_BG_150_SD_10.mp4"} />
         <planeGeometry args={[1.24, 1, 1]} />
       </animated.mesh>
@@ -783,6 +783,22 @@ const TargetWrap = (props) => {
   const { gl, scene } = useThree();
   const posRef = useRef();
   const AnchorTargetMemo = useMemo(() => AnchorTarget, [latestFind]);
+  const CoverMemo = useMemo(() => Cover, [latestFind]);
+  const OneAMemo = useMemo(() => OneA, [latestFind]);
+  const OneBMemo = useMemo(() => OneB, [latestFind]);
+  const TwoAMemo = useMemo(() => TwoA, [latestFind]);
+  const TwoBMemo = useMemo(() => TwoB, [latestFind]);
+  const ThreeAMemo = useMemo(() => ThreeA, [latestFind]);
+  const ThreeBMemo = useMemo(() => ThreeB, [latestFind]);
+  const FourAMemo = useMemo(() => FourA, [latestFind]);
+  const FourBMemo = useMemo(() => FourB, [latestFind]);
+  const FiveAMemo = useMemo(() => FiveA, [latestFind]);
+  const FiveBMemo = useMemo(() => FiveB, [latestFind]);
+  const SixAMemo = useMemo(() => SixA, [latestFind]);
+  const SixBMemo = useMemo(() => SixB, [latestFind]);
+  const SevenAMemo = useMemo(() => SevenA, [latestFind]);
+  const SevenBMemo = useMemo(() => SevenB, [latestFind]);
+
   const [trails, api] = useTrail(
     5,
     () => ({ videoScale: 0, config: config.wobbly }),
@@ -799,7 +815,7 @@ const TargetWrap = (props) => {
         posRef={posRef}
         audioUrl={"/CLM.mp3"}
       >
-        {latestFind === 0 ? <Cover trails={trails} /> : <></>}
+        {latestFind === 0 ? <CoverMemo trails={trails} /> : <></>}
       </AnchorTargetMemo>
 
       <AnchorTargetMemo
@@ -810,7 +826,7 @@ const TargetWrap = (props) => {
         posRef={posRef}
         audioUrl={"/Read_01a.mp3"}
       >
-        {latestFind === 2 ? <OneA trails={trails} /> : <></>}
+        {latestFind === 2 ? <OneAMemo trails={trails} /> : <></>}
       </AnchorTargetMemo>
 
       <AnchorTargetMemo
@@ -821,7 +837,7 @@ const TargetWrap = (props) => {
         posRef={posRef}
         audioUrl={"/Read_02a.mp3"}
       >
-        {latestFind === 4 ? <TwoA trails={trails} /> : <></>}
+        {latestFind === 4 ? <TwoAMemo trails={trails} /> : <></>}
       </AnchorTargetMemo>
 
       <AnchorTargetMemo
@@ -832,7 +848,7 @@ const TargetWrap = (props) => {
         posRef={posRef}
         audioUrl={"/Read_02b.mp3"}
       >
-        {latestFind === 5 ? <TwoB trails={trails} /> : <></>}
+        {latestFind === 5 ? <TwoBMemo trails={trails} /> : <></>}
       </AnchorTargetMemo>
 
       <AnchorTargetMemo
@@ -843,7 +859,7 @@ const TargetWrap = (props) => {
         posRef={posRef}
         audioUrl={"/Read_03a.mp3"}
       >
-        {latestFind === 6 ? <ThreeA trails={trails} /> : <></>}
+        {latestFind === 6 ? <ThreeAMemo trails={trails} /> : <></>}
       </AnchorTargetMemo>
 
       <AnchorTargetMemo
@@ -854,7 +870,7 @@ const TargetWrap = (props) => {
         posRef={posRef}
         audioUrl={"/Read_03b.mp3"}
       >
-        {latestFind === 7 ? <ThreeB trails={trails} /> : <></>}
+        {latestFind === 7 ? <ThreeBMemo trails={trails} /> : <></>}
       </AnchorTargetMemo>
 
       <AnchorTargetMemo
@@ -865,7 +881,7 @@ const TargetWrap = (props) => {
         posRef={posRef}
         audioUrl={"/Read_04a.mp3"}
       >
-        {latestFind === 8 ? <FourA trails={trails} /> : <></>}
+        {latestFind === 8 ? <FourAMemo trails={trails} /> : <></>}
       </AnchorTargetMemo>
 
       <AnchorTargetMemo
@@ -876,7 +892,7 @@ const TargetWrap = (props) => {
         posRef={posRef}
         audioUrl={"/Read_04b.mp3"}
       >
-        {latestFind === 9 ? <FourB trails={trails} /> : <></>}
+        {latestFind === 9 ? <FourBMemo trails={trails} /> : <></>}
       </AnchorTargetMemo>
 
       <AnchorTargetMemo
@@ -887,7 +903,7 @@ const TargetWrap = (props) => {
         posRef={posRef}
         audioUrl={"/Read_05a.mp3"}
       >
-        {latestFind === 10 ? <FiveA trails={trails} /> : <></>}
+        {latestFind === 10 ? <FiveAMemo trails={trails} /> : <></>}
       </AnchorTargetMemo>
 
       <AnchorTargetMemo
@@ -898,7 +914,7 @@ const TargetWrap = (props) => {
         posRef={posRef}
         audioUrl={"/Read_05b.mp3"}
       >
-        {latestFind === 11 ? <FiveB trails={trails} /> : <></>}
+        {latestFind === 11 ? <FiveBMemo trails={trails} /> : <></>}
       </AnchorTargetMemo>
 
       <AnchorTargetMemo
@@ -909,7 +925,7 @@ const TargetWrap = (props) => {
         posRef={posRef}
         audioUrl={"/Read_06a.mp3"}
       >
-        {latestFind === 12 ? <SixA trails={trails} /> : <></>}
+        {latestFind === 12 ? <SixAMemo trails={trails} /> : <></>}
       </AnchorTargetMemo>
       <AnchorTargetMemo
         api={api}
@@ -919,7 +935,7 @@ const TargetWrap = (props) => {
         posRef={posRef}
         audioUrl={"/Read_06b.mp3"}
       >
-        {latestFind === 13 ? <SixB trails={trails} /> : <></>}
+        {latestFind === 13 ? <SixBMemo trails={trails} /> : <></>}
       </AnchorTargetMemo>
       <AnchorTargetMemo
         api={api}
@@ -929,7 +945,7 @@ const TargetWrap = (props) => {
         posRef={posRef}
         audioUrl={"/Read_08b.mp3"}
       >
-        {latestFind === 15 ? <SevenB trails={trails} /> : <></>}
+        {latestFind === 15 ? <SevenBMemo trails={trails} /> : <></>}
       </AnchorTargetMemo>
       <AnchorTargetMemo
         api={api}
@@ -939,7 +955,7 @@ const TargetWrap = (props) => {
         posRef={posRef}
         audioUrl={"/Read_08a.mp3"}
       >
-        {latestFind === 14 ? <SevenA trails={trails} /> : <></>}
+        {latestFind === 14 ? <SevenAMemo trails={trails} /> : <></>}
       </AnchorTargetMemo>
     </>
   );
