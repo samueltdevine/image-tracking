@@ -31,9 +31,11 @@ function degToRad(degrees) {
   return degrees * (pi / 180);
 }
 
-function StartUi() {
+function Ui(props) {
+  const { children } = props;
   const [start, setStart] = useState(false);
-
+  const [understood, setUnderstood] = useState(true);
+  console.log("ui props", props);
   return (
     <>
       <div
@@ -42,13 +44,36 @@ function StartUi() {
         style={{ display: start ? "none" : "flex" }}
       >
         <div className={"header-box"}></div>
-        <div>
-          <button onClick={setStart} className={"button"} id={"startButton"}>
-            Start
-          </button>
+        <div
+          style={{
+            display: understood ? "flex" : "none",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <>For audio, turn your volume up & take your phone off vibrate</>
+          <div>
+            <button
+              onClick={() => setUnderstood(!understood)}
+              className={"button"}
+              id={"startButton"}
+            >
+              Gotcha!
+            </button>
+          </div>
         </div>
+        <button
+          style={{ display: understood ? "none" : "flex" }}
+          onClick={setStart}
+          className={"button"}
+          id={"startButton"}
+        >
+          Start
+        </button>
         <div></div>
       </div>
+      {start ? children : <></>}
     </>
   );
 }
@@ -914,21 +939,24 @@ const TargetWrap = (props) => {
 function App() {
   return (
     <>
-      <StartUi />
+      <Ui>
+        <ARView
+          // mindar-image="uiScanning: #example-scanning-overlay;"
+          // uiLoading="yes"
+          // uiScanning="#example-scanning-overlay"
+          imageTargets={multiTargets}
+          filterMinCF={0.0001}
+          filterBeta={0.004}
+          missTolerance={1}
+          warmupTolerance={5}
+          // maxTrack={2}
+          gl={{ antialias: true, toneMapping: THREE.NoToneMapping }}
+          linear
+        >
+          <TargetWrap />
+        </ARView>
+      </Ui>
 
-      <ARView
-        imageTargets={multiTargets}
-        filterMinCF={0.0001}
-        filterBeta={0.004}
-        missTolerance={1}
-        warmupTolerance={5}
-        // maxTrack={2}
-        gl={{ antialias: true, toneMapping: THREE.NoToneMapping }}
-        linear
-      >
-        <TargetWrap />
-        {/* </Canvas> */}
-      </ARView>
       {/* </div> */}
     </>
   );
