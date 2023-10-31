@@ -1001,6 +1001,7 @@ function App() {
     <>
       <Ui>
         <ARView
+          key={key}
           // mindar-image="uiScanning: #example-scanning-overlay;"
           // uiLoading="yes"
           // uiScanning="#example-scanning-overlay"
@@ -1013,7 +1014,7 @@ function App() {
           gl={glOptions}
           linear
         >
-          <TargetWrap key={key} resetKey={resetKey} />
+          <TargetWrap resetKey={resetKey} />
         </ARView>
       </Ui>
 
