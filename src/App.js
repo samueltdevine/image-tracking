@@ -138,9 +138,9 @@ const idToVideoMat = (id, depthTest, targetIndexInt, alphaId) => {
 const VideoMat = (props) => {
   const video = document.getElementById(props.id);
   video.play();
-  const texture = useVideoTexture(props.id);
+  // const texture = useVideoTexture(props.id);
   // const src = ideo.children[0].src;
-  // const texture = new THREE.VideoTexture(video);
+  const texture = new THREE.VideoTexture(video);
   console.log("tex", texture);
   texture.format = THREE.RGBAFormat;
   return (
@@ -357,7 +357,7 @@ const actionTexture = (ref, action) => {
     const material = child.material;
 
     if (string === "play") {
-      // source.play();
+      source.play();
       console.log("action played");
     }
     if (string === "pause") {
