@@ -52,7 +52,9 @@ function Ui(props) {
             justifyContent: "center",
           }}
         >
-          <>For audio, turn your volume up & take your phone off vibrate</>
+          <span style={{ textAlign: "center", fontSize: "12px" }}>
+            For audio, turn your volume up & take your phone off vibrate
+          </span>
           <div>
             <button
               onClick={() => setUnderstood(!understood)}
