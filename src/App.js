@@ -989,6 +989,29 @@ const TargetWrap = (props) => {
   );
 };
 
+const AR = (props) => {
+  const { resetKey } = props;
+  return (
+    <>
+      <ARView
+        // mindar-image="uiScanning: #example-scanning-overlay;"
+        // uiLoading="yes"
+        // uiScanning="#example-scanning-overlay"
+        imageTargets={multiTargets}
+        filterMinCF={0.0001}
+        filterBeta={0.004}
+        missTolerance={1}
+        warmupTolerance={5}
+        // maxTrack={2}
+        gl={glOptions}
+        linear
+      >
+        <TargetWrap resetKey={resetKey} />
+      </ARView>
+    </>
+  );
+};
+
 const glOptions = { antialias: true, toneMapping: THREE.NoToneMapping };
 function App() {
   const [key, setKey] = useState("");
@@ -1000,22 +1023,7 @@ function App() {
   return (
     <>
       <Ui>
-        <ARView
-          key={key}
-          // mindar-image="uiScanning: #example-scanning-overlay;"
-          // uiLoading="yes"
-          // uiScanning="#example-scanning-overlay"
-          imageTargets={multiTargets}
-          filterMinCF={0.0001}
-          filterBeta={0.004}
-          missTolerance={1}
-          warmupTolerance={5}
-          // maxTrack={2}
-          gl={glOptions}
-          linear
-        >
-          <TargetWrap resetKey={resetKey} />
-        </ARView>
+        <AR key={key} resetKey={resetKey} />
       </Ui>
 
       {/* </div> */}
