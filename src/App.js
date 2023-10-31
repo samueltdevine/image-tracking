@@ -362,7 +362,8 @@ function TargetsUtil(props) {
 
 const AnchorTarget = (props) => {
   const { gl, camera } = useThree();
-  const { targetIndexInt, setLatestFind, children, audioUrl, posRef } = props;
+  const { targetIndexInt, setLatestFind, children, audioUrl, posRef, api } =
+    props;
 
   const ref = useRef();
 
@@ -378,6 +379,13 @@ const AnchorTarget = (props) => {
     sound.setLoop(false);
     sound.setVolume(0.2);
   });
+
+  const handleCover = (prop) => {
+    api.start({ videoScale: prop.scale });
+  };
+
+  //on start
+
   // actionTexture(ref, "play");
 
   return (
@@ -387,13 +395,21 @@ const AnchorTarget = (props) => {
         onAnchorFound={() => {
           gl.setClearColor(0x272727, 0.7);
           setLatestFind(targetIndexInt);
-          // sound.play();
+          if (sound.isPlaying !== true) {
+            sound.play();
+          }
+          let prop = { scale: 0.0 };
+          handleCover(prop);
+          prop.scale = 1.0;
+          handleCover(prop);
         }}
         onAnchorLost={() => {
           console.log("lost");
           sound.pause();
           actionTexture(ref, "pause");
           actionTexture(ref, "dispose");
+          let prop = { scale: 0.0 };
+          handleCover(prop);
           setLatestFind(null);
           gl.dispose();
           gl.setClearColor(0x272727, 0.0);
@@ -407,1249 +423,27 @@ const AnchorTarget = (props) => {
   );
 };
 
-function SpreadOneA(props) {
-  const { targetIndexInt, latestFind, setLatestFind, children } = props;
-  const { gl, scene, camera } = useThree();
-  gl.toneMapping = THREE.NoToneMapping;
-  const [isFound, setIsFound] = useState(false);
-
-  const ref = useRef();
-
-  // const mgMat = idToVideoMat("videoOneAmg", false, targetIndexInt);
-
-  const listener = new THREE.AudioListener();
-
-  camera.add(listener);
-
-  const sound = new THREE.Audio(listener);
-
-  const audioLoader = new THREE.AudioLoader();
-  audioLoader.load("/Read_01a.mp3", function (buffer) {
-    sound.setBuffer(buffer);
-    sound.setLoop(false);
-    sound.setVolume(0.2);
-  });
-
+const Cover = ({ trails }) => {
   return (
     <>
-      <ARAnchor
-        target={targetIndexInt}
-        onAnchorFound={() => {
-          setLatestFind(targetIndexInt);
-          actionTexture(ref, "play");
-          gl.setClearColor(0x272727, 0.7);
-
-          // videoLibrary[targetIndexInt].forEach((video) => video.play());
-
-          sound.play();
-        }}
-        onAnchorLost={() => {
-          actionTexture(ref, "pause");
-          actionTexture(ref, "dispose");
-          setLatestFind(null);
-          gl.dispose();
-
-          sound.pause();
-          gl.setClearColor(0x272727, 0.0);
-          // videoLibrary[targetIndexInt].forEach((video) => {
-          //   video.pause();
-          // });
-          // videoLibrary[targetIndexInt] = [];
-          // console.log(videoLibrary[targetIndexInt], "target INT");
-
-          // let prop = { scale: 0.0 };
-          // handleCover(prop);
-          // const fgMat = idToPictureMat("picOneAfg");
-          // const bg1Mat = idToPictureMat("picOneAbg1");
-          // const bg2Mat = idToPictureMat("picOneAbg2");
-        }}
-      >
-        {children}
-      </ARAnchor>
-    </>
-  );
-}
-function SpreadOneB(props) {
-  const { targetIndexInt, latestFind, setLatestFind } = props;
-  const { gl, scene, camera } = useThree();
-  gl.toneMapping = THREE.NoToneMapping;
-  const ref = useRef();
-
-  // const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
-  // const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
-  // const mgMat = idToVideoMat("videoEightThree", false, targetIndexInt);
-  // const bgMat = idToVideoMat("videoEightFour", false, targetIndexInt);
-
-  const listener = new THREE.AudioListener();
-
-  camera.add(listener);
-
-  const sound = new THREE.Audio(listener);
-
-  const audioLoader = new THREE.AudioLoader();
-  audioLoader.load("/Read_01b.mp3", function (buffer) {
-    sound.setBuffer(buffer);
-    sound.setLoop(false);
-    sound.setVolume(0.2);
-  });
-
-  return (
-    <>
-      <ARAnchor
-        target={targetIndexInt}
-        onAnchorFound={() => {
-          // actionTexture(ref, "play");
-          gl.setClearColor(0x272727, 0.7);
-
-          // videoLibrary[targetIndexInt].forEach((video) => video.play());
-
-          sound.play();
-        }}
-        onAnchorLost={() => {
-          // actionTexture(ref, "pause");
-          // actionTexture(ref, "dispose");
-
-          sound.pause();
-          // videoLibrary[targetIndexInt].forEach((video) => {
-          //   video.pause();
-          // });
-          // videoLibrary[targetIndexInt] = [];
-          // console.log(videoLibrary[targetIndexInt], "target INT");
-
-          gl.setClearColor(0x272727, 0.0);
-          // let prop = { scale: 0.0 };
-          // handleCover(prop);
-        }}
-      >
-        <AnimatedGroup scale={0.7} position={[0.0, -0.05, 0]}>
-          {/* <animated.mesh
-            position={[0.0, 0, 0.4]}
-            material={fg1Mat}
-            scale={trails[0].scale}
-          >
-            <SimplePlane />
-          </animated.mesh>
-          <animated.mesh
-            position={[0.0, 0, 0.3]}
-            material={fg2Mat}
-            scale={trails[0].scale}
-          >
-            <SimplePlane />
-          </animated.mesh>
-          <animated.mesh
-            position={[0.0, 0.0, 0.2]}
-            material={mgMat}
-            scale={trails[0].scale}
-          >
-            <SimplePlane />
-          </animated.mesh>
-          <animated.mesh
-            position={[0.0, 0.0, 0.0]}
-            material={bgMat}
-            scale={trails[0].scale}
-          >
-            <SimplePlane />
-          </animated.mesh> */}
-        </AnimatedGroup>
-      </ARAnchor>
-    </>
-  );
-}
-function SpreadTwoA(props) {
-  const { targetIndexInt, latestFind, setLatestFind, children } = props;
-  const { gl, scene, camera } = useThree();
-  gl.toneMapping = THREE.NoToneMapping;
-  const [isFound, setIsFound] = useState(false);
-  const ref = useRef();
-
-  // const matTwoAFG = idToVideoMat("videoTwoAfg", false, targetIndexInt);
-  // const matTwoAMG = idToVideoMat("videoTwoAmg", false, targetIndexInt);
-
-  const listener = new THREE.AudioListener();
-
-  camera.add(listener);
-
-  const sound = new THREE.Audio(listener);
-
-  const audioLoader = new THREE.AudioLoader();
-  audioLoader.load("/Read_02a.mp3", function (buffer) {
-    sound.setBuffer(buffer);
-    sound.setLoop(false);
-    sound.setVolume(0.2);
-  });
-
-  const [trails, api] = useTrail(
-    2,
-    () => ({ videoScale: 0, config: config.wobbly }),
-    []
-  );
-
-  const handleCover = (prop) => {
-    api.start({ videoScale: prop.scale });
-  };
-  return (
-    <>
-      <ARAnchor
-        target={targetIndexInt}
-        onAnchorFound={() => {
-          setLatestFind(targetIndexInt);
-          console.log("latest", latestFind);
-          actionTexture(ref, "play");
-          gl.setClearColor(0x272727, 0.7);
-
-          // videoLibrary[targetIndexInt].forEach((video) => video.play());
-          let prop = { scale: 0.0 };
-          handleCover(prop);
-          prop.scale = 0.7;
-          handleCover(prop);
-          sound.play();
-        }}
-        onAnchorLost={() => {
-          actionTexture(ref, "pause");
-          actionTexture(ref, "dispose");
-          setLatestFind(null);
-          gl.dispose();
-
-          sound.pause();
-          // videoLibrary[targetIndexInt].forEach((video) => {
-          //   video.pause();
-          // });
-          // videoLibrary[targetIndexInt] = [];
-          // console.log(videoLibrary[targetIndexInt], "target INT");
-
-          gl.setClearColor(0x272727, 0.0);
-          // targetTextures.forEach((texture) => {
-          //   texture.dispose();
-          // });
-        }}
-      >
-        {children}
-      </ARAnchor>
-    </>
-  );
-}
-function SpreadTwoB(props) {
-  const { targetIndexInt, latestFind, setLatestFind } = props;
-  const { gl, scene, camera } = useThree();
-  gl.toneMapping = THREE.NoToneMapping;
-  const ref = useRef();
-
-  // const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
-  // const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
-  // const mgMat = idToVideoMat("videoEightThree", false, targetIndexInt);
-  // const bgMat = idToVideoMat("videoEightFour", false, targetIndexInt);
-
-  const listener = new THREE.AudioListener();
-
-  camera.add(listener);
-
-  const sound = new THREE.Audio(listener);
-
-  const audioLoader = new THREE.AudioLoader();
-  audioLoader.load("/Read_02b.mp3", function (buffer) {
-    sound.setBuffer(buffer);
-    sound.setLoop(false);
-    sound.setVolume(0.2);
-  });
-
-  return (
-    <>
-      <ARAnchor
-        target={targetIndexInt}
-        onAnchorFound={() => {
-          // actionTexture(ref, "play");
-          gl.setClearColor(0x272727, 0.7);
-
-          // videoLibrary[targetIndexInt].forEach((video) => video.play());
-
-          sound.play();
-        }}
-        onAnchorLost={() => {
-          // actionTexture(ref, "pause");
-          // actionTexture(ref, "dispose");
-
-          sound.pause();
-          // videoLibrary[targetIndexInt].forEach((video) => {
-          //   video.pause();
-          // });
-          // videoLibrary[targetIndexInt] = [];
-          // console.log(videoLibrary[targetIndexInt], "target INT");
-
-          gl.setClearColor(0x272727, 0.0);
-          // let prop = { scale: 0.0 };
-          // handleCover(prop);
-        }}
-      >
-        <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
-          {/* <animated.mesh
-            position={[0.0, 0, 0.4]}
-            material={fg1Mat}
-            scale={1.0}
-          >
-            <SimplePlane />
-          </animated.mesh>
-          <animated.mesh
-            position={[0.0, 0, 0.3]}
-            material={fg2Mat}
-            scale={1.0}
-          >
-            <SimplePlane />
-          </animated.mesh>
-          <animated.mesh
-            position={[0.0, 0.0, 0.2]}
-            material={mgMat}
-            scale={1.0}
-          >
-            <SimplePlane />
-          </animated.mesh>
-          <animated.mesh
-            position={[0.0, 0.0, 0.0]}
-            material={bgMat}
-            scale={1.0}
-          >
-            <SimplePlane />
-          </animated.mesh> */}
-        </group>
-      </ARAnchor>
-    </>
-  );
-}
-function SpreadThreeA(props) {
-  const { targetIndexInt, latestFind, setLatestFind } = props;
-  const { gl, scene, camera } = useThree();
-  gl.toneMapping = THREE.NoToneMapping;
-  const ref = useRef();
-
-  // const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
-  // const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
-  // const mgMat = idToVideoMat("videoEightThree", false, targetIndexInt);
-  // const bgMat = idToVideoMat("videoEightFour", false, targetIndexInt);
-
-  const listener = new THREE.AudioListener();
-
-  camera.add(listener);
-
-  const sound = new THREE.Audio(listener);
-
-  const audioLoader = new THREE.AudioLoader();
-  audioLoader.load("/Read_03a.mp3", function (buffer) {
-    sound.setBuffer(buffer);
-    sound.setLoop(false);
-    sound.setVolume(0.2);
-  });
-
-  return (
-    <>
-      <ARAnchor
-        target={targetIndexInt}
-        onAnchorFound={() => {
-          // actionTexture(ref, "play");
-          gl.setClearColor(0x272727, 0.7);
-
-          // videoLibrary[targetIndexInt].forEach((video) => video.play());
-
-          sound.play();
-        }}
-        onAnchorLost={() => {
-          // actionTexture(ref, "pause");
-          // actionTexture(ref, "dispose");
-
-          sound.pause();
-          // videoLibrary[targetIndexInt].forEach((video) => {
-          //   video.pause();
-          // });
-          // videoLibrary[targetIndexInt] = [];
-          // console.log(videoLibrary[targetIndexInt], "target INT");
-
-          gl.setClearColor(0x272727, 0.0);
-          // let prop = { scale: 0.0 };
-          // handleCover(prop);
-        }}
-      >
-        <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
-          {/* <animated.mesh
-            position={[0.0, 0, 0.4]}
-            material={fg1Mat}
-            scale={1.0}
-          >
-            <SimplePlane />
-          </animated.mesh>
-          <animated.mesh
-            position={[0.0, 0, 0.3]}
-            material={fg2Mat}
-            scale={1.0}
-          >
-            <SimplePlane />
-          </animated.mesh>
-          <animated.mesh
-            position={[0.0, 0.0, 0.2]}
-            material={mgMat}
-            scale={1.0}
-          >
-            <SimplePlane />
-          </animated.mesh>
-          <animated.mesh
-            position={[0.0, 0.0, 0.0]}
-            material={bgMat}
-            scale={1.0}
-          >
-            <SimplePlane />
-          </animated.mesh> */}
-        </group>
-      </ARAnchor>
-    </>
-  );
-}
-function SpreadThreeB(props) {
-  const { targetIndexInt, latestFind, setLatestFind } = props;
-  const { gl, scene, camera } = useThree();
-  gl.toneMapping = THREE.NoToneMapping;
-  const ref = useRef();
-
-  // const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
-  // const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
-  // const mgMat = idToVideoMat("videoEightThree", false, targetIndexInt);
-  // const bgMat = idToVideoMat("videoEightFour", false, targetIndexInt);
-
-  const listener = new THREE.AudioListener();
-
-  camera.add(listener);
-
-  const sound = new THREE.Audio(listener);
-
-  const audioLoader = new THREE.AudioLoader();
-  audioLoader.load("/Read_03b.mp3", function (buffer) {
-    sound.setBuffer(buffer);
-    sound.setLoop(false);
-    sound.setVolume(0.2);
-  });
-
-  return (
-    <>
-      <ARAnchor
-        target={targetIndexInt}
-        onAnchorFound={() => {
-          // actionTexture(ref, "play");
-          gl.setClearColor(0x272727, 0.7);
-
-          // videoLibrary[targetIndexInt].forEach((video) => video.play());
-
-          sound.play();
-        }}
-        onAnchorLost={() => {
-          // actionTexture(ref, "pause");
-          // actionTexture(ref, "dispose");
-
-          sound.pause();
-          // videoLibrary[targetIndexInt].forEach((video) => {
-          //   video.pause();
-          // });
-          // videoLibrary[targetIndexInt] = [];
-          // console.log(videoLibrary[targetIndexInt], "target INT");
-
-          gl.setClearColor(0x272727, 0.0);
-          // let prop = { scale: 0.0 };
-          // handleCover(prop);
-        }}
-      >
-        <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
-          {/* <animated.mesh
-            position={[0.0, 0, 0.4]}
-            material={fg1Mat}
-            scale={1.0}
-          >
-            <SimplePlane />
-          </animated.mesh>
-          <animated.mesh
-            position={[0.0, 0, 0.3]}
-            material={fg2Mat}
-            scale={1.0}
-          >
-            <SimplePlane />
-          </animated.mesh>
-          <animated.mesh
-            position={[0.0, 0.0, 0.2]}
-            material={mgMat}
-            scale={1.0}
-          >
-            <SimplePlane />
-          </animated.mesh>
-          <animated.mesh
-            position={[0.0, 0.0, 0.0]}
-            material={bgMat}
-            scale={1.0}
-          >
-            <SimplePlane />
-          </animated.mesh> */}
-        </group>
-      </ARAnchor>
-    </>
-  );
-}
-function SpreadFourA(props) {
-  const { targetIndexInt, latestFind, setLatestFind } = props;
-  const { gl, scene, camera } = useThree();
-  gl.toneMapping = THREE.NoToneMapping;
-  const ref = useRef();
-
-  // const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
-  // const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
-  // const mgMat = idToVideoMat("videoEightThree", false, targetIndexInt);
-  // const bgMat = idToVideoMat("videoEightFour", false, targetIndexInt);
-
-  const listener = new THREE.AudioListener();
-
-  camera.add(listener);
-
-  const sound = new THREE.Audio(listener);
-
-  const audioLoader = new THREE.AudioLoader();
-  audioLoader.load("/Read_04a.mp3", function (buffer) {
-    sound.setBuffer(buffer);
-    sound.setLoop(false);
-    sound.setVolume(0.2);
-  });
-
-  return (
-    <>
-      <ARAnchor
-        target={targetIndexInt}
-        onAnchorFound={() => {
-          // actionTexture(ref, "play");
-          gl.setClearColor(0x272727, 0.7);
-
-          // videoLibrary[targetIndexInt].forEach((video) => video.play());
-
-          sound.play();
-        }}
-        onAnchorLost={() => {
-          // actionTexture(ref, "pause");
-          // actionTexture(ref, "dispose");
-
-          sound.pause();
-          // videoLibrary[targetIndexInt].forEach((video) => {
-          //   video.pause();
-          // });
-          // videoLibrary[targetIndexInt] = [];
-          // console.log(videoLibrary[targetIndexInt], "target INT");
-
-          gl.setClearColor(0x272727, 0.0);
-          // let prop = { scale: 0.0 };
-          // handleCover(prop);
-        }}
-      >
-        <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
-          {/* <animated.mesh
-            position={[0.0, 0, 0.4]}
-            material={fg1Mat}
-            scale={1.0}
-          >
-            <SimplePlane />
-          </animated.mesh>
-          <animated.mesh
-            position={[0.0, 0, 0.3]}
-            material={fg2Mat}
-            scale={1.0}
-          >
-            <SimplePlane />
-          </animated.mesh>
-          <animated.mesh
-            position={[0.0, 0.0, 0.2]}
-            material={mgMat}
-            scale={1.0}
-          >
-            <SimplePlane />
-          </animated.mesh>
-          <animated.mesh
-            position={[0.0, 0.0, 0.0]}
-            material={bgMat}
-            scale={1.0}
-          >
-            <SimplePlane />
-          </animated.mesh> */}
-        </group>
-      </ARAnchor>
-    </>
-  );
-}
-function SpreadFourB(props) {
-  const { targetIndexInt, latestFind, setLatestFind } = props;
-  const { gl, scene, camera } = useThree();
-  gl.toneMapping = THREE.NoToneMapping;
-  const ref = useRef();
-
-  // const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
-  // const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
-  // const mgMat = idToVideoMat("videoEightThree", false, targetIndexInt);
-  // const bgMat = idToVideoMat("videoEightFour", false, targetIndexInt);
-
-  const listener = new THREE.AudioListener();
-
-  camera.add(listener);
-
-  const sound = new THREE.Audio(listener);
-
-  const audioLoader = new THREE.AudioLoader();
-  audioLoader.load("/Read_04b.mp3", function (buffer) {
-    sound.setBuffer(buffer);
-    sound.setLoop(false);
-    sound.setVolume(0.2);
-  });
-
-  return (
-    <>
-      <ARAnchor
-        target={targetIndexInt}
-        onAnchorFound={() => {
-          // actionTexture(ref, "play");
-          gl.setClearColor(0x272727, 0.7);
-
-          // videoLibrary[targetIndexInt].forEach((video) => video.play());
-
-          sound.play();
-        }}
-        onAnchorLost={() => {
-          // actionTexture(ref, "pause");
-          // actionTexture(ref, "dispose");
-
-          sound.pause();
-          // videoLibrary[targetIndexInt].forEach((video) => {
-          //   video.pause();
-          // });
-          // videoLibrary[targetIndexInt] = [];
-          // console.log(videoLibrary[targetIndexInt], "target INT");
-
-          gl.setClearColor(0x272727, 0.0);
-          // let prop = { scale: 0.0 };
-          // handleCover(prop);
-        }}
-      >
-        <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
-          {/* <animated.mesh
-            position={[0.0, 0, 0.4]}
-            material={fg1Mat}
-            scale={1.0}
-          >
-            <SimplePlane />
-          </animated.mesh>
-          <animated.mesh
-            position={[0.0, 0, 0.3]}
-            material={fg2Mat}
-            scale={1.0}
-          >
-            <SimplePlane />
-          </animated.mesh>
-          <animated.mesh
-            position={[0.0, 0.0, 0.2]}
-            material={mgMat}
-            scale={1.0}
-          >
-            <SimplePlane />
-          </animated.mesh>
-          <animated.mesh
-            position={[0.0, 0.0, 0.0]}
-            material={bgMat}
-            scale={1.0}
-          >
-            <SimplePlane />
-          </animated.mesh> */}
-        </group>
-      </ARAnchor>
-    </>
-  );
-}
-function SpreadFiveA(props) {
-  const { targetIndexInt, latestFind, setLatestFind } = props;
-  const { gl, scene, camera } = useThree();
-  gl.toneMapping = THREE.NoToneMapping;
-  const ref = useRef();
-
-  // const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
-  // const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
-  // const mgMat = idToVideoMat("videoEightThree", false, targetIndexInt);
-  // const bgMat = idToVideoMat("videoEightFour", false, targetIndexInt);
-
-  const listener = new THREE.AudioListener();
-
-  camera.add(listener);
-
-  const sound = new THREE.Audio(listener);
-
-  const audioLoader = new THREE.AudioLoader();
-  audioLoader.load("/Read_05a.mp3", function (buffer) {
-    sound.setBuffer(buffer);
-    sound.setLoop(false);
-    sound.setVolume(0.2);
-  });
-
-  return (
-    <>
-      <ARAnchor
-        target={targetIndexInt}
-        onAnchorFound={() => {
-          // actionTexture(ref, "play");
-          gl.setClearColor(0x272727, 0.7);
-
-          // videoLibrary[targetIndexInt].forEach((video) => video.play());
-
-          sound.play();
-        }}
-        onAnchorLost={() => {
-          // actionTexture(ref, "pause");
-          // actionTexture(ref, "dispose");
-
-          sound.pause();
-          // videoLibrary[targetIndexInt].forEach((video) => {
-          //   video.pause();
-          // });
-          // videoLibrary[targetIndexInt] = [];
-          // console.log(videoLibrary[targetIndexInt], "target INT");
-
-          gl.setClearColor(0x272727, 0.0);
-          // let prop = { scale: 0.0 };
-          // handleCover(prop);
-        }}
-      >
-        <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
-          {/* <animated.mesh
-            position={[0.0, 0, 0.4]}
-            material={fg1Mat}
-            scale={1.0}
-          >
-            <SimplePlane />
-          </animated.mesh>
-          <animated.mesh
-            position={[0.0, 0, 0.3]}
-            material={fg2Mat}
-            scale={1.0}
-          >
-            <SimplePlane />
-          </animated.mesh>
-          <animated.mesh
-            position={[0.0, 0.0, 0.2]}
-            material={mgMat}
-            scale={1.0}
-          >
-            <SimplePlane />
-          </animated.mesh>
-          <animated.mesh
-            position={[0.0, 0.0, 0.0]}
-            material={bgMat}
-            scale={1.0}
-          >
-            <SimplePlane />
-          </animated.mesh> */}
-        </group>
-      </ARAnchor>
-    </>
-  );
-}
-function SpreadFiveB(props) {
-  const { targetIndexInt, latestFind, setLatestFind } = props;
-  const { gl, scene, camera } = useThree();
-  gl.toneMapping = THREE.NoToneMapping;
-  const ref = useRef();
-
-  // const fg1Mat = idToVideoMat("videoEightOne", false, targetIndexInt);
-  // const fg2Mat = idToVideoMat("videoEightTwo", false, targetIndexInt);
-  // const mgMat = idToVideoMat("videoEightThree", false, targetIndexInt);
-  // const bgMat = idToVideoMat("videoEightFour", false, targetIndexInt);
-
-  const listener = new THREE.AudioListener();
-
-  camera.add(listener);
-
-  const sound = new THREE.Audio(listener);
-
-  const audioLoader = new THREE.AudioLoader();
-  audioLoader.load("/Read_05b.mp3", function (buffer) {
-    sound.setBuffer(buffer);
-    sound.setLoop(false);
-    sound.setVolume(0.2);
-  });
-
-  return (
-    <>
-      <ARAnchor
-        target={targetIndexInt}
-        onAnchorFound={() => {
-          // actionTexture(ref, "play");
-          gl.setClearColor(0x272727, 0.7);
-
-          // videoLibrary[targetIndexInt].forEach((video) => video.play());
-
-          sound.play();
-        }}
-        onAnchorLost={() => {
-          // actionTexture(ref, "pause");
-          // actionTexture(ref, "dispose");
-
-          sound.pause();
-          // videoLibrary[targetIndexInt].forEach((video) => {
-          //   video.pause();
-          // });
-          // videoLibrary[targetIndexInt] = [];
-          // console.log(videoLibrary[targetIndexInt], "target INT");
-
-          gl.setClearColor(0x272727, 0.0);
-          // let prop = { scale: 0.0 };
-          // handleCover(prop);
-        }}
-      >
-        <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
-          {/* <animated.mesh
-            position={[0.0, 0, 0.4]}
-            material={fg1Mat}
-            scale={1.0}
-          >
-            <SimplePlane />
-          </animated.mesh>
-          <animated.mesh
-            position={[0.0, 0, 0.3]}
-            material={fg2Mat}
-            scale={1.0}
-          >
-            <SimplePlane />
-          </animated.mesh>
-          <animated.mesh
-            position={[0.0, 0.0, 0.2]}
-            material={mgMat}
-            scale={1.0}
-          >
-            <SimplePlane />
-          </animated.mesh>
-          <animated.mesh
-            position={[0.0, 0.0, 0.0]}
-            material={bgMat}
-            scale={1.0}
-          >
-            <SimplePlane />
-          </animated.mesh> */}
-        </group>
-      </ARAnchor>
-    </>
-  );
-}
-
-function SpreadSixA(props) {
-  const { targetIndexInt, latestFind, setLatestFind } = props;
-  const { gl, scene, camera } = useThree();
-  gl.toneMapping = THREE.NoToneMapping;
-  const [isFound, setIsFound] = useState(false);
-  const ref = useRef();
-
-  // const matSixAFG = idToVideoMat("videoSixAfg", false, targetIndexInt);
-  // const matSixAMG = idToVideoMat("videoSixAmg", false, targetIndexInt);
-
-  const listener = new THREE.AudioListener();
-
-  camera.add(listener);
-
-  const sound = new THREE.Audio(listener);
-
-  const audioLoader = new THREE.AudioLoader();
-  audioLoader.load("/Read_06a.mp3", function (buffer) {
-    sound.setBuffer(buffer);
-    sound.setLoop(false);
-    sound.setVolume(0.2);
-  });
-
-  return (
-    <>
-      <ARAnchor
-        target={targetIndexInt}
-        onAnchorFound={() => {
-          setLatestFind(targetIndexInt);
-          console.log("latest", latestFind);
-          actionTexture(ref, "play");
-          gl.setClearColor(0x272727, 0.7);
-          sound.play();
-        }}
-        onAnchorLost={() => {
-          actionTexture(ref, "pause");
-          actionTexture(ref, "dispose");
-          setLatestFind(null);
-          gl.dispose();
-
-          sound.pause();
-
-          gl.setClearColor(0x272727, 0.0);
-        }}
-      >
-        {targetIndexInt === latestFind ? (
-          <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
-            <animated.mesh position={[0.0, 0, 0.4]} scale={1.0}>
-              <Suspense fallback={FallbackMaterial}>
-                <VideoMat id={"MXT_CLM_120_Comp_Couch_SD_01-1.mov"} />
-                {/* <primitive object={matSixAFG} /> */}
-              </Suspense>
-              <planeGeometry args={[1.24, 1, 1]} />
-            </animated.mesh>
-            <animated.mesh position={[0.0, 0, 0.3]} scale={1.0}>
-              <Suspense fallback={FallbackMaterial}>
-                {/* <primitive object={matSixAMG} /> */}
-                <VideoMat id={"MXT_CLM_120_Comp_Lamp_SD_01-1.mov"} />
-              </Suspense>
-              <planeGeometry args={[1.24, 1, 1]} />
-            </animated.mesh>
-          </group>
-        ) : (
-          <group ref={ref}></group>
-        )}
-      </ARAnchor>
-    </>
-  );
-}
-function SpreadSixB(props) {
-  const { targetIndexInt, latestFind, setLatestFind } = props;
-  const { gl, scene, camera } = useThree();
-  gl.toneMapping = THREE.NoToneMapping;
-  const [isFound, setIsFound] = useState(false);
-  const ref = useRef();
-
-  // const matSixBFG = idToVideoMat("videoSixBfg", false, targetIndexInt);
-  // const matSixBMG = idToVideoMat("videoSixBmg", false, targetIndexInt);
-
-  const listener = new THREE.AudioListener();
-
-  camera.add(listener);
-
-  const sound = new THREE.Audio(listener);
-
-  const audioLoader = new THREE.AudioLoader();
-  audioLoader.load("/Read_06b.mp3", function (buffer) {
-    sound.setBuffer(buffer);
-    sound.setLoop(false);
-    sound.setVolume(0.2);
-  });
-
-  return (
-    <>
-      <ARAnchor
-        target={targetIndexInt}
-        onAnchorFound={() => {
-          setLatestFind(targetIndexInt);
-          console.log("latest", latestFind);
-          actionTexture(ref, "play");
-          gl.setClearColor(0x272727, 0.7);
-
-          // videoLibrary[targetIndexInt].forEach((video) => video.play());
-
-          sound.play();
-        }}
-        onAnchorLost={() => {
-          actionTexture(ref, "pause");
-          actionTexture(ref, "dispose");
-          setLatestFind(null);
-          gl.dispose();
-
-          sound.pause();
-          // videoLibrary[targetIndexInt].forEach((video) => {
-          //   video.pause();
-          // });
-          // videoLibrary[targetIndexInt] = [];
-          // console.log(videoLibrary[targetIndexInt], "target INT");
-
-          gl.setClearColor(0x272727, 0.0);
-          // targetTextures.forEach((texture) => {
-          //   texture.dispose();
-          // });
-          // let prop = { scale: 0.0 };
-          // handleCover(prop);
-        }}
-      >
-        {targetIndexInt === latestFind ? (
-          <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
-            <animated.mesh
-              position={[0.0, 0, 0.4]}
-              // material={matSixBFG}
-              scale={1.0}
-            >
-              <Suspense fallback={FallbackMaterial}>
-                {/* <primitive object={matSixBFG} /> */}
-                <VideoMat id={"MXT_CLM_130_FG_SD_01-1.mov"} />
-              </Suspense>
-              <planeGeometry args={[1.24, 1, 1]} />
-            </animated.mesh>
-            <animated.mesh
-              position={[0.0, 0, -5.3]}
-              // material={matSixBMG}
-              scale={1.0}
-            >
-              <Suspense fallback={FallbackMaterial}>
-                {/* <primitive object={matSixBMG} /> */}
-                <VideoMat id={"MXT_CLM_130_BG_SD_01-1.mov"} />
-              </Suspense>
-              <planeGeometry args={[12.0, 10, 1]} />
-            </animated.mesh>
-          </group>
-        ) : (
-          <group ref={ref}></group>
-        )}
-      </ARAnchor>
-    </>
-  );
-}
-function SpreadEightA(props) {
-  const { targetIndexInt, latestFind, setLatestFind } = props;
-  const { gl, scene, camera } = useThree();
-  gl.toneMapping = THREE.NoToneMapping;
-  const [isFound, setIsFound] = useState(false);
-
-  const ref = useRef();
-
-  // const matEigthAFg = idToVideoMat("videoEightAfg", false, targetIndexInt);
-  // const matEightAmg = idToVideoMat("videoEightAmg", false, targetIndexInt);
-
-  // const targetTextures = [
-  //   matEightAmg.map,
-  //   matEightAmg.alphaMap,
-  //   matEigthAFg.map,
-  //   matEigthAFg.alphaMap,
-  // ];
-
-  const listener = new THREE.AudioListener();
-
-  camera.add(listener);
-
-  const sound = new THREE.Audio(listener);
-
-  const audioLoader = new THREE.AudioLoader();
-  audioLoader.load("/Read_08a.mp3", function (buffer) {
-    sound.setBuffer(buffer);
-    sound.setLoop(false);
-    sound.setVolume(0.2);
-  });
-
-  return (
-    <>
-      <ARAnchor
-        target={targetIndexInt}
-        onAnchorFound={() => {
-          console.log("latest", latestFind);
-          setLatestFind(targetIndexInt);
-          actionTexture(ref, "play");
-          gl.setClearColor(0x272727, 0.7);
-          // gl.toneMapping(THREE.NoToneMapping);
-          // fadeOnAction.play()
-
-          // videoLibrary[targetIndexInt].forEach((video) => video.play());
-
-          // if (soundPlayed === false) {
-          //   soundPlayed = true;
-          // console.log(soundPlayed, true);
-          sound.play();
-          // }
-        }}
-        onAnchorLost={() => {
-          actionTexture(ref, "pause");
-          actionTexture(ref, "dispose");
-          setLatestFind(null);
-          gl.dispose();
-
-          sound.pause();
-          // videoLibrary[targetIndexInt].forEach((video) => {
-          //   video.pause();
-          // });
-          // videoLibrary[targetIndexInt] = [];
-          // console.log(videoLibrary[targetIndexInt], "target INT");
-
-          gl.setClearColor(0x272727, 0.0);
-          // targetTextures.forEach((texture) => {
-          //   texture.dispose();
-          // });
-          // let prop = { scale: 0.0 };
-          // handleCover(prop);
-        }}
-      >
-        {targetIndexInt === latestFind ? (
-          <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
-            <animated.mesh
-              position={[0.0, 0, 0.3]}
-              // material={matEigthAFg}
-              scale={1.0}
-            >
-              <Suspense fallback={FallbackMaterial}>
-                {/* <primitive object={matEigthAFg} /> */}
-                <VideoMat id={"MXT_CLM_140_FG_SD_06_hvec.mov"} />
-              </Suspense>
-              <planeGeometry args={[1.24, 1, 1]} />
-            </animated.mesh>
-            <animated.mesh
-              position={[0.0, 0.0, 0.2]}
-              // material={matEightAmg}
-              scale={1.0}
-            >
-              <Suspense fallback={FallbackMaterial}>
-                <VideoMat id={"MXT_CLM_140_MG_SD_12_hvec.mov"} />
-
-                {/* <primitive object={matEightAmg} /> */}
-              </Suspense>
-              <planeGeometry args={[1.24, 1, 1]} />
-            </animated.mesh>
-            {/* <animated.mesh
-            position={[0.0, 0.0, 0.0]}
-            material={bgMat}
-            scale={1.0}
-          >
-            <SimplePlane />
-          </animated.mesh> */}
-          </group>
-        ) : (
-          <group ref={ref}></group>
-        )}
-      </ARAnchor>
-    </>
-  );
-}
-
-function SpreadEightB(props) {
-  const { targetIndexInt, latestFind, setLatestFind } = props;
-  const { gl, scene, camera } = useThree();
-  gl.toneMapping = THREE.NoToneMapping;
-  const [isFound, setIsFound] = useState(false);
-
-  const ref = useRef();
-
-  const listener = new THREE.AudioListener();
-
-  camera.add(listener);
-
-  // const matEightBFg1 = idToVideoMat("videoEightOne", false, targetIndexInt);
-  // const matEightBFg2 = idToVideoMat("videoEightTwo", false, targetIndexInt);
-  // const matEightBMg = idToVideoMat("videoEightThree", false, targetIndexInt);
-  // const matEightBBg = idToVideoMat("videoEightFour", false, targetIndexInt);
-
-  // const targetTextures = [
-  //   matEightBFg1.map,
-  //   matEightBFg2.map,
-  //   matEightBMg.map,
-  //   matEightBBg.map,
-  //   matEightBFg1.alphaMap,
-  //   matEightBFg2.alphaMap,
-  //   matEightBMg.alphaMap,
-  //   matEightBBg.alphaMap,
-  // ];
-
-  const sound = new THREE.Audio(listener);
-
-  const audioLoader = new THREE.AudioLoader();
-  audioLoader.load("/Read_08b.mp3", function (buffer) {
-    sound.setBuffer(buffer);
-    sound.setLoop(false);
-    sound.setVolume(0.2);
-  });
-
-  return (
-    <>
-      <ARAnchor
-        target={targetIndexInt}
-        onAnchorFound={() => {
-          console.log("latest", latestFind);
-          setLatestFind(targetIndexInt);
-          actionTexture(ref, "play");
-          gl.setClearColor(0x272727, 0.7);
-
-          // videoLibrary[targetIndexInt].forEach((video) => video.play());
-
-          sound.play();
-        }}
-        onAnchorLost={() => {
-          actionTexture(ref, "pause");
-          actionTexture(ref, "dispose");
-          setLatestFind(null);
-          gl.dispose();
-
-          sound.pause();
-          gl.setClearColor(0x272727, 0.0);
-          // videoLibrary[targetIndexInt].forEach((video) => {
-          //   video.pause();
-          // });
-          // videoLibrary[targetIndexInt] = [];
-          // console.log(videoLibrary[targetIndexInt], "target INT");
-          // targetTextures.forEach((texture) => {
-          //   texture.dispose();
-          // });
-          // let prop = { scale: 0.0 };
-          // handleCover(prop);
-        }}
-      >
-        {targetIndexInt === latestFind ? (
-          <group ref={ref} scale={0.7} position={[0.0, -0.05, 0]}>
-            <animated.mesh
-              position={[0.0, 0, 0.4]}
-              // material={matEightBFg1}
-              scale={1.0}
-            >
-              <Suspense fallback={FallbackMaterial}>
-                <VideoMat id={"MXT_CLM_COMP_FG1_150_SD_10.mp4"} />
-                {/* <primitive object={matEightBFg1} /> */}
-              </Suspense>
-              <planeGeometry args={[1.24, 1, 1]} />
-            </animated.mesh>
-            <animated.mesh
-              position={[0.0, 0, 0.3]}
-              // material={matEightBFg2}
-              scale={1.0}
-            >
-              <Suspense fallback={FallbackMaterial}>
-                <VideoMat id={"MXT_CLM_COMP_FG2_150_SD_10.mp4"} />
-                {/* <primitive object={matEightBFg2} /> */}
-              </Suspense>
-              <planeGeometry args={[1.24, 1, 1]} />
-            </animated.mesh>
-            <animated.mesh
-              position={[0.0, 0.0, 0.2]}
-              // material={matEightBMg}
-              scale={1.0}
-            >
-              <Suspense fallback={FallbackMaterial}>
-                {/* <primitive object={matEightBMg} /> */}
-                <VideoMat id={"MXT_CLM_COMP_MG_150_SD_10.mp4"} />
-              </Suspense>
-              <planeGeometry args={[1.24, 1, 1]} />
-            </animated.mesh>
-            <animated.mesh
-              position={[0.0, 0.0, 0.0]}
-              // material={matEightBBg}
-              scale={1.0}
-            >
-              <Suspense fallback={FallbackMaterial}>
-                {/* <primitive object={matEightBBg} /> */}
-                <VideoMat id={"MXT_CLM_COMP_BG_150_SD_10.mp4"} />
-              </Suspense>
-              <planeGeometry args={[1.24, 1, 1]} />
-            </animated.mesh>
-          </group>
-        ) : (
-          <group ref={ref}></group>
-        )}
-      </ARAnchor>
-    </>
-  );
-}
-
-const Cover = () => {
-  return (
-    <>
-      <animated.mesh position={[0.0, 0.5, -0.3]} scale={0.7}>
+      <animated.mesh position={[0.0, 0.5, -0.3]} scale={trails[0].videoScale}>
         <VideoMat id={"MXT_CLM_Comp_LogoAnimation_SD_01-1.mov"} />
         <planeGeometry args={[1.92, 1.08, 1]} />
       </animated.mesh>
-      <animated.mesh position={[-0.35, 0, -0.1]} scale={0.7}>
+      <animated.mesh position={[-0.45, 0, -0.1]} scale={trails[1].videoScale}>
         <VideoMat id={"MXT_CLM_Comp_LogoAnimtion_PinkMonster_CV_.mp4"} />
-
+        <planeGeometry args={[1, 0.52, 1]} />
         <SimplePlane />
       </animated.mesh>
-      <animated.mesh position={[0, -0.1, 0]} scale={0.7}>
+      <animated.mesh position={[0.35, -0.1, 0]} scale={trails[2].videoScale}>
         <VideoMat id={"MXT_CLM_Comp_LogoAnimtion_GreenMonster_CV_.mp4"} />
         <SimplePlane />
       </animated.mesh>
-      <animated.mesh position={[-0.3, 0, 0.1]} scale={0.7}>
+      <animated.mesh position={[-0.5, 0, 0.1]} scale={trails[3].videoScale}>
         <VideoMat id={"MXT_CLM_Comp_LogoAnimtion_YellowMonster_CV_h265.mp4"} />
         <SimplePlane />
       </animated.mesh>
-      <animated.mesh position={[0.3, 0, -0.2]} scale={0.7}>
+      <animated.mesh position={[0.3, 0, -0.2]} scale={trails[4].videoScale}>
         <VideoMat id={"MXT_CLM_Comp_LogoAnimtion_OrangeMonster_CV_.mp4"} />
         <SimplePlane />
       </animated.mesh>
@@ -1657,73 +451,246 @@ const Cover = () => {
   );
 };
 
-const OneA = () => {
+const OneA = ({ trails }) => {
   return (
     <>
-      <animated.mesh position={[0.0, 0, 0.2]} scale={1}>
+      <animated.mesh position={[0.0, 0, 0.2]} scale={trails[0].videoScale}>
         <VideoMat id={"MXT_CLM_010_MG_SD_05-1.mov"} />
         <SimplePlane />
       </animated.mesh>
-      <animated.mesh position={[-0.1, 0, 0.0]} scale={1}>
+      <animated.mesh position={[-0.1, 0, 0.0]} scale={trails[1].videoScale}>
         <SimplePlane />
         <ImageMaterial id={"picOneAfg"} />
       </animated.mesh>
-      <animated.mesh position={[0.0, 0.0, -0.4]} scale={1}>
+      <animated.mesh position={[0.0, 0.0, -0.4]} scale={trails[2].videoScale}>
         <ImageMaterial id={"picOneAbg1"} />
         <SimplePlane />
       </animated.mesh>
-      <animated.mesh position={[-0.2, 0.0, -0.5]} scale={1}>
+      <animated.mesh position={[-0.2, 0.0, -0.5]} scale={trails[3].videoScale}>
         <ImageMaterial id={"picOneAbg2"} />
         <SimplePlane />
       </animated.mesh>
     </>
   );
 };
-const TwoA = () => {
+const OneB = ({ trails }) => {
   return (
     <>
-      <animated.mesh
-        position={[0.0, 0, 0.4]}
-        // material={matTwoAFG}
-        scale={1.0}
-      >
-        <VideoMat id={"MXT_CLM_030_Comp_Music_SD_01-1.mov"} />
-
-        {/* <primitive object={matTwoAFG} /> */}
-        <planeGeometry args={[1.24, 1, 1]} />
+      <animated.mesh position={[-0.1, 0, 0.0]} scale={trails[0].videoScale}>
+        <SimplePlane />
+        {/* <ImageMaterial id={"picOneAfg"} /> */}
       </animated.mesh>
-      <animated.mesh
-        position={[0.0, 0, 0.3]}
-        // material={matTwoAMG}
-        scale={1.0}
-      >
-        {/* <primitive object={matTwoAMG} /> */}
-        <VideoMat id={"MXT_CLM_030_Comp_Green_SD_01-1.mov"} />
-        <planeGeometry args={[1.24, 1, 1]} />
+      <animated.mesh position={[0.0, 0.0, -0.4]} scale={trails[1].videoScale}>
+        {/* <ImageMaterial id={"picOneAbg1"} /> */}
+        <SimplePlane />
+      </animated.mesh>
+      <animated.mesh position={[-0.2, 0.0, -0.5]} scale={trails[2].videoScale}>
+        {/* <ImageMaterial id={"picOneAbg2"} /> */}
+        <SimplePlane />
       </animated.mesh>
     </>
   );
 };
-
-const SixA = () => {
+const TwoA = ({ trails }) => {
   return (
     <>
-      <animated.mesh position={[0.0, 0, 0.4]} scale={1.0}>
+      <animated.mesh position={[0.0, 0.0, 0.2]} scale={trails[0].videoScale}>
+        <ImageMaterial id={"MXT_CLM_2D_SD_030_03_FG.webp"} />
+        <SimplePlane />
+      </animated.mesh>
+      <animated.mesh position={[0.0, 0.0, 0]} scale={trails[1].videoScale}>
+        <ImageMaterial id={"MXT_CLM_2D_SD_030_03_MG.webp"} />
+        <SimplePlane />
+      </animated.mesh>
+    </>
+  );
+};
+const TwoB = ({ trails }) => {
+  return (
+    <>
+      <animated.mesh position={[0.0, 0.0, 0.2]} scale={trails[0].videoScale}>
+        <ImageMaterial id={"MXT_CLM_2D_SD_040_03_FG.webp"} />
+        <SimplePlane />
+      </animated.mesh>
+      <animated.mesh position={[0.0, 0.0, -0.2]} scale={trails[1].videoScale}>
+        <ImageMaterial id={"MXT_CLM_2D_SD_040_03_BG.webp"} />
+        <SimplePlane />
+      </animated.mesh>
+      {/* <animated.mesh
+        position={[0.0, 0, 0.4]}
+        scale={1.0}
+      >
+        <VideoMat id={"MXT_CLM_030_Comp_Music_SD_01-1.mov"} />
+
+        <planeGeometry args={[1.24, 1, 1]} />
+  */}
+    </>
+  );
+};
+const ThreeA = ({ trails }) => {
+  return (
+    <>
+      <animated.mesh position={[0.0, 0.0, 0.2]} scale={trails[0].videoScale}>
+        <ImageMaterial id={"MXT_CLM_2D_SD_050_FG.webp"} />
+        <SimplePlane />
+      </animated.mesh>
+      <animated.mesh position={[0.0, 0.0, 0.0]} scale={trails[1].videoScale}>
+        <ImageMaterial id={"MXT_CLM_2D_SD_050_MG.webp"} />
+        <SimplePlane />
+      </animated.mesh>
+      <animated.mesh position={[0.0, 0.0, -0.2]} scale={trails[2].videoScale}>
+        <ImageMaterial id={"MXT_CLM_2D_SD_050_BG.webp"} />
+        <SimplePlane />
+      </animated.mesh>
+      {/* <animated.mesh
+        position={[0.0, 0, 0.4]}
+        scale={1.0}
+      >
+        <VideoMat id={"MXT_CLM_030_Comp_Music_SD_01-1.mov"} />
+
+        <planeGeometry args={[1.24, 1, 1]} />
+  */}
+    </>
+  );
+};
+const ThreeB = ({ trails }) => {
+  return (
+    <>
+      <animated.mesh position={[0.0, 0.0, 0.2]} scale={trails[0].videoScale}>
+        <ImageMaterial id={"MXT_CLM_2D_SD_060_02_FG.webp"} />
+        <SimplePlane />
+      </animated.mesh>
+      <animated.mesh position={[0.0, 0.0, 0.0]} scale={trails[1].videoScale}>
+        <ImageMaterial id={"MXT_CLM_2D_SD_060_02_MG.webp"} />
+        <SimplePlane />
+      </animated.mesh>
+      <animated.mesh position={[0.0, 0.0, -0.2]} scale={trails[2].videoScale}>
+        <ImageMaterial id={"MXT_CLM_2D_SD_060_02_BG.webp"} />
+        <SimplePlane />
+      </animated.mesh>
+      {/* <animated.mesh
+        position={[0.0, 0, 0.4]}
+        scale={1.0}
+      >
+        <VideoMat id={"MXT_CLM_030_Comp_Music_SD_01-1.mov"} />
+
+        <planeGeometry args={[1.24, 1, 1]} />
+  */}
+    </>
+  );
+};
+const FourA = ({ trails }) => {
+  return (
+    <>
+      <animated.mesh position={[0.0, 0.0, 0.2]} scale={trails[0].videoScale}>
+        <ImageMaterial id={"MXT_CLM_2D_SD_070_02_FG.webp"} />
+        <SimplePlane />
+      </animated.mesh>
+
+      {/* <animated.mesh
+        position={[0.0, 0, 0.4]}
+        scale={1.0}
+      >
+        <VideoMat id={"MXT_CLM_030_Comp_Music_SD_01-1.mov"} />
+
+        <planeGeometry args={[1.24, 1, 1]} />
+  */}
+    </>
+  );
+};
+const FourB = ({ trails }) => {
+  return (
+    <>
+      <animated.mesh position={[-0.6, 0.0, 0.2]} scale={trails[0].videoScale}>
+        <ImageMaterial id={"MXT_CLM_2D_SD_080_02_FG.webp"} />
+        <planeGeometry args={[2.4, 1.0, 1]} />
+        {/* <SimplePlane /> */}
+      </animated.mesh>
+      {/* <animated.mesh
+        position={[0.0, 0, 0.4]}
+        scale={1.0}
+      >
+        <VideoMat id={"MXT_CLM_030_Comp_Music_SD_01-1.mov"} />
+
+        <planeGeometry args={[1.24, 1, 1]} />
+  */}
+    </>
+  );
+};
+
+const FiveA = ({ trails }) => {
+  return (
+    <>
+      <animated.mesh position={[0.0, 0.0, 0.2]} scale={trails[0].videoScale}>
+        <ImageMaterial id={"MXT_CLM_2D_SD_090_02_FG.webp"} />
+        <SimplePlane />
+      </animated.mesh>
+      <animated.mesh position={[0.0, 0.0, 0.0]} scale={trails[1].videoScale}>
+        <ImageMaterial id={"MXT_CLM_2D_SD_090_02_MG.webp"} />
+        <SimplePlane />
+      </animated.mesh>
+      {/* <animated.mesh
+        position={[0.0, 0, 0.4]}
+        scale={1.0}
+      >
+        <VideoMat id={"MXT_CLM_030_Comp_Music_SD_01-1.mov"} />
+
+        <planeGeometry args={[1.24, 1, 1]} />
+  */}
+    </>
+  );
+};
+const FiveB = ({ trails }) => {
+  return (
+    <>
+      <animated.mesh position={[0.0, 0.0, 0.2]} scale={trails[0].videoScale}>
+        <ImageMaterial id={"MXT_CLM_2D_SD_100_02_FG.webp"} />
+        <SimplePlane />
+      </animated.mesh>
+      {/* <animated.mesh
+        position={[0.0, 0, 0.4]}
+        scale={1.0}
+      >
+        <VideoMat id={"MXT_CLM_030_Comp_Music_SD_01-1.mov"} />
+
+        <planeGeometry args={[1.24, 1, 1]} />
+  */}
+    </>
+  );
+};
+
+const SixA = ({ trails }) => {
+  return (
+    <>
+      <animated.mesh position={[0.0, 0.0, 0.2]} scale={trails[0].videoScale}>
+        <ImageMaterial id={"MXT_CLM_2D_SD_110_SD_FG.webp"} />
+        <SimplePlane />
+      </animated.mesh>
+      {/* <animated.mesh position={[0.0, 0, 0.4]} scale={1.0}>
         <VideoMat id={"MXT_CLM_120_Comp_Couch_SD_01-1.mov"} />
         <planeGeometry args={[1.24, 1, 1]} />
       </animated.mesh>
       <animated.mesh position={[0.0, 0, 0.3]} scale={1.0}>
         <VideoMat id={"MXT_CLM_120_Comp_Lamp_SD_01-1.mov"} />
         <planeGeometry args={[1.24, 1, 1]} />
-      </animated.mesh>
+      </animated.mesh> */}
     </>
   );
 };
 
-const SixB = () => {
+const SixB = ({ trails }) => {
   return (
     <>
-      <animated.mesh
+      <animated.mesh position={[0.0, 0.0, 0.2]} scale={trails[0].videoScale}>
+        <ImageMaterial id={"MXT_CLM_2D_SD_120_SD_FG.webp"} />
+        <SimplePlane />
+      </animated.mesh>
+      <animated.mesh position={[0.0, 0.0, 0.0]} scale={trails[1].videoScale}>
+        <ImageMaterial id={"MXT_CLM_2D_SD_120_SD_MG.webp"} />
+        <SimplePlane />
+      </animated.mesh>
+
+      {/* <animated.mesh
         position={[0.0, 0, 0.4]}
         // material={matSixBFG}
         scale={1.0}
@@ -1734,34 +701,26 @@ const SixB = () => {
       <animated.mesh position={[0.0, 0, -5.3]} scale={1.0}>
         <VideoMat id={"MXT_CLM_130_BG_SD_01-1.mov"} />
         <planeGeometry args={[12.0, 10, 1]} />
-      </animated.mesh>
+      </animated.mesh> */}
     </>
   );
 };
 
-const EightA = () => {
+const SevenA = ({ trails }) => {
   return (
     <>
-      <animated.mesh
-        position={[0.0, 0, 0.3]}
-        // material={matEigthAFg}
-        scale={1.0}
-      >
-        <VideoMat id={"MXT_CLM_140_FG_SD_06_hvec.mov"} />
-        <planeGeometry args={[1.24, 1, 1]} />
+      <animated.mesh position={[0.0, 0.0, 0.2]} scale={trails[0].videoScale}>
+        <ImageMaterial id={"MXT_CLM_2D_SD_130_02_FG.webp"} />
+        <SimplePlane />
       </animated.mesh>
-      <animated.mesh
-        position={[0.0, 0.0, 0.2]}
-        // material={matEightAmg}
-        scale={1.0}
-      >
-        <VideoMat id={"MXT_CLM_140_MG_SD_12_hvec.mov"} />
-        <planeGeometry args={[1.24, 1, 1]} />
+      <animated.mesh position={[0.0, 0.0, 0.0]} scale={trails[1].videoScale}>
+        <ImageMaterial id={"MXT_CLM_2D_SD_130_02_MG.webp"} />
+        <SimplePlane />
       </animated.mesh>
     </>
   );
 };
-const EightB = () => {
+const SevenB = ({ trails }) => {
   return (
     <>
       <animated.mesh position={[0.0, 0, 0.4]} scale={1.0}>
@@ -1789,113 +748,164 @@ const TargetWrap = (props) => {
   console.log("latest", latestFind);
   const { gl, scene } = useThree();
   const posRef = useRef();
-
   const AnchorTargetMemo = useMemo(() => AnchorTarget, [latestFind]);
+  const [trails, api] = useTrail(
+    5,
+    () => ({ videoScale: 0, config: config.wobbly }),
+    []
+  );
 
   return (
     <>
       <AnchorTargetMemo
+        api={api}
         targetIndexInt={0}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
         posRef={posRef}
         audioUrl={"/CLM.mp3"}
       >
-        {latestFind === 0 ? <Cover /> : <></>}
+        {latestFind === 0 ? <Cover trails={trails} /> : <></>}
       </AnchorTargetMemo>
+
       <AnchorTargetMemo
+        api={api}
         targetIndexInt={2}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
         posRef={posRef}
         audioUrl={"/Read_01a.mp3"}
       >
-        {latestFind === 2 ? <OneA /> : <></>}
+        {latestFind === 2 ? <OneA trails={trails} /> : <></>}
       </AnchorTargetMemo>
-      {/* <SpreadOneB
-        targetIndexInt={3}
-        latestFind={latestFind}
-        setLatestFind={setLatestFind}
-      /> */}
+
       <AnchorTargetMemo
+        api={api}
         targetIndexInt={4}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
         posRef={posRef}
         audioUrl={"/Read_02a.mp3"}
       >
-        {latestFind === 4 ? <TwoA /> : <></>}
+        {latestFind === 4 ? <TwoA trails={trails} /> : <></>}
       </AnchorTargetMemo>
-      {/* <SpreadTwoB
+
+      <AnchorTargetMemo
+        api={api}
         targetIndexInt={5}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
-      />
-      <SpreadThreeA
+        posRef={posRef}
+        audioUrl={"/Read_02b.mp3"}
+      >
+        {latestFind === 5 ? <TwoB trails={trails} /> : <></>}
+      </AnchorTargetMemo>
+
+      <AnchorTargetMemo
+        api={api}
         targetIndexInt={6}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
-      />
-      <SpreadThreeB
+        posRef={posRef}
+        audioUrl={"/Read_03a.mp3"}
+      >
+        {latestFind === 6 ? <ThreeA trails={trails} /> : <></>}
+      </AnchorTargetMemo>
+
+      <AnchorTargetMemo
+        api={api}
         targetIndexInt={7}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
-      />
-      <SpreadFourA
+        posRef={posRef}
+        audioUrl={"/Read_03b.mp3"}
+      >
+        {latestFind === 7 ? <ThreeB trails={trails} /> : <></>}
+      </AnchorTargetMemo>
+
+      <AnchorTargetMemo
+        api={api}
         targetIndexInt={8}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
-      />
-      <SpreadFourB
+        posRef={posRef}
+        audioUrl={"/Read_04a.mp3"}
+      >
+        {latestFind === 8 ? <FourA trails={trails} /> : <></>}
+      </AnchorTargetMemo>
+
+      <AnchorTargetMemo
+        api={api}
         targetIndexInt={9}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
-      />
-      <SpreadFiveA
+        posRef={posRef}
+        audioUrl={"/Read_04b.mp3"}
+      >
+        {latestFind === 9 ? <FourB trails={trails} /> : <></>}
+      </AnchorTargetMemo>
+
+      <AnchorTargetMemo
+        api={api}
         targetIndexInt={10}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
-      />
-      <SpreadFiveB
+        posRef={posRef}
+        audioUrl={"/Read_05a.mp3"}
+      >
+        {latestFind === 10 ? <FiveA trails={trails} /> : <></>}
+      </AnchorTargetMemo>
+
+      <AnchorTargetMemo
+        api={api}
         targetIndexInt={11}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
-      /> */}
+        posRef={posRef}
+        audioUrl={"/Read_05b.mp3"}
+      >
+        {latestFind === 11 ? <FiveB trails={trails} /> : <></>}
+      </AnchorTargetMemo>
+
       <AnchorTargetMemo
+        api={api}
         targetIndexInt={12}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
         posRef={posRef}
         audioUrl={"/Read_06a.mp3"}
       >
-        {latestFind === 12 ? <SixA /> : <></>}
+        {latestFind === 12 ? <SixA trails={trails} /> : <></>}
       </AnchorTargetMemo>
       <AnchorTargetMemo
+        api={api}
         targetIndexInt={13}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
         posRef={posRef}
         audioUrl={"/Read_06b.mp3"}
       >
-        {latestFind === 13 ? <SixB /> : <></>}
+        {latestFind === 13 ? <SixB trails={trails} /> : <></>}
       </AnchorTargetMemo>
       <AnchorTargetMemo
+        api={api}
         targetIndexInt={15}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
         posRef={posRef}
         audioUrl={"/Read_08b.mp3"}
       >
-        {latestFind === 15 ? <EightB /> : <></>}
+        {latestFind === 15 ? <SevenB trails={trails} /> : <></>}
       </AnchorTargetMemo>
       <AnchorTargetMemo
+        api={api}
         targetIndexInt={14}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
         posRef={posRef}
         audioUrl={"/Read_08a.mp3"}
       >
-        {latestFind === 14 ? <EightA /> : <></>}
+        {latestFind === 14 ? <SevenA trails={trails} /> : <></>}
       </AnchorTargetMemo>
     </>
   );
