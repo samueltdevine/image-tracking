@@ -139,7 +139,8 @@ const VideoMat = (props) => {
   const video = document.getElementById(props.id);
   video.play();
   // const src = ideo.children[0].src;
-  const texture = new THREE.VideoTexture(video);
+  // const texture = new THREE.VideoTexture(video);
+  const texture = useVideoTexture(props.id);
   console.log("tex", texture);
   texture.format = THREE.RGBAFormat;
   return (
@@ -341,12 +342,11 @@ function BouncyText(props) {
 }
 
 const actionTexture = (ref, action) => {
-  console.log("action", ref, JSON.stringify(action));
-  const string = JSON.stringify(action);
+  console.log("action", ref);
+  const string = action;
   const refCurrent = ref.current;
   const children = refCurrent.children;
   console.log("action children", children);
-  console.log("action string", string);
   for (let i = 0; i < children.length; i++) {
     const child = children[i];
 
@@ -357,18 +357,22 @@ const actionTexture = (ref, action) => {
     const material = child.material;
 
     if (string === "play") {
-      source.play();
+      // source.play();
       console.log("action played");
     }
     if (string === "pause") {
-      // console.log("action paused");
-      // source.pause();
+      console.log("action paused");
+      source.pause();
     }
     if (string === "dispose") {
-      // console.log("action disposed", map, material);
-      // map.dispose();
-      // alphaMap.dispose();
-      // material.dispose();
+      console.log("action disposing", map, material);
+      map.dispose();
+      alphaMap.dispose();
+      material.dispose();
+      child.material.map = null;
+      child.material.alphaMap = null;
+      child.material = null;
+      console.log("action disposed", map, alphaMap, material);
     }
   }
 };
@@ -407,7 +411,7 @@ const AnchorTarget = (props) => {
     sound.setVolume(0.2);
   });
 
-  const handleCover = (prop) => {
+  const handleTrails = (prop) => {
     api.start({ videoScale: prop.scale });
   };
 
@@ -419,27 +423,28 @@ const AnchorTarget = (props) => {
     <>
       <ARAnchor
         target={targetIndexInt}
+        onAnchorLost={() => {
+          sound.pause();
+          console.log("action lost");
+          let prop = { scale: 0.0 };
+          handleTrails(prop);
+          setLatestFind(null);
+          actionTexture(ref, "pause");
+          actionTexture(ref, "dispose");
+          gl.dispose();
+          gl.setClearColor(0x272727, 0.0);
+        }}
         onAnchorFound={() => {
           gl.setClearColor(0x272727, 0.7);
           setLatestFind(targetIndexInt);
+          actionTexture(ref, "play");
           if (sound.isPlaying !== true) {
             sound.play();
           }
           let prop = { scale: 0.0 };
-          handleCover(prop);
+          handleTrails(prop);
           prop.scale = 1.0;
-          handleCover(prop);
-        }}
-        onAnchorLost={() => {
-          console.log("lost");
-          sound.pause();
-          actionTexture(ref, "pause");
-          actionTexture(ref, "dispose");
-          let prop = { scale: 0.0 };
-          handleCover(prop);
-          setLatestFind(null);
-          gl.dispose();
-          gl.setClearColor(0x272727, 0.0);
+          handleTrails(prop);
         }}
       >
         <group scale={0.7} position={[0, 0, 0]} ref={ref}>
@@ -453,11 +458,11 @@ const AnchorTarget = (props) => {
 const Cover = ({ trails }) => {
   return (
     <>
-      <animated.mesh position={[0.0, 0.5, -0.3]} scale={trails[0].videoScale}>
+      <animated.mesh position={[0.0, 0.5, -0.6]} scale={trails[0].videoScale}>
         <VideoMat id={"MXT_CLM_Comp_LogoAnimation_SD_01-1.mov"} />
         <planeGeometry args={[1.92, 1.08, 1]} />
       </animated.mesh>
-      <animated.mesh position={[-0.45, 0, -0.1]} scale={trails[1].videoScale}>
+      <animated.mesh position={[-0.45, 0, -0.2]} scale={trails[1].videoScale}>
         <VideoMat id={"MXT_CLM_Comp_LogoAnimtion_PinkMonster_CV_.mp4"} />
         <planeGeometry args={[1, 0.52, 1]} />
         <SimplePlane />
@@ -466,11 +471,11 @@ const Cover = ({ trails }) => {
         <VideoMat id={"MXT_CLM_Comp_LogoAnimtion_GreenMonster_CV_.mp4"} />
         <SimplePlane />
       </animated.mesh>
-      <animated.mesh position={[-0.5, 0, 0.1]} scale={trails[3].videoScale}>
+      <animated.mesh position={[-0.5, 0, 0.2]} scale={trails[3].videoScale}>
         <VideoMat id={"MXT_CLM_Comp_LogoAnimtion_YellowMonster_CV_h265.mp4"} />
         <SimplePlane />
       </animated.mesh>
-      <animated.mesh position={[0.3, 0, -0.2]} scale={trails[4].videoScale}>
+      <animated.mesh position={[0.3, 0, -0.4]} scale={trails[4].videoScale}>
         <VideoMat id={"MXT_CLM_Comp_LogoAnimtion_OrangeMonster_CV_.mp4"} />
         <SimplePlane />
       </animated.mesh>
