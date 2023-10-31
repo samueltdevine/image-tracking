@@ -353,26 +353,28 @@ const actionTexture = (ref, action) => {
     const source = child.material.map.source.data;
 
     const map = child.material.map;
-    const alphaMap = child.material.alphaMap;
-    const material = child.material;
+    if (typeof map === "VideoTexture") {
+      const alphaMap = child.material.alphaMap;
+      const material = child.material;
 
-    if (string === "play") {
-      source.play();
-      console.log("action played");
-    }
-    if (string === "pause") {
-      console.log("action paused");
-      source.pause();
-    }
-    if (string === "dispose") {
-      console.log("action disposing", map, material);
-      map.dispose();
-      alphaMap.dispose();
-      material.dispose();
-      child.material.map = null;
-      child.material.alphaMap = null;
-      child.material = null;
-      console.log("action disposed", map, alphaMap, material);
+      if (string === "play") {
+        source.play();
+        console.log("action played");
+      }
+      if (string === "pause") {
+        console.log("action paused");
+        source.pause();
+      }
+      if (string === "dispose") {
+        console.log("action disposing", map, material);
+        map.dispose();
+        alphaMap.dispose();
+        material.dispose();
+        child.material.map = null;
+        child.material.alphaMap = null;
+        child.material = null;
+        console.log("action disposed", map, alphaMap, material);
+      }
     }
   }
 };
