@@ -11,6 +11,7 @@ import {
   useEffect,
   useCallback,
   Suspense,
+  memo,
 } from "react";
 import {
   useSpring,
@@ -36,6 +37,8 @@ function Ui(props) {
   const [start, setStart] = useState(false);
   const [understood, setUnderstood] = useState(true);
   console.log("ui props", props);
+  console.log("start", start);
+  console.log("understood", understood);
   return (
     <>
       <div
@@ -346,7 +349,8 @@ const actionTexture = (ref, action) => {
   const string = action;
   const refCurrent = ref.current;
   const children = refCurrent.children;
-  console.log("action children", children);
+  //console.log("action children", JSON.parse(JSON.stringify(children)), action);
+
   for (let i = 0; i < children.length; i++) {
     const child = children[i];
 
@@ -358,8 +362,8 @@ const actionTexture = (ref, action) => {
       const material = child.material;
 
       if (string === "play") {
-        source.play();
-        console.log("action played");
+        // source.play();
+        // console.log("action played");
       }
       if (string === "pause") {
         console.log("action paused");
@@ -393,25 +397,24 @@ function TargetsUtil(props) {
   return <></>;
 }
 
-const AnchorTarget = (props) => {
+const AnchorTarget = memo((props) => {
   const { gl, camera } = useThree();
   const { targetIndexInt, setLatestFind, children, audioUrl, posRef, api } =
     props;
 
   const ref = useRef();
 
-  const listener = new THREE.AudioListener();
+  // const listener = new THREE.AudioListener();
 
-  camera.add(listener);
+  // camera.add(listener);
 
-  const sound = new THREE.Audio(listener);
-  // "/CLM.mp3"
-  const audioLoader = new THREE.AudioLoader();
-  audioLoader.load(audioUrl, function (buffer) {
-    sound.setBuffer(buffer);
-    sound.setLoop(false);
-    sound.setVolume(0.2);
-  });
+  // const sound = new THREE.Audio(listener);
+  // const audioLoader = new THREE.AudioLoader();
+  // audioLoader.load(audioUrl, function (buffer) {
+  // sound.setBuffer(buffer);
+  // sound.setLoop(false);
+  // sound.setVolume(0.2);
+  // });
 
   const handleTrails = (prop) => {
     api.start({ videoScale: prop.scale });
@@ -426,7 +429,7 @@ const AnchorTarget = (props) => {
       <ARAnchor
         target={targetIndexInt}
         onAnchorLost={() => {
-          sound.pause();
+          // sound.pause();
           console.log("action lost");
           let prop = { scale: 0.0 };
           handleTrails(prop);
@@ -437,12 +440,13 @@ const AnchorTarget = (props) => {
           gl.setClearColor(0x272727, 0.0);
         }}
         onAnchorFound={() => {
+          console.log("action found");
           gl.setClearColor(0x272727, 0.7);
           setLatestFind(targetIndexInt);
           actionTexture(ref, "play");
-          if (sound.isPlaying !== true) {
-            sound.play();
-          }
+          // if (sound.isPlaying !== true) {
+          // sound.play();
+          // }
           let prop = { scale: 0.0 };
           handleTrails(prop);
           prop.scale = 1.0;
@@ -455,32 +459,119 @@ const AnchorTarget = (props) => {
       </ARAnchor>
     </>
   );
-};
+});
 
 const Cover = ({ trails }) => {
   return (
     <>
-      <animated.mesh position={[0.0, 0.5, -0.6]} scale={trails[0].videoScale}>
+      <animated.mesh position={[0.0, 0.6, -0.6]} scale={trails[0].videoScale}>
         <VideoMat id={"MXT_CLM_Comp_LogoAnimation_SD_01-1.mov"} />
-        <planeGeometry args={[1.92, 1.08, 1]} />
+        <planeGeometry args={[1.2, 0.62, 1]} />
       </animated.mesh>
-      <animated.mesh position={[-0.45, 0, -0.2]} scale={trails[1].videoScale}>
+      <animated.mesh position={[-0.5, 0.1, -0.2]} scale={trails[1].videoScale}>
         <VideoMat id={"MXT_CLM_Comp_LogoAnimtion_PinkMonster_CV_.mp4"} />
-        <planeGeometry args={[1, 0.52, 1]} />
+        <planeGeometry args={[0.9, 0.9, 1]} />
         <SimplePlane />
       </animated.mesh>
-      <animated.mesh position={[0.35, -0.1, 0]} scale={trails[2].videoScale}>
+
+      <animated.mesh position={[0.2, -0.1, 0]} scale={trails[2].videoScale}>
         <VideoMat id={"MXT_CLM_Comp_LogoAnimtion_GreenMonster_CV_.mp4"} />
-        <SimplePlane />
+        <planeGeometry args={[0.9, 0.9, 1]} />
+        {/* <SimplePlane /> */}
       </animated.mesh>
       <animated.mesh position={[-0.5, 0, 0.2]} scale={trails[3].videoScale}>
         <VideoMat id={"MXT_CLM_Comp_LogoAnimtion_YellowMonster_CV_h265.mp4"} />
-        <SimplePlane />
+        <planeGeometry args={[0.9, 0.9, 1]} />
+        {/* <planeGeometry args={[0.8, 0.6, 1]} /> */}
+        {/* <SimplePlane /> */}
       </animated.mesh>
-      <animated.mesh position={[0.3, 0, -0.4]} scale={trails[4].videoScale}>
+      <animated.mesh position={[0.55, 0.1, -0.4]} scale={trails[4].videoScale}>
+        <planeGeometry args={[0.9, 0.9, 1]} />
         <VideoMat id={"MXT_CLM_Comp_LogoAnimtion_OrangeMonster_CV_.mp4"} />
-        <SimplePlane />
       </animated.mesh>
+      <>
+        <animated.mesh position={[0.0, 0, 0.2]} scale={trails[0].videoScale}>
+          <VideoMat id={"MXT_CLM_010_MG_SD_05-1.mov"} />
+          <SimplePlane />
+        </animated.mesh>
+        <animated.mesh position={[-0.1, 0, 0.0]} scale={trails[1].videoScale}>
+          <SimplePlane />
+          <ImageMaterial id={"picOneAfg"} />
+        </animated.mesh>
+        <animated.mesh position={[0.0, 0.0, -0.4]} scale={trails[2].videoScale}>
+          <ImageMaterial id={"picOneAbg1"} />
+          <SimplePlane />
+        </animated.mesh>
+        <animated.mesh
+          position={[-0.2, 0.0, -0.5]}
+          scale={trails[3].videoScale}
+        >
+          <ImageMaterial id={"picOneAbg2"} />
+          <SimplePlane />
+        </animated.mesh>
+        <animated.mesh position={[0.0, 0.0, 0.2]} scale={trails[0].videoScale}>
+          {/* <ImageMaterial id={"MXT_CLM_2D_SD_030_03_FG.webp"} /> */}
+          <VideoMat id={"MXT_CLM_030_Comp_Music_SD_01-1.mov"} />
+          <SimplePlane />
+        </animated.mesh>
+        <animated.mesh position={[0.0, 0.0, 0]} scale={trails[1].videoScale}>
+          <VideoMat id={"MXT_CLM_030_Comp_Green_SD_01-1.mov"} />
+          {/* <ImageMaterial id={"MXT_CLM_2D_SD_030_03_MG.webp"} /> */}
+          <SimplePlane />
+        </animated.mesh>
+        <animated.mesh position={[0.0, 0, 0.4]} scale={trails[0].videoScale}>
+          <VideoMat id={"MXT_CLM_120_Comp_Couch_SD_01-1.mov"} />
+          <planeGeometry args={[1.24, 1, 1]} />
+        </animated.mesh>
+        <animated.mesh position={[0.0, 0, 0.3]} scale={trails[1].videoScale}>
+          <VideoMat id={"MXT_CLM_120_Comp_Lamp_SD_01-1.mov"} />
+          <planeGeometry args={[1.24, 1, 1]} />
+        </animated.mesh>
+        <animated.mesh
+          position={[0.0, 0, 0.4]}
+          // material={matSixBFG}
+          scale={trails[1].videoScale}
+        >
+          <VideoMat id={"MXT_CLM_130_FG_SD_01-1.mov"} />
+          <planeGeometry args={[1.24, 1, 1]} />
+        </animated.mesh>
+        <animated.mesh position={[0.0, 0, -5.3]} scale={trails[0].videoScale}>
+          <VideoMat id={"MXT_CLM_130_BG_SD_01-1.mov"} />
+          <planeGeometry args={[12.0, 10, 1]} />
+        </animated.mesh>
+        <animated.mesh
+          position={[0.0, 0, 0.3]}
+          // material={matEigthAFg}
+          scale={trails[0].videoScale}
+        >
+          <VideoMat id={"MXT_CLM_140_FG_SD_06_hvec.mov"} />
+          <planeGeometry args={[1.24, 1, 1]} />
+        </animated.mesh>
+        <animated.mesh
+          position={[0.0, 0.0, 0.2]}
+          // material={matEightAmg}
+          scale={trails[1].videoScale}
+        >
+          <VideoMat id={"MXT_CLM_140_MG_SD_12_hvec.mov"} />
+          <planeGeometry args={[1.24, 1, 1]} />
+        </animated.mesh>
+        <animated.mesh position={[0.0, 0, 0.4]} scale={trails[0].videoScale}>
+          <VideoMat id={"MXT_CLM_COMP_FG1_150_SD_10.mp4"} />
+          <planeGeometry args={[1.24, 1, 1]} />
+        </animated.mesh>
+        <animated.mesh position={[0.0, 0, 0.3]} scale={trails[1].videoScale}>
+          <VideoMat id={"MXT_CLM_COMP_FG2_150_SD_10.mp4"} />
+          <planeGeometry args={[1.24, 1, 1]} />
+        </animated.mesh>
+        <animated.mesh position={[0.0, 0.0, 0.2]} scale={trails[2].videoScale}>
+          <VideoMat id={"MXT_CLM_COMP_MG_150_SD_10.mp4"} />
+          <planeGeometry args={[1.24, 1, 1]} />
+        </animated.mesh>
+        <animated.mesh position={[0.0, 0.0, 0.0]} scale={trails[4].videoScale}>
+          <VideoMat id={"MXT_CLM_COMP_BG_150_SD_10.mp4"} />
+          <planeGeometry args={[1.24, 1, 1]} />
+        </animated.mesh>
+      </>
     </>
   );
 };
@@ -529,11 +620,13 @@ const TwoA = ({ trails }) => {
   return (
     <>
       <animated.mesh position={[0.0, 0.0, 0.2]} scale={trails[0].videoScale}>
-        <ImageMaterial id={"MXT_CLM_2D_SD_030_03_FG.webp"} />
+        {/* <ImageMaterial id={"MXT_CLM_2D_SD_030_03_FG.webp"} /> */}
+        <VideoMat id={"MXT_CLM_030_Comp_Music_SD_01-1.mov"} />
         <SimplePlane />
       </animated.mesh>
       <animated.mesh position={[0.0, 0.0, 0]} scale={trails[1].videoScale}>
-        <ImageMaterial id={"MXT_CLM_2D_SD_030_03_MG.webp"} />
+        <VideoMat id={"MXT_CLM_030_Comp_Green_SD_01-1.mov"} />
+        {/* <ImageMaterial id={"MXT_CLM_2D_SD_030_03_MG.webp"} /> */}
         <SimplePlane />
       </animated.mesh>
     </>
@@ -663,14 +756,6 @@ const FiveA = ({ trails }) => {
         <ImageMaterial id={"MXT_CLM_2D_SD_090_02_MG.webp"} />
         <SimplePlane />
       </animated.mesh>
-      {/* <animated.mesh
-        position={[0.0, 0, 0.4]}
-        scale={1.0}
-      >
-        <VideoMat id={"MXT_CLM_030_Comp_Music_SD_01-1.mov"} />
-
-        <planeGeometry args={[1.24, 1, 1]} />
-  */}
     </>
   );
 };
@@ -681,14 +766,6 @@ const FiveB = ({ trails }) => {
         <ImageMaterial id={"MXT_CLM_2D_SD_100_02_FG.webp"} />
         <SimplePlane />
       </animated.mesh>
-      {/* <animated.mesh
-        position={[0.0, 0, 0.4]}
-        scale={1.0}
-      >
-        <VideoMat id={"MXT_CLM_030_Comp_Music_SD_01-1.mov"} />
-
-        <planeGeometry args={[1.24, 1, 1]} />
-  */}
     </>
   );
 };
@@ -696,17 +773,17 @@ const FiveB = ({ trails }) => {
 const SixA = ({ trails }) => {
   return (
     <>
-      <animated.mesh position={[0.0, 0.0, 0.2]} scale={trails[0].videoScale}>
-        <ImageMaterial id={"MXT_CLM_2D_SD_110_SD_FG.webp"} />
-        <SimplePlane />
-      </animated.mesh>
-      {/* <animated.mesh position={[0.0, 0, 0.4]} scale={1.0}>
+      <animated.mesh position={[0.0, 0, 0.4]} scale={trails[0].videoScale}>
         <VideoMat id={"MXT_CLM_120_Comp_Couch_SD_01-1.mov"} />
         <planeGeometry args={[1.24, 1, 1]} />
       </animated.mesh>
-      <animated.mesh position={[0.0, 0, 0.3]} scale={1.0}>
+      <animated.mesh position={[0.0, 0, 0.3]} scale={trails[1].videoScale}>
         <VideoMat id={"MXT_CLM_120_Comp_Lamp_SD_01-1.mov"} />
         <planeGeometry args={[1.24, 1, 1]} />
+      </animated.mesh>
+      {/* <animated.mesh position={[0.0, 0.0, 0.2]} scale={trails[0].videoScale}>
+        <ImageMaterial id={"MXT_CLM_2D_SD_110_SD_FG.webp"} />
+        <SimplePlane />
       </animated.mesh> */}
     </>
   );
@@ -715,26 +792,25 @@ const SixA = ({ trails }) => {
 const SixB = ({ trails }) => {
   return (
     <>
-      <animated.mesh position={[0.0, 0.0, 0.2]} scale={trails[0].videoScale}>
+      <animated.mesh
+        position={[0.0, 0, 0.4]}
+        // material={matSixBFG}
+        scale={trails[1].videoScale}
+      >
+        <VideoMat id={"MXT_CLM_130_FG_SD_01-1.mov"} />
+        <planeGeometry args={[1.24, 1, 1]} />
+      </animated.mesh>
+      <animated.mesh position={[0.0, 0, -5.3]} scale={trails[0].videoScale}>
+        <VideoMat id={"MXT_CLM_130_BG_SD_01-1.mov"} />
+        <planeGeometry args={[12.0, 10, 1]} />
+      </animated.mesh>
+      {/* <animated.mesh position={[0.0, 0.0, 0.2]} scale={trails[0].videoScale}>
         <ImageMaterial id={"MXT_CLM_2D_SD_120_SD_FG.webp"} />
         <SimplePlane />
       </animated.mesh>
       <animated.mesh position={[0.0, 0.0, 0.0]} scale={trails[1].videoScale}>
         <ImageMaterial id={"MXT_CLM_2D_SD_120_SD_MG.webp"} />
         <SimplePlane />
-      </animated.mesh>
-
-      {/* <animated.mesh
-        position={[0.0, 0, 0.4]}
-        // material={matSixBFG}
-        scale={1.0}
-      >
-        <VideoMat id={"MXT_CLM_130_FG_SD_01-1.mov"} />
-        <planeGeometry args={[1.24, 1, 1]} />
-      </animated.mesh>
-      <animated.mesh position={[0.0, 0, -5.3]} scale={1.0}>
-        <VideoMat id={"MXT_CLM_130_BG_SD_01-1.mov"} />
-        <planeGeometry args={[12.0, 10, 1]} />
       </animated.mesh> */}
     </>
   );
@@ -743,14 +819,30 @@ const SixB = ({ trails }) => {
 const SevenA = ({ trails }) => {
   return (
     <>
-      <animated.mesh position={[0.0, 0.0, 0.2]} scale={trails[0].videoScale}>
+      <animated.mesh
+        position={[0.0, 0, 0.3]}
+        // material={matEigthAFg}
+        scale={trails[0].videoScale}
+      >
+        <VideoMat id={"MXT_CLM_140_FG_SD_06_hvec.mov"} />
+        <planeGeometry args={[1.24, 1, 1]} />
+      </animated.mesh>
+      <animated.mesh
+        position={[0.0, 0.0, 0.2]}
+        // material={matEightAmg}
+        scale={trails[1].videoScale}
+      >
+        <VideoMat id={"MXT_CLM_140_MG_SD_12_hvec.mov"} />
+        <planeGeometry args={[1.24, 1, 1]} />
+      </animated.mesh>
+      {/* <animated.mesh position={[0.0, 0.0, 0.2]} scale={trails[0].videoScale}>
         <ImageMaterial id={"MXT_CLM_2D_SD_130_02_FG.webp"} />
         <SimplePlane />
       </animated.mesh>
       <animated.mesh position={[0.0, 0.0, 0.0]} scale={trails[1].videoScale}>
         <ImageMaterial id={"MXT_CLM_2D_SD_130_02_MG.webp"} />
         <SimplePlane />
-      </animated.mesh>
+      </animated.mesh> */}
     </>
   );
 };
@@ -782,7 +874,8 @@ const TargetWrap = (props) => {
   console.log("latest", latestFind);
   const { gl, scene } = useThree();
   const posRef = useRef();
-  const AnchorTargetMemo = useMemo(() => AnchorTarget, [latestFind]);
+  //const AnchorTargetMemo = useMemo(() => AnchorTarget, [latestFind]);
+  const AnchorTargetMemo = AnchorTarget;
   const CoverMemo = useMemo(() => Cover, [latestFind]);
   const OneAMemo = useMemo(() => OneA, [latestFind]);
   const OneBMemo = useMemo(() => OneB, [latestFind]);
@@ -961,6 +1054,7 @@ const TargetWrap = (props) => {
   );
 };
 
+const glOptions = { antialias: true, toneMapping: THREE.NoToneMapping };
 function App() {
   return (
     <>
@@ -975,7 +1069,7 @@ function App() {
           missTolerance={1}
           warmupTolerance={5}
           // maxTrack={2}
-          gl={{ antialias: true, toneMapping: THREE.NoToneMapping }}
+          gl={glOptions}
           linear
         >
           <TargetWrap />
