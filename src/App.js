@@ -1023,7 +1023,7 @@ function App() {
   return (
     <>
       <Ui>
-        <AR key={key} resetKey={resetKey} />
+        <AR resetKey={resetKey} />
       </Ui>
 
       {/* </div> */}
