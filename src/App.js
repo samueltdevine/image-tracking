@@ -398,6 +398,7 @@ function TargetsUtil(props) {
 }
 
 const AnchorTarget = memo((props) => {
+  const { resetKey } = props;
   const { gl, camera } = useThree();
   const { targetIndexInt, setLatestFind, children, audioUrl, posRef, api } =
     props;
@@ -429,6 +430,7 @@ const AnchorTarget = memo((props) => {
       <ARAnchor
         target={targetIndexInt}
         onAnchorLost={() => {
+          resetKey();
           // sound.pause();
           console.log("action lost");
           // let prop = { scale: 0.0 };
@@ -489,86 +491,7 @@ const Cover = ({ trails }) => {
         <planeGeometry args={[0.9, 0.9, 1]} />
         <VideoMat id={"MXT_CLM_Comp_LogoAnimtion_OrangeMonster_CV_.mp4"} />
       </mesh>
-      <>
-        <mesh position={[0.0, 0, 0.2]} scale={1}>
-          <VideoMat id={"MXT_CLM_010_MG_SD_05-1.mov"} />
-          <SimplePlane />
-        </mesh>
-        <mesh position={[-0.1, 0, 0.0]} scale={1}>
-          <SimplePlane />
-          <ImageMaterial id={"picOneAfg"} />
-        </mesh>
-        <mesh position={[0.0, 0.0, -0.4]} scale={1}>
-          <ImageMaterial id={"picOneAbg1"} />
-          <SimplePlane />
-        </mesh>
-        <mesh position={[-0.2, 0.0, -0.5]} scale={1}>
-          <ImageMaterial id={"picOneAbg2"} />
-          <SimplePlane />
-        </mesh>
-        <mesh position={[0.0, 0.0, 0.2]} scale={1}>
-          {/* <ImageMaterial id={"MXT_CLM_2D_SD_030_03_FG.webp"} /> */}
-          <VideoMat id={"MXT_CLM_030_Comp_Music_SD_01-1.mov"} />
-          <SimplePlane />
-        </mesh>
-        <mesh position={[0.0, 0.0, 0]} scale={1}>
-          <VideoMat id={"MXT_CLM_030_Comp_Green_SD_01-1.mov"} />
-          {/* <ImageMaterial id={"MXT_CLM_2D_SD_030_03_MG.webp"} /> */}
-          <SimplePlane />
-        </mesh>
-        <mesh position={[0.0, 0, 0.4]} scale={1}>
-          <VideoMat id={"MXT_CLM_120_Comp_Couch_SD_01-1.mov"} />
-          <planeGeometry args={[1.24, 1, 1]} />
-        </mesh>
-        <mesh position={[0.0, 0, 0.3]} scale={1}>
-          <VideoMat id={"MXT_CLM_120_Comp_Lamp_SD_01-1.mov"} />
-          <planeGeometry args={[1.24, 1, 1]} />
-        </mesh>
-        <mesh
-          position={[0.0, 0, 0.4]}
-          // material={matSixBFG}
-          scale={1}
-        >
-          <VideoMat id={"MXT_CLM_130_FG_SD_01-1.mov"} />
-          <planeGeometry args={[1.24, 1, 1]} />
-        </mesh>
-        <mesh position={[0.0, 0, -5.3]} scale={1}>
-          <VideoMat id={"MXT_CLM_130_BG_SD_01-1.mov"} />
-          <planeGeometry args={[12.0, 10, 1]} />
-        </mesh>
-        <mesh
-          position={[0.0, 0, 0.3]}
-          // material={matEigthAFg}
-          scale={1}
-        >
-          <VideoMat id={"MXT_CLM_140_FG_SD_06_hvec.mov"} />
-          <planeGeometry args={[1.24, 1, 1]} />
-        </mesh>
-        <mesh
-          position={[0.0, 0.0, 0.2]}
-          // material={matEightAmg}
-          scale={1}
-        >
-          <VideoMat id={"MXT_CLM_140_MG_SD_12_hvec.mov"} />
-          <planeGeometry args={[1.24, 1, 1]} />
-        </mesh>
-        <mesh position={[0.0, 0, 0.4]} scale={1}>
-          <VideoMat id={"MXT_CLM_COMP_FG1_150_SD_10.mp4"} />
-          <planeGeometry args={[1.24, 1, 1]} />
-        </mesh>
-        <mesh position={[0.0, 0, 0.3]} scale={1}>
-          <VideoMat id={"MXT_CLM_COMP_FG2_150_SD_10.mp4"} />
-          <planeGeometry args={[1.24, 1, 1]} />
-        </mesh>
-        <mesh position={[0.0, 0.0, 0.2]} scale={1}>
-          <VideoMat id={"MXT_CLM_COMP_MG_150_SD_10.mp4"} />
-          <planeGeometry args={[1.24, 1, 1]} />
-        </mesh>
-        <mesh position={[0.0, 0.0, 0.0]} scale={1}>
-          <VideoMat id={"MXT_CLM_COMP_BG_150_SD_10.mp4"} />
-          <planeGeometry args={[1.24, 1, 1]} />
-        </mesh>
-      </>
+      <></>
     </>
   );
 };
@@ -867,6 +790,7 @@ const SevenB = ({ trails }) => {
 };
 
 const TargetWrap = (props) => {
+  const { resetKey } = props;
   const [latestFind, setLatestFind] = useState(null);
   console.log("latest", latestFind);
   const { gl, scene } = useThree();
@@ -899,6 +823,7 @@ const TargetWrap = (props) => {
     <>
       <AnchorTargetMemo
         // api={api}
+        resetKey={resetKey}
         targetIndexInt={0}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
@@ -910,6 +835,7 @@ const TargetWrap = (props) => {
 
       <AnchorTargetMemo
         // api={api}
+        resetKey={resetKey}
         targetIndexInt={2}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
@@ -921,6 +847,7 @@ const TargetWrap = (props) => {
 
       <AnchorTargetMemo
         // api={api}
+        resetKey={resetKey}
         targetIndexInt={4}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
@@ -932,6 +859,7 @@ const TargetWrap = (props) => {
 
       <AnchorTargetMemo
         // api={api}
+        resetKey={resetKey}
         targetIndexInt={5}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
@@ -943,6 +871,7 @@ const TargetWrap = (props) => {
 
       <AnchorTargetMemo
         // api={api}
+        resetKey={resetKey}
         targetIndexInt={6}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
@@ -954,6 +883,7 @@ const TargetWrap = (props) => {
 
       <AnchorTargetMemo
         // api={api}
+        resetKey={resetKey}
         targetIndexInt={7}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
@@ -965,6 +895,7 @@ const TargetWrap = (props) => {
 
       <AnchorTargetMemo
         // api={api}
+        resetKey={resetKey}
         targetIndexInt={8}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
@@ -976,6 +907,7 @@ const TargetWrap = (props) => {
 
       <AnchorTargetMemo
         // api={api}
+        resetKey={resetKey}
         targetIndexInt={9}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
@@ -987,6 +919,7 @@ const TargetWrap = (props) => {
 
       <AnchorTargetMemo
         // api={api}
+        resetKey={resetKey}
         targetIndexInt={10}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
@@ -998,6 +931,7 @@ const TargetWrap = (props) => {
 
       <AnchorTargetMemo
         // api={api}
+        resetKey={resetKey}
         targetIndexInt={11}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
@@ -1009,6 +943,7 @@ const TargetWrap = (props) => {
 
       <AnchorTargetMemo
         // api={api}
+        resetKey={resetKey}
         targetIndexInt={12}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
@@ -1019,6 +954,7 @@ const TargetWrap = (props) => {
       </AnchorTargetMemo>
       <AnchorTargetMemo
         // api={api}
+        resetKey={resetKey}
         targetIndexInt={13}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
@@ -1029,6 +965,7 @@ const TargetWrap = (props) => {
       </AnchorTargetMemo>
       <AnchorTargetMemo
         // api={api}
+        resetKey={resetKey}
         targetIndexInt={15}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
@@ -1039,6 +976,7 @@ const TargetWrap = (props) => {
       </AnchorTargetMemo>
       <AnchorTargetMemo
         // api={api}
+        resetKey={resetKey}
         targetIndexInt={14}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
@@ -1053,6 +991,12 @@ const TargetWrap = (props) => {
 
 const glOptions = { antialias: true, toneMapping: THREE.NoToneMapping };
 function App() {
+  const [key, setKey] = useState("");
+  const resetKey = useCallback(() => {
+    const next = Math.random();
+    console.log("resetting key to", next);
+    setKey(next);
+  }, [setKey]);
   return (
     <>
       <Ui>
@@ -1069,7 +1013,7 @@ function App() {
           gl={glOptions}
           linear
         >
-          <TargetWrap />
+          <TargetWrap key={key} resetKey={resetKey} />
         </ARView>
       </Ui>
 
