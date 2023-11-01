@@ -1,185 +1,201 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="theme-color" content="#000000"/>
     <title>Creative Little Monsters WebAR</title>
-	<link rel="stylesheet" href="https://use.typekit.net/bof6flk.css">
+    <link rel="stylesheet" href="https://use.typekit.net/bof6flk.css">
     <style>
-      body {
-	margin: 0;
-    font-family: "sofia-pro", Futura, sans-serif;
-	  }
-      #container {
-		  
-	width: 100vw;
-	height: 100vh;
-	position: relative;
-	overflow: hidden;
-      }
-      #control {
-	position: fixed;
-	top: 0;
-	left: 0;
-	z-index: 2;
-      }
-	  .header-box{
-		  background-position: center;
-		  background-image: url("MXT_CLM_Kickstarter_Title_MJ_03.gif");
-		  background-size:contain;
-		  background-repeat: no-repeat;
-		  width: 75vw;
-		  height: 100px;
-	  }
-	  .header {
-		  font-size: 36px;
-		  font-weight: 700;
-	  }
-	  .flex{
-		  justify-content: center;
-		  align-items: center;
-		  display: flex;
-		  flex-direction: column;
-		  height: 100vh;
-	  }
-	  .button{
-		  font-size: 24px;
-		  border: 0px dashed black;
-  background-color: white;
-  color: black;
-  padding: 14px 28px;
-  cursor: pointer;
-	  }
-	  .button:hover{
-		  border-color: orange;
-		  color: orange;
-	  }
-	  #example-scanning-overlay {
-      }
-      #example-scanning-overlay.hidden {
-        display: none;
-      }
+        body {
+            margin: 0;
+            font-family: "sofia-pro", Futura, sans-serif;
+        }
+
+        #container {
+
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #control {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 2;
+        }
+
+        .header-box {
+            background-position: center;
+            background-image: url("MXT_CLM_Kickstarter_Title_MJ_03.gif");
+            background-size: contain;
+            background-repeat: no-repeat;
+            width: 75vw;
+            height: 100px;
+        }
+
+        .header {
+            font-size: 36px;
+            font-weight: 700;
+        }
+
+        .flex {
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .button {
+            font-size: 24px;
+            border: 0px dashed black;
+            background-color: white;
+            color: black;
+            padding: 14px 28px;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            border-color: orange;
+            color: orange;
+        }
+
+        #example-scanning-overlay {
+        }
+
+        #example-scanning-overlay.hidden {
+            display: none;
+        }
     </style>
-		<img id="picOneAfg" src="MXT_CLM_010_FG_SD_05.png" style="display:none">
-		<img id="picOneAbg1" src="MXT_CLM_010_BG1_SD_05.png" style="display:none">
-		<img id="picOneAbg2" src="MXT_CLM_010_BG2_SD_05.png" style="display:none">
-		<img id="MXT_CLM_2D_SD_030_03_FG.webp" src="MXT_CLM_2D_SD_030_03_FG.webp" style="display:none">
-		<img id="MXT_CLM_2D_SD_030_03_MG.webp" src="MXT_CLM_2D_SD_030_03_MG.webp" style="display:none">
-		<img id="MXT_CLM_2D_SD_040_03_BG.webp" src="MXT_CLM_2D_SD_040_03_BG.webp" style="display:none">
-		<img id="MXT_CLM_2D_SD_040_03_FG.webp" src="MXT_CLM_2D_SD_040_03_FG.webp" style="display:none">
-		<img id="MXT_CLM_2D_SD_050_BG.webp" src="MXT_CLM_2D_SD_050_BG.webp" style="display:none">
-		<img id="MXT_CLM_2D_SD_050_FG.webp" src="MXT_CLM_2D_SD_050_FG.webp" style="display:none">
-		<img id="MXT_CLM_2D_SD_050_MG.webp" src="MXT_CLM_2D_SD_050_MG.webp" style="display:none">
-		<img id="MXT_CLM_2D_SD_060_02_BG.webp" src="MXT_CLM_2D_SD_060_02_BG.webp" style="display:none">
-		<img id="MXT_CLM_2D_SD_060_02_FG.webp" src="MXT_CLM_2D_SD_060_02_FG.webp" style="display:none">
-		<img id="MXT_CLM_2D_SD_060_02_MG.webp" src="MXT_CLM_2D_SD_060_02_MG.webp" style="display:none">
-		<img id="MXT_CLM_2D_SD_070_02_FG.webp" src="MXT_CLM_2D_SD_070_02_FG.webp" style="display:none">
-		<img id="MXT_CLM_2D_SD_080_02_FG.webp" src="MXT_CLM_2D_SD_080_02_FG.webp" style="display:none">
-		<img id="MXT_CLM_2D_SD_090_02_MG.webp" src="MXT_CLM_2D_SD_090_02_MG.webp" style="display:none">
-		<img id="MXT_CLM_2D_SD_090_02_FG.webp" src="MXT_CLM_2D_SD_090_02_FG.webp" style="display:none">
-		<img id="MXT_CLM_2D_SD_100_02_FG.webp" src="MXT_CLM_2D_SD_100_02_FG.webp" style="display:none">
-		<img id="MXT_CLM_2D_SD_110_SD_FG.webp" src="MXT_CLM_2D_SD_110_SD_FG.webp" style="display:none">
-		<img id="MXT_CLM_2D_SD_120_SD_FG.webp" src="MXT_CLM_2D_SD_120_SD_FG.webp" style="display:none">
-		<img id="MXT_CLM_2D_SD_120_SD_MG.webp" src="MXT_CLM_2D_SD_120_SD_MG.webp" style="display:none">
-		<img id="MXT_CLM_2D_SD_130_02_FG.webp" src="MXT_CLM_2D_SD_130_02_FG.webp" style="display:none">
-		<img id="MXT_CLM_2D_SD_130_02_MG.webp" src="MXT_CLM_2D_SD_130_02_MG.webp" style="display:none">
-		<img id="MXT_CLM_2D_SD_130_02_MG.webp" src="MXT_CLM_2D_SD_130_02_MG.webp" style="display:none">
-		
-	<video   id="MXT_CLM_010_MG_SD_05-1.mov"  loop crossOrigin="anonymous" playsinline style="display:none" >
-		<source src="MXT_CLM_010_MG_SD_05-1.mov">
-		<!-- <source src="MXT_CLM_010_MG_SD_05.webm"  type="video/webm"> -->
-	</video>
-	<video   id="MXT_CLM_030_Comp_Music_SD_01-1.mov"  loop crossOrigin="anonymous" playsinline style="display:none" >
-		<source src="MXT_CLM_030_Comp_Music_SD_01-1.mov">
-		<!-- <source src="MXT_CLM_030_Comp_Music_SD_01.webm"  type="video/webm"> -->
-	</video>
-	<video   id="MXT_CLM_030_Comp_Green_SD_01-1.mov"  loop crossOrigin="anonymous" playsinline style="display:none" >
-		<source src="MXT_CLM_030_Comp_Green_SD_01-1.mov">
-		<!-- <source src="MXT_CLM_030_Comp_Green_SD_01.webm"  type="video/webm"> -->
-	</video>
+    <img id="picOneAfg" src="MXT_CLM_010_FG_SD_05.png" style="display:none">
+    <img id="picOneAbg1" src="MXT_CLM_010_BG1_SD_05.png" style="display:none">
+    <img id="picOneAbg2" src="MXT_CLM_010_BG2_SD_05.png" style="display:none">
+    <img id="MXT_CLM_2D_SD_030_03_FG.webp" src="MXT_CLM_2D_SD_030_03_FG.webp" style="display:none">
+    <img id="MXT_CLM_2D_SD_030_03_MG.webp" src="MXT_CLM_2D_SD_030_03_MG.webp" style="display:none">
+    <img id="MXT_CLM_2D_SD_040_03_BG.webp" src="MXT_CLM_2D_SD_040_03_BG.webp" style="display:none">
+    <img id="MXT_CLM_2D_SD_040_03_FG.webp" src="MXT_CLM_2D_SD_040_03_FG.webp" style="display:none">
+    <img id="MXT_CLM_2D_SD_050_BG.webp" src="MXT_CLM_2D_SD_050_BG.webp" style="display:none">
+    <img id="MXT_CLM_2D_SD_050_FG.webp" src="MXT_CLM_2D_SD_050_FG.webp" style="display:none">
+    <img id="MXT_CLM_2D_SD_050_MG.webp" src="MXT_CLM_2D_SD_050_MG.webp" style="display:none">
+    <img id="MXT_CLM_2D_SD_060_02_BG.webp" src="MXT_CLM_2D_SD_060_02_BG.webp" style="display:none">
+    <img id="MXT_CLM_2D_SD_060_02_FG.webp" src="MXT_CLM_2D_SD_060_02_FG.webp" style="display:none">
+    <img id="MXT_CLM_2D_SD_060_02_MG.webp" src="MXT_CLM_2D_SD_060_02_MG.webp" style="display:none">
+    <img id="MXT_CLM_2D_SD_070_02_FG.webp" src="MXT_CLM_2D_SD_070_02_FG.webp" style="display:none">
+    <img id="MXT_CLM_2D_SD_080_02_FG.webp" src="MXT_CLM_2D_SD_080_02_FG.webp" style="display:none">
+    <img id="MXT_CLM_2D_SD_090_02_MG.webp" src="MXT_CLM_2D_SD_090_02_MG.webp" style="display:none">
+    <img id="MXT_CLM_2D_SD_090_02_FG.webp" src="MXT_CLM_2D_SD_090_02_FG.webp" style="display:none">
+    <img id="MXT_CLM_2D_SD_100_02_FG.webp" src="MXT_CLM_2D_SD_100_02_FG.webp" style="display:none">
+    <img id="MXT_CLM_2D_SD_110_SD_FG.webp" src="MXT_CLM_2D_SD_110_SD_FG.webp" style="display:none">
+    <img id="MXT_CLM_2D_SD_120_SD_FG.webp" src="MXT_CLM_2D_SD_120_SD_FG.webp" style="display:none">
+    <img id="MXT_CLM_2D_SD_120_SD_MG.webp" src="MXT_CLM_2D_SD_120_SD_MG.webp" style="display:none">
+    <img id="MXT_CLM_2D_SD_130_02_FG.webp" src="MXT_CLM_2D_SD_130_02_FG.webp" style="display:none">
+    <img id="MXT_CLM_2D_SD_130_02_MG.webp" src="MXT_CLM_2D_SD_130_02_MG.webp" style="display:none">
+    <img id="MXT_CLM_2D_SD_130_02_MG.webp" src="MXT_CLM_2D_SD_130_02_MG.webp" style="display:none">
+
+    <video id="MXT_CLM_010_MG_SD_05-1.mov" loop crossOrigin="anonymous" playsinline style="display:none">
+        <source src="MXT_CLM_010_MG_SD_05-1.mov">
+        <!-- <source src="MXT_CLM_010_MG_SD_05.webm"  type="video/webm"> -->
+    </video>
+    <video id="MXT_CLM_030_Comp_Music_SD_01-1.mov" loop crossOrigin="anonymous" playsinline style="display:none">
+        <source src="MXT_CLM_030_Comp_Music_SD_01-1.mov">
+        <!-- <source src="MXT_CLM_030_Comp_Music_SD_01.webm"  type="video/webm"> -->
+    </video>
+    <video id="MXT_CLM_030_Comp_Green_SD_01-1.mov" loop crossOrigin="anonymous" playsinline style="display:none">
+        <source src="MXT_CLM_030_Comp_Green_SD_01-1.mov">
+        <!-- <source src="MXT_CLM_030_Comp_Green_SD_01.webm"  type="video/webm"> -->
+    </video>
 
 
-	<video   id="MXT_CLM_120_Comp_Couch_SD_01-1.mov"  loop crossOrigin="anonymous" playsinline style="display:none" >
-		<source src="MXT_CLM_120_Comp_Couch_SD_01-1.mov">
-		<!-- <source src="MXT_CLM_120_Comp_Couch_SD_01.webm"  type="video/webm"> -->
-	</video>
-	<video   id="MXT_CLM_120_Comp_Lamp_SD_01-1.mov"  loop crossOrigin="anonymous" playsinline style="display:none" >
-		<source src="MXT_CLM_120_Comp_Lamp_SD_01-1.mov">
-		<!-- <source src="MXT_CLM_120_Comp_Lamp_SD_01.webm"  type="video/webm"> -->
-	</video>
+    <video id="MXT_CLM_120_Comp_Couch_SD_01-1.mov" loop crossOrigin="anonymous" playsinline style="display:none">
+        <source src="MXT_CLM_120_Comp_Couch_SD_01-1.mov">
+        <!-- <source src="MXT_CLM_120_Comp_Couch_SD_01.webm"  type="video/webm"> -->
+    </video>
+    <video id="MXT_CLM_120_Comp_Lamp_SD_01-1.mov" loop crossOrigin="anonymous" playsinline style="display:none">
+        <source src="MXT_CLM_120_Comp_Lamp_SD_01-1.mov">
+        <!-- <source src="MXT_CLM_120_Comp_Lamp_SD_01.webm"  type="video/webm"> -->
+    </video>
 
-	<video   id="MXT_CLM_130_FG_SD_01-1.mov"  loop crossOrigin="anonymous" playsinline style="display:none" >
-		<source src="MXT_CLM_130_FG_SD_01-1.mov">
-		<!-- <source src="MXT_CLM_130_FG_SD_01.webm"  type="video/webm"> -->
-	</video>
-	<video   id="MXT_CLM_130_BG_SD_01-1.mov"  loop crossOrigin="anonymous" playsinline style="display:none" >
-		<source src="MXT_CLM_130_BG_SD_01-1.mov">
-		<!-- <source src="MXT_CLM_130_BG_SD_01.webm"  type="video/webm"> -->
-	</video>
+    <video id="MXT_CLM_130_FG_SD_01-1.mov" loop crossOrigin="anonymous" playsinline style="display:none">
+        <source src="MXT_CLM_130_FG_SD_01-1.mov">
+        <!-- <source src="MXT_CLM_130_FG_SD_01.webm"  type="video/webm"> -->
+    </video>
+    <video id="MXT_CLM_130_BG_SD_01-1.mov" loop crossOrigin="anonymous" playsinline style="display:none">
+        <source src="MXT_CLM_130_BG_SD_01-1.mov">
+        <!-- <source src="MXT_CLM_130_BG_SD_01.webm"  type="video/webm"> -->
+    </video>
 
 
-	<video   id="MXT_CLM_Comp_LogoAnimtion_YellowMonster_CV_h265.mp4"  loop crossOrigin="anonymous" playsinline style="display:none" >
-    <source src="MXT_CLM_Comp_LogoAnimtion_YellowMonster_CV_h265.mp4" >
-	</video>
-	<video   id="MXT_CLM_Comp_LogoAnimtion_OrangeMonster_CV_.mp4"  loop crossOrigin="anonymous" playsinline style="display:none" >
-    <source src="MXT_CLM_Comp_LogoAnimtion_OrangeMonster_CV_.mp4" >
-	</video>
-	<video   id="MXT_CLM_Comp_LogoAnimtion_PinkMonster_CV_.mp4"  loop crossOrigin="anonymous" playsinline style="display:none" >
-    <source src="MXT_CLM_Comp_LogoAnimtion_PinkMonster_CV_.mp4" >
-	</video>
-	<video   id="MXT_CLM_Comp_LogoAnimtion_GreenMonster_CV_.mp4"  loop crossOrigin="anonymous" playsinline style="display:none" >
-    <source src="MXT_CLM_Comp_LogoAnimtion_GreenMonster_CV_.mp4" >
-	</video>
-	<video   id="MXT_CLM_Comp_110_Couch_1080x1080_SD_03.mp4"  loop crossOrigin="anonymous" playsinline style="display:none" >
-	<source src="MXT_CLM_Comp_110_Couch_1080x1080_SD_03.mp4" >
-	</video>
-	<video   id="MXT_CLM_Comp_110_Rocket_1080x1080_SD_03.mp4"  loop crossOrigin="anonymous" playsinline style="display:none" >
-	<source src="MXT_CLM_Comp_110_Rocket_1080x1080_SD_03.mp4" >
-	</video>
-	<video   id="MXT_CLM_Comp_110_Text_2651x1080_SD_03_1.mp4" loop crossOrigin="anonymous" playsinline style="display:none" >
-	<source src="MXT_CLM_Comp_110_Text_2651x1080_SD_03_1.mp4" >
-	</video>
-	<video   id="MXT_CLM_COMP_FG1_150_SD_10.mp4"  loop crossOrigin="anonymous" playsinline style="display:none" >
-	<source src="MXT_CLM_COMP_FG1_150_SD_10.mp4" >
-	</video>
-	<video   id="MXT_CLM_COMP_FG2_150_SD_10.mp4"  loop crossOrigin="anonymous" playsinline style="display:none" >
-	<source src="MXT_CLM_COMP_FG2_150_SD_10.mp4" >
-	</video>
-	<video   id="MXT_CLM_COMP_MG_150_SD_10.mp4"  loop crossOrigin="anonymous" playsinline style="display:none" >
-	<source src="MXT_CLM_COMP_MG_150_SD_10.mp4" >
-	</video>
-	<video   id="MXT_CLM_COMP_BG_150_SD_10.mp4"  loop crossOrigin="anonymous" playsinline style="display:none" >
-	<source src="MXT_CLM_COMP_BG_150_SD_10.mp4" >
-	</video>
-	<video   id="MXT_CLM_140_FG_SD_06_hvec.mov"  loop crossOrigin="anonymous" playsinline style="display:none" >
-		<source src="MXT_CLM_140_FG_SD_06_hvec.mov">
-		<source src="MXT_CLM_140_FG_SD_06_1.webm"  type="video/webm">
-	</video>
-	<video   id="MXT_CLM_140_MG_SD_12_hvec.mov"  loop crossOrigin="anonymous" playsinline style="display:none" >
-		<source src="MXT_CLM_140_MG_SD_12_hvec.mov">
-		<source src="MXT_CLM_140_MG_SD_08_1.webm"  type="video/webm">
-	</video>
-	<video   id="MXT_CLM_Comp_LogoAnimation_SD_01-1.mov"  loop crossOrigin="anonymous" playsinline style="display:none" >
-		<source src="MXT_CLM_Comp_LogoAnimation_SD_01-1.mov">
-		<source src="MXT_CLM_Comp_LogoAnimation_SD_01.webm"  type="video/webm">
-	</video>
+    <video id="MXT_CLM_Comp_LogoAnimtion_YellowMonster_CV_h265.mp4" loop crossOrigin="anonymous" playsinline
+           style="display:none">
+        <source src="MXT_CLM_Comp_LogoAnimtion_YellowMonster_CV_h265.mp4">
+    </video>
+    <video id="MXT_CLM_Comp_LogoAnimtion_OrangeMonster_CV_.mp4" loop crossOrigin="anonymous" playsinline
+           style="display:none">
+        <source src="MXT_CLM_Comp_LogoAnimtion_OrangeMonster_CV_.mp4">
+    </video>
+    <video id="MXT_CLM_Comp_LogoAnimtion_PinkMonster_CV_.mp4" loop crossOrigin="anonymous" playsinline
+           style="display:none">
+        <source src="MXT_CLM_Comp_LogoAnimtion_PinkMonster_CV_.mp4">
+    </video>
+    <video id="MXT_CLM_Comp_LogoAnimtion_GreenMonster_CV_.mp4" loop crossOrigin="anonymous" playsinline
+           style="display:none">
+        <source src="MXT_CLM_Comp_LogoAnimtion_GreenMonster_CV_.mp4">
+    </video>
+    <video id="MXT_CLM_Comp_110_Couch_1080x1080_SD_03.mp4" loop crossOrigin="anonymous" playsinline
+           style="display:none">
+        <source src="MXT_CLM_Comp_110_Couch_1080x1080_SD_03.mp4">
+    </video>
+    <video id="MXT_CLM_Comp_110_Rocket_1080x1080_SD_03.mp4" loop crossOrigin="anonymous" playsinline
+           style="display:none">
+        <source src="MXT_CLM_Comp_110_Rocket_1080x1080_SD_03.mp4">
+    </video>
+    <video id="MXT_CLM_Comp_110_Text_2651x1080_SD_03_1.mp4" loop crossOrigin="anonymous" playsinline
+           style="display:none">
+        <source src="MXT_CLM_Comp_110_Text_2651x1080_SD_03_1.mp4">
+    </video>
+    <video id="MXT_CLM_COMP_FG1_150_SD_10.mp4" loop crossOrigin="anonymous" playsinline style="display:none">
+        <source src="MXT_CLM_COMP_FG1_150_SD_10.mp4">
+    </video>
+    <video id="MXT_CLM_COMP_FG2_150_SD_10.mp4" loop crossOrigin="anonymous" playsinline style="display:none">
+        <source src="MXT_CLM_COMP_FG2_150_SD_10.mp4">
+    </video>
+    <video id="MXT_CLM_COMP_MG_150_SD_10.mp4" loop crossOrigin="anonymous" playsinline style="display:none">
+        <source src="MXT_CLM_COMP_MG_150_SD_10.mp4">
+    </video>
+    <video id="MXT_CLM_COMP_BG_150_SD_10.mp4" loop crossOrigin="anonymous" playsinline style="display:none">
+        <source src="MXT_CLM_COMP_BG_150_SD_10.mp4">
+    </video>
+    <video id="MXT_CLM_140_FG_SD_06_hvec.mov" loop crossOrigin="anonymous" playsinline style="display:none">
+        <source src="MXT_CLM_140_FG_SD_06_hvec.mov">
+        <source src="MXT_CLM_140_FG_SD_06_1.webm" type="video/webm">
+    </video>
+    <video id="MXT_CLM_140_MG_SD_12_hvec.mov" loop crossOrigin="anonymous" playsinline style="display:none">
+        <source src="MXT_CLM_140_MG_SD_12_hvec.mov">
+        <source src="MXT_CLM_140_MG_SD_08_1.webm" type="video/webm">
+    </video>
+    <video id="MXT_CLM_Comp_LogoAnimation_SD_01-1.mov" loop crossOrigin="anonymous" playsinline style="display:none">
+        <source src="MXT_CLM_Comp_LogoAnimation_SD_01-1.mov">
+        <source src="MXT_CLM_Comp_LogoAnimation_SD_01.webm" type="video/webm">
+    </video>
 
-	
-	<!-- <video   id="videoEightAfgAlpha" loop loop crossOrigin="anonymous" playsinline style="display:none" preload="auto">
-		<source src="MXT_CLM_140_FG_SD_06_alpha.mp4">
-		</video>
-		<video   id="videoEightAmgAlpha" loop loop crossOrigin="anonymous" playsinline style="display:none" preload="auto">
-		<source src="MXT_CLM_140_MG_SD_06_alpha.mp4">
-		</video>
-	<video   id="videoEightAbg" loop loop crossOrigin="anonymous" playsinline style="display:none" preload="auto">
-	<source src="MXT_CLM_140_BG_2D_SD_04.mp4">
-	</video> -->
+
+    <!-- <video   id="videoEightAfgAlpha" loop loop crossOrigin="anonymous" playsinline style="display:none" preload="auto">
+        <source src="MXT_CLM_140_FG_SD_06_alpha.mp4">
+        </video>
+        <video   id="videoEightAmgAlpha" loop loop crossOrigin="anonymous" playsinline style="display:none" preload="auto">
+        <source src="MXT_CLM_140_MG_SD_06_alpha.mp4">
+        </video>
+    <video   id="videoEightAbg" loop loop crossOrigin="anonymous" playsinline style="display:none" preload="auto">
+    <source src="MXT_CLM_140_BG_2D_SD_04.mp4">
+    </video> -->
 </head>
-  <body>
-	<div id="example-scanning-overlay" class="hidden"></div>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-  </body>
+<body>
+<div id="example-scanning-overlay" class="hidden"></div>
+<noscript>You need to enable JavaScript to run this app.</noscript>
+<div id="root"></div>
+</body>
 </html>
  
