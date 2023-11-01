@@ -83,15 +83,15 @@ function Ui(props) {
     );
 }
 
-let soundPlayed = false;
+// let soundPlayed = false;
 
 // const videoLibrary = {};
 
-const handleVideoLibrary = (targetIndex) => {
-    const targetIndexInt = targetIndex.targetIndex;
-
-    return {targetIndexInt};
-};
+// const handleVideoLibrary = (targetIndex) => {
+//     const targetIndexInt = targetIndex.targetIndex;
+//
+//     return {targetIndexInt};
+// };
 
 const FallbackMaterial = () => {
     const material = new THREE.MeshBasicMaterial({
@@ -105,61 +105,64 @@ const FallbackMaterial = () => {
     return material;
 };
 
-const idToVideoMat = (id, depthTest, targetIndexInt, alphaId) => {
-    const video = document.getElementById(id);
-    // if (videoLibrary[targetIndexInt] === undefined) {
-    //   videoLibrary[targetIndexInt] = [];
-    // }
-    // videoLibrary[targetIndexInt].push(video);
-    const texture = new THREE.VideoTexture(video);
-    texture.format = THREE.RGBAFormat;
-    const materialVideo = new THREE.MeshBasicMaterial({
-        map: texture,
-        alphaMap: texture,
-        transparent: true,
-        opacity: 100,
-        side: THREE.BackSide,
-        depthWrite: true,
-        depthTest: depthTest,
-        toneMapped: false,
-    });
-    // console.log(texture, "texture");
-
-    return materialVideo;
-    // <meshBasicMaterial
-    //   map={texture}
-    //   alphaMap={texture}
-    //   transparent={true}
-    //   opacity={100}
-    //   side={THREE.DoubleSide}
-    //   depthWrite={true}
-    //   depthTest={depthTest}
-    //   toneMapped={false}
-    // />
-};
+// const idToVideoMat = (id, depthTest, targetIndexInt, alphaId) => {
+//     const video = document.getElementById(id);
+//     // if (videoLibrary[targetIndexInt] === undefined) {
+//     //   videoLibrary[targetIndexInt] = [];
+//     // }
+//     // videoLibrary[targetIndexInt].push(video);
+//     const texture = new THREE.VideoTexture(video);
+//     texture.format = THREE.RGBAFormat;
+//     const materialVideo = new THREE.MeshBasicMaterial({
+//         map: texture,
+//         alphaMap: texture,
+//         transparent: true,
+//         opacity: 100,
+//         side: THREE.BackSide,
+//         depthWrite: true,
+//         depthTest: depthTest,
+//         toneMapped: false,
+//     });
+//     // console.log(texture, "texture");
+//
+//     return materialVideo;
+//     // <meshBasicMaterial
+//     //   map={texture}
+//     //   alphaMap={texture}
+//     //   transparent={true}
+//     //   opacity={100}
+//     //   side={THREE.DoubleSide}
+//     //   depthWrite={true}
+//     //   depthTest={depthTest}
+//     //   toneMapped={false}
+//     // />
+// };
 
 const VideoMat = (props) => {
     const video = document.getElementById(props.id);
-    video.play();
     // const texture = useVideoTexture(props.id);
+    useEffect(() => {
+        video.play();
+    }, [])
     // const src = ideo.children[0].src;
     const texture = new THREE.VideoTexture(video);
-    console.log("tex", texture);
+    // console.log("tex", texture);
     texture.format = THREE.RGBAFormat;
     return (
         <>
-            {/* <Suspense fallback={FallbackMaterial}> */}
-            <meshBasicMaterial
-                map={texture}
-                alphaMap={texture}
-                transparent={true}
-                opacity={10}
-                side={THREE.DoubleSide}
-                depthWrite={true}
-                // depthTest={depthTest}
-                toneMapped={false}
-            />
-            {/* </Suspense> */}
+            <Suspense fallback={FallbackMaterial}>
+                <meshBasicMaterial
+                    map={texture}
+                    alphaMap={texture}
+                    transparent={true}
+                    opacity={10}
+                    side={THREE.DoubleSide}
+                    depthWrite={true}
+                    // depthTest={depthTest}
+                    toneMapped={false}
+
+                />
+            </Suspense>
         </>
     );
 };
@@ -180,91 +183,91 @@ const SimplePlane = () => {
     return <planeGeometry args={[1.24, 1, 1]}/>;
 };
 
-const fontPath = "/Nunito_Medium_Regular.json";
+// const fontPath = "/Nunito_Medium_Regular.json";
 
-const Group = (props) => {
-    return <group {...props}>{props.children}</group>;
-};
+// const Group = (props) => {
+//     return <group {...props}>{props.children}</group>;
+// };
 
 // const AnimatedGroup = animated(Group);
 
 // const AnimatedText3D = animated(Text3D);
 
-const SampleSpacerGroup = (props) => {
-    const {setLengths, lengths, position} = props;
-    const groupRef = useRef();
-
-    useEffect(() => {
-        const tmpLengths = [];
-        const wordArray = groupRef.current.children;
-        const multiplier = 50.0;
-
-        wordArray.forEach((word, index) => {
-            const boundingBox = new THREE.Box3().setFromObject(word);
-            const length = boundingBox.max.x - boundingBox.min.x;
-            const spacing = 1;
-
-            const lengthNormalized = length * multiplier + spacing;
-            tmpLengths.push(lengthNormalized);
-        });
-
-        setLengths(tmpLengths);
-    }, []);
-
-    // const sum = lengths.reduce((partialSum, a) => partialSum + a, 0);
-    // const negSum = sum * -1.0;
-    return (
-        <group ref={groupRef} scale={props.scale}>
-            {props.children}
-        </group>
-    );
-};
-
-const SpacerGroup = (props) => {
-    const {lengths, position, delayMS} = props;
-    const groupRef = useRef();
-    useEffect(() => {
-        // async function renderDelayedText (){
-        //   await sleep(delayMS)
-        // setTimeout(()=>{
-        const wordArray = groupRef.current.children;
-        wordArray.forEach((word, index) => {
-            const lengthsAccum = lengths.map((elem, index) =>
-                lengths.slice(0, index + 1).reduce((a, b) => a + b)
-            );
-            const currentLength = lengths[index];
-            const halfCurrentLength = currentLength * -0.5;
-            const currentSpacing = lengthsAccum[index] + halfCurrentLength;
-            // const currentLength = lengthsAccum[index] - lengths[index];
-            const child = word.children[0];
-            const childInner = child.children[0];
-            childInner.position.set(halfCurrentLength, 0, 0);
-            child.position.set(currentSpacing, 0, 0);
-            // child.position.set(halfCurrentLength, 0, 0);
-            console.log("word", word.position, child.position);
-            // box.getCenter(word.position);
-        });
-        // setIsDelaying(false)
-        // },delayMS)
-        // console.log("isDelaying", isDelaying)
-
-        // }
-    }, []);
-    // useEffect(()=>{
-
-    //   setTimeout(()=>{
-    //     setIsDelaying(false)
-    //   },delayMS)
-    //   },[])
-
-    return (
-        <group ref={groupRef} position={position} scale={props.scale}>
-            {props.children}
-        </group>
-    );
-    // useTimeout()
-    // console.log("yo else")
-};
+// const SampleSpacerGroup = (props) => {
+//     const {setLengths, lengths, position} = props;
+//     const groupRef = useRef();
+//
+//     useEffect(() => {
+//         const tmpLengths = [];
+//         const wordArray = groupRef.current.children;
+//         const multiplier = 50.0;
+//
+//         wordArray.forEach((word, index) => {
+//             const boundingBox = new THREE.Box3().setFromObject(word);
+//             const length = boundingBox.max.x - boundingBox.min.x;
+//             const spacing = 1;
+//
+//             const lengthNormalized = length * multiplier + spacing;
+//             tmpLengths.push(lengthNormalized);
+//         });
+//
+//         setLengths(tmpLengths);
+//     }, []);
+//
+//     // const sum = lengths.reduce((partialSum, a) => partialSum + a, 0);
+//     // const negSum = sum * -1.0;
+//     return (
+//         <group ref={groupRef} scale={props.scale}>
+//             {props.children}
+//         </group>
+//     );
+// };
+//
+// const SpacerGroup = (props) => {
+//     const {lengths, position, delayMS} = props;
+//     const groupRef = useRef();
+//     useEffect(() => {
+//         // async function renderDelayedText (){
+//         //   await sleep(delayMS)
+//         // setTimeout(()=>{
+//         const wordArray = groupRef.current.children;
+//         wordArray.forEach((word, index) => {
+//             const lengthsAccum = lengths.map((elem, index) =>
+//                 lengths.slice(0, index + 1).reduce((a, b) => a + b)
+//             );
+//             const currentLength = lengths[index];
+//             const halfCurrentLength = currentLength * -0.5;
+//             const currentSpacing = lengthsAccum[index] + halfCurrentLength;
+//             // const currentLength = lengthsAccum[index] - lengths[index];
+//             const child = word.children[0];
+//             const childInner = child.children[0];
+//             childInner.position.set(halfCurrentLength, 0, 0);
+//             child.position.set(currentSpacing, 0, 0);
+//             // child.position.set(halfCurrentLength, 0, 0);
+//             console.log("word", word.position, child.position);
+//             // box.getCenter(word.position);
+//         });
+//         // setIsDelaying(false)
+//         // },delayMS)
+//         // console.log("isDelaying", isDelaying)
+//
+//         // }
+//     }, []);
+//     // useEffect(()=>{
+//
+//     //   setTimeout(()=>{
+//     //     setIsDelaying(false)
+//     //   },delayMS)
+//     //   },[])
+//
+//     return (
+//         <group ref={groupRef} position={position} scale={props.scale}>
+//             {props.children}
+//         </group>
+//     );
+//     // useTimeout()
+//     // console.log("yo else")
+// };
 
 // function BouncyText(props) {
 //   const { scale, position, delayMS, onClick } = props;
@@ -366,36 +369,38 @@ const actionTexture = (ref, action) => {
                 // console.log("action played");
             }
             if (string === "pause") {
-                console.log("action paused");
+                console.log("action pausing", source);
                 source.pause();
+                console.log("action paused", source);
             }
             if (string === "dispose") {
+                debugger;
                 console.log("action disposing", map, material);
                 map.dispose();
                 alphaMap.dispose();
                 material.dispose();
-                child.material.map = null;
-                child.material.alphaMap = null;
-                child.material = null;
+                // child.material.map = null;
+                // child.material.alphaMap = null;
+                // child.material = null;
                 console.log("action disposed", map, alphaMap, material);
             }
         }
     }
 };
 
-function TargetsUtil(props) {
-    const {gl} = useThree();
-    const func = props.props;
-    console.log(func);
-    if (func === "log") {
-        console.log(gl.renderLists);
-    }
-    if (func === "dispose") {
-        gl.renderLists.dispose();
-        console.log("disposed");
-    }
-    return <></>;
-}
+// function TargetsUtil(props) {
+//     const {gl} = useThree();
+//     const func = props.props;
+//     console.log(func);
+//     if (func === "log") {
+//         console.log(gl.renderLists);
+//     }
+//     if (func === "dispose") {
+//         gl.renderLists.dispose();
+//         console.log("disposed");
+//     }
+//     return <></>;
+// }
 
 const AnchorTarget = memo((props) => {
     const {resetKey} = props;
@@ -463,7 +468,7 @@ const AnchorTarget = memo((props) => {
     );
 });
 
-const Cover = ({trails}) => {
+const Cover = memo(({trails}) => {
     return (
         <>
             <mesh position={[0.0, 0.6, -0.6]} scale={1}>
@@ -494,9 +499,9 @@ const Cover = ({trails}) => {
             <></>
         </>
     );
-};
+});
 
-const OneA = ({trails}) => {
+const OneA = memo(({trails}) => {
     return (
         <>
             <mesh position={[0.0, 0, 0.2]} scale={1}>
@@ -517,8 +522,8 @@ const OneA = ({trails}) => {
             </mesh>
         </>
     );
-};
-const OneB = ({trails}) => {
+});
+const OneB = memo(({trails}) => {
     return (
         <>
             <mesh position={[-0.1, 0, 0.0]} scale={1}>
@@ -535,8 +540,8 @@ const OneB = ({trails}) => {
             </mesh>
         </>
     );
-};
-const TwoA = ({trails}) => {
+});
+const TwoA = memo(({trails}) => {
     return (
         <>
             <mesh position={[0.0, 0.0, 0.2]} scale={1}>
@@ -551,8 +556,8 @@ const TwoA = ({trails}) => {
             </mesh>
         </>
     );
-};
-const TwoB = ({trails}) => {
+});
+const TwoB = memo(({trails}) => {
     return (
         <>
             <mesh position={[0.0, 0.0, 0.2]} scale={1}>
@@ -573,8 +578,8 @@ const TwoB = ({trails}) => {
   */}
         </>
     );
-};
-const ThreeA = ({trails}) => {
+});
+const ThreeA = memo(({trails}) => {
     return (
         <>
             <mesh position={[0.0, 0.0, 0.2]} scale={1}>
@@ -599,8 +604,8 @@ const ThreeA = ({trails}) => {
   */}
         </>
     );
-};
-const ThreeB = ({trails}) => {
+});
+const ThreeB = memo(({trails}) => {
     return (
         <>
             <mesh position={[0.0, 0.0, 0.2]} scale={1}>
@@ -625,8 +630,8 @@ const ThreeB = ({trails}) => {
   */}
         </>
     );
-};
-const FourA = ({trails}) => {
+});
+const FourA = memo(({trails}) => {
     return (
         <>
             <mesh position={[0.0, 0.0, 0.2]} scale={1}>
@@ -644,8 +649,8 @@ const FourA = ({trails}) => {
   */}
         </>
     );
-};
-const FourB = ({trails}) => {
+});
+const FourB = memo(({trails}) => {
     return (
         <>
             <mesh position={[-0.6, 0.0, 0.2]} scale={1}>
@@ -663,9 +668,9 @@ const FourB = ({trails}) => {
   */}
         </>
     );
-};
+});
 
-const FiveA = ({trails}) => {
+const FiveA = memo(({trails}) => {
     return (
         <>
             <mesh position={[0.0, 0.0, 0.2]} scale={1}>
@@ -678,8 +683,9 @@ const FiveA = ({trails}) => {
             </mesh>
         </>
     );
-};
-const FiveB = ({trails}) => {
+});
+
+const FiveB = memo(({trails}) => {
     return (
         <>
             <mesh position={[0.0, 0.0, 0.2]} scale={1}>
@@ -688,9 +694,9 @@ const FiveB = ({trails}) => {
             </mesh>
         </>
     );
-};
+});
 
-const SixA = ({trails}) => {
+const SixA = memo(({trails}) => {
     return (
         <>
             <mesh position={[0.0, 0, 0.4]} scale={1}>
@@ -707,9 +713,9 @@ const SixA = ({trails}) => {
       </mesh> */}
         </>
     );
-};
+});
 
-const SixB = ({trails}) => {
+const SixB = memo(({trails}) => {
     return (
         <>
             <mesh
@@ -734,9 +740,9 @@ const SixB = ({trails}) => {
       </mesh> */}
         </>
     );
-};
+});
 
-const SevenA = ({trails}) => {
+const SevenA = memo(({trails}) => {
     return (
         <>
             <mesh
@@ -765,8 +771,9 @@ const SevenA = ({trails}) => {
       </mesh> */}
         </>
     );
-};
-const SevenB = ({trails}) => {
+});
+
+const SevenB = memo(({trails}) => {
     return (
         <>
             <mesh position={[0.0, 0, 0.4]} scale={1}>
@@ -787,32 +794,22 @@ const SevenB = ({trails}) => {
             </mesh>
         </>
     );
-};
+});
 
 const TargetWrap = (props) => {
     const {latestFind, setLatestFind} = props
     const {resetKey} = props;
     // const [latestFind, setLatestFind] = useState(null);
     console.log("latest", latestFind);
+
     const {gl, scene} = useThree();
+
+    console.log("renderer.info", gl.info);
+    console.log("renderer.info.memory", gl.info.memory);
+
     const posRef = useRef();
     //const AnchorTargetMemo = useMemo(() => AnchorTarget, [latestFind]);
     const AnchorTargetMemo = AnchorTarget;
-    const CoverMemo = useMemo(() => Cover, [latestFind]);
-    const OneAMemo = useMemo(() => OneA, [latestFind]);
-    const OneBMemo = useMemo(() => OneB, [latestFind]);
-    const TwoAMemo = useMemo(() => TwoA, [latestFind]);
-    const TwoBMemo = useMemo(() => TwoB, [latestFind]);
-    const ThreeAMemo = useMemo(() => ThreeA, [latestFind]);
-    const ThreeBMemo = useMemo(() => ThreeB, [latestFind]);
-    const FourAMemo = useMemo(() => FourA, [latestFind]);
-    const FourBMemo = useMemo(() => FourB, [latestFind]);
-    const FiveAMemo = useMemo(() => FiveA, [latestFind]);
-    const FiveBMemo = useMemo(() => FiveB, [latestFind]);
-    const SixAMemo = useMemo(() => SixA, [latestFind]);
-    const SixBMemo = useMemo(() => SixB, [latestFind]);
-    const SevenAMemo = useMemo(() => SevenA, [latestFind]);
-    const SevenBMemo = useMemo(() => SevenB, [latestFind]);
 
     // const [trails, api] = useTrail(
     //   5,
@@ -832,7 +829,7 @@ const TargetWrap = (props) => {
                     posRef={posRef}
                     audioUrl={"/CLM.mp3"}
                 >
-                    {latestFind === 0 ? <CoverMemo/> : <></>}
+                    {latestFind === 0 ? <Cover/> : <></>}
                 </AnchorTargetMemo>
 
                 <AnchorTargetMemo
@@ -844,7 +841,7 @@ const TargetWrap = (props) => {
                     posRef={posRef}
                     audioUrl={"/Read_01a.mp3"}
                 >
-                    {latestFind === 2 ? <OneAMemo/> : <></>}
+                    {latestFind === 2 ? <OneA/> : <></>}
                 </AnchorTargetMemo>
 
                 <AnchorTargetMemo
@@ -856,7 +853,7 @@ const TargetWrap = (props) => {
                     posRef={posRef}
                     audioUrl={"/Read_02a.mp3"}
                 >
-                    {latestFind === 4 ? <TwoAMemo/> : <></>}
+                    {latestFind === 4 ? <TwoA/> : <></>}
                 </AnchorTargetMemo>
 
                 <AnchorTargetMemo
@@ -868,7 +865,7 @@ const TargetWrap = (props) => {
                     posRef={posRef}
                     audioUrl={"/Read_02b.mp3"}
                 >
-                    {latestFind === 5 ? <TwoBMemo/> : <></>}
+                    {latestFind === 5 ? <TwoB/> : <></>}
                 </AnchorTargetMemo>
 
                 <AnchorTargetMemo
@@ -880,7 +877,7 @@ const TargetWrap = (props) => {
                     posRef={posRef}
                     audioUrl={"/Read_03a.mp3"}
                 >
-                    {latestFind === 6 ? <ThreeAMemo/> : <></>}
+                    {latestFind === 6 ? <ThreeA/> : <></>}
                 </AnchorTargetMemo>
 
                 <AnchorTargetMemo
@@ -892,7 +889,7 @@ const TargetWrap = (props) => {
                     posRef={posRef}
                     audioUrl={"/Read_03b.mp3"}
                 >
-                    {latestFind === 7 ? <ThreeBMemo/> : <></>}
+                    {latestFind === 7 ? <ThreeB/> : <></>}
                 </AnchorTargetMemo>
 
                 <AnchorTargetMemo
@@ -904,7 +901,7 @@ const TargetWrap = (props) => {
                     posRef={posRef}
                     audioUrl={"/Read_04a.mp3"}
                 >
-                    {latestFind === 8 ? <FourAMemo/> : <></>}
+                    {latestFind === 8 ? <FourA/> : <></>}
                 </AnchorTargetMemo>
 
                 <AnchorTargetMemo
@@ -916,7 +913,7 @@ const TargetWrap = (props) => {
                     posRef={posRef}
                     audioUrl={"/Read_04b.mp3"}
                 >
-                    {latestFind === 9 ? <FourBMemo/> : <></>}
+                    {latestFind === 9 ? <FourB/> : <></>}
                 </AnchorTargetMemo>
 
                 <AnchorTargetMemo
@@ -928,7 +925,7 @@ const TargetWrap = (props) => {
                     posRef={posRef}
                     audioUrl={"/Read_05a.mp3"}
                 >
-                    {latestFind === 10 ? <FiveAMemo/> : <></>}
+                    {latestFind === 10 ? <FiveA/> : <></>}
                 </AnchorTargetMemo>
 
                 <AnchorTargetMemo
@@ -940,7 +937,7 @@ const TargetWrap = (props) => {
                     posRef={posRef}
                     audioUrl={"/Read_05b.mp3"}
                 >
-                    {latestFind === 11 ? <FiveBMemo/> : <></>}
+                    {latestFind === 11 ? <FiveB/> : <></>}
                 </AnchorTargetMemo>
 
                 <AnchorTargetMemo
@@ -952,7 +949,7 @@ const TargetWrap = (props) => {
                     posRef={posRef}
                     audioUrl={"/Read_06a.mp3"}
                 >
-                    {latestFind === 12 ? <SixAMemo/> : <></>}
+                    {latestFind === 12 ? <SixA/> : <></>}
                 </AnchorTargetMemo>
                 <AnchorTargetMemo
                     // api={api}
@@ -963,7 +960,7 @@ const TargetWrap = (props) => {
                     posRef={posRef}
                     audioUrl={"/Read_06b.mp3"}
                 >
-                    {latestFind === 13 ? <SixBMemo/> : <></>}
+                    {latestFind === 13 ? <SixB/> : <></>}
                 </AnchorTargetMemo>
                 <AnchorTargetMemo
                     // api={api}
@@ -974,7 +971,7 @@ const TargetWrap = (props) => {
                     posRef={posRef}
                     audioUrl={"/Read_08b.mp3"}
                 >
-                    {latestFind === 15 ? <SevenBMemo/> : <></>}
+                    {latestFind === 15 ? <SevenB/> : <></>}
                 </AnchorTargetMemo>
                 <AnchorTargetMemo
                     // api={api}
@@ -985,7 +982,7 @@ const TargetWrap = (props) => {
                     posRef={posRef}
                     audioUrl={"/Read_08a.mp3"}
                 >
-                    {latestFind === 14 ? <SevenAMemo/> : <></>}
+                    {latestFind === 14 ? <SevenA/> : <></>}
                 </AnchorTargetMemo>
             </group>
         </>
@@ -1038,10 +1035,10 @@ function App() {
     return (
         <>
             <Ui>
-                <div style={{display: "flex", flexWrap: "wrap" }}>
-                    {Array(15).fill(null).map((_, i) => {
+                <div style={{display: "flex", flexWrap: "wrap"}}>
+                    {Array(16).fill(null).map((_, i) => {
                         return <button onClick={() => setLatestFind(i)} key={i}>
-                                {i}
+                            {i}
                         </button>
                     })}
                 </div>
