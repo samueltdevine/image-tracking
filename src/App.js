@@ -1,5 +1,5 @@
 import { ARAnchor, ARView } from "react-three-mind";
-import cover from "./cover.mind";
+// import cover from "./cover.mind";
 import multiTargets from "./multiTargets7.mind";
 // import multiTargets2 from "./multiTargets_lastHalf.mind";
 import { Canvas, dispose, useThree } from "@react-three/fiber";
