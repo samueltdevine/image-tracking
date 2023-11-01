@@ -1038,8 +1038,8 @@ function App() {
     return (
         <>
             <Ui>
-                <div style={{display: "flex", paddingLeft: "100px"}}>
-                    {Array(10).fill(null).map((_, i) => {
+                <div style={{display: "flex", flexWrap: "wrap" }}>
+                    {Array(15).fill(null).map((_, i) => {
                         return <button onClick={() => setLatestFind(i)} key={i}>
                                 {i}
                         </button>
