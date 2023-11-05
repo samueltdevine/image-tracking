@@ -143,6 +143,7 @@ const ImageMaterial = (id) => {
   props.map.format = THREE.RGBAFormat;
   props.transparent = true;
   props.depthTest = true;
+  props.opacity = 1;
 
   return <meshBasicMaterial {...props} />;
 };
@@ -495,16 +496,13 @@ const OneA = memo(({ trails }) => {
 const OneB = memo(({ trails }) => {
   return (
     <>
-      <animated.mesh position={[-0.1, 0, 0.0]} scale={trails[0].videoScale}>
+      <animated.mesh position={[-0.0, 0, 0.05]} scale={trails[0].videoScale}>
         <SimplePlane />
-        {/* <ImageMaterial id={"picOneAfg"} /> */}
+        <ImageMaterial id={"picOneBfg"} />
       </animated.mesh>
-      <animated.mesh position={[0.0, 0.0, -0.4]} scale={trails[0].videoScale}>
-        {/* <ImageMaterial id={"picOneAbg1"} /> */}
-        <SimplePlane />
-      </animated.mesh>
-      <animated.mesh position={[-0.2, 0.0, -0.5]} scale={trails[0].videoScale}>
-        {/* <ImageMaterial id={"picOneAbg2"} /> */}
+
+      <animated.mesh position={[-0.0, 0.0, -0.0]} scale={trails[0].videoScale}>
+        <ImageMaterial id={"picOneBbg"} />
         <SimplePlane />
       </animated.mesh>
     </>
@@ -514,13 +512,13 @@ const TwoA = memo(({ trails }) => {
   return (
     <>
       <animated.mesh position={[0.0, 0.0, 0.2]} scale={trails[0].videoScale}>
-        {/* <ImageMaterial id={"MXT_CLM_2D_SD_030_03_FG.webp"} /> */}
-        <VideoMat id={"MXT_CLM_030_Comp_Music_SD_01-1.mov"} />
+        <ImageMaterial id={"MXT_CLM_2D_SD_030_03_FG.webp"} />
+        {/* <VideoMat id={"MXT_CLM_030_Comp_Music_SD_01-1.mov"} /> */}
         <SimplePlane />
       </animated.mesh>
       <animated.mesh position={[0.0, 0.0, 0]} scale={trails[0].videoScale}>
-        <VideoMat id={"MXT_CLM_030_Comp_Green_SD_01-1.mov"} />
-        {/* <ImageMaterial id={"MXT_CLM_2D_SD_030_03_MG.webp"} /> */}
+        {/* <VideoMat id={"MXT_CLM_030_Comp_Green_SD_01-1.mov"} /> */}
+        <ImageMaterial id={"MXT_CLM_2D_SD_030_03_MG.webp"} />
         <SimplePlane />
       </animated.mesh>
     </>
@@ -668,18 +666,18 @@ const FiveB = memo(({ trails }) => {
 const SixA = memo(({ trails }) => {
   return (
     <>
-      <animated.mesh position={[0.0, 0, 0.4]} scale={trails[0].videoScale}>
+      {/* <animated.mesh position={[0.0, 0, 0.4]} scale={trails[0].videoScale}>
         <VideoMat id={"MXT_CLM_120_Comp_Couch_SD_01-1.mov"} />
         <planeGeometry args={[1.24, 1, 1]} />
       </animated.mesh>
       <animated.mesh position={[0.0, 0, 0.3]} scale={trails[0].videoScale}>
         <VideoMat id={"MXT_CLM_120_Comp_Lamp_SD_01-1.mov"} />
         <planeGeometry args={[1.24, 1, 1]} />
-      </animated.mesh>
-      {/* <animated.mesh position={[0.0, 0.0, 0.2]} scale={trails[0].videoScale}>
+      </animated.mesh> */}
+      <animated.mesh position={[0.0, 0.0, 0.2]} scale={trails[0].videoScale}>
         <ImageMaterial id={"MXT_CLM_2D_SD_110_SD_FG.webp"} />
         <SimplePlane />
-      </animated.mesh> */}
+      </animated.mesh>
     </>
   );
 });
@@ -687,7 +685,7 @@ const SixA = memo(({ trails }) => {
 const SixB = memo(({ trails }) => {
   return (
     <>
-      <animated.mesh
+      {/* <animated.mesh
         position={[0.0, 0, 0.4]}
         // material={matSixBFG}
         scale={trails[0].videoScale}
@@ -698,15 +696,15 @@ const SixB = memo(({ trails }) => {
       <animated.mesh position={[0.0, 0, -5.3]} scale={trails[0].videoScale}>
         <VideoMat id={"MXT_CLM_130_BG_SD_01-1.mov"} />
         <planeGeometry args={[12.0, 10, 1]} />
-      </animated.mesh>
-      {/* <animated.mesh position={[0.0, 0.0, 0.2]} scale={trails[0].videoScale}>
+      </animated.mesh> */}
+      <animated.mesh position={[0.0, 0.0, 0.2]} scale={trails[0].videoScale}>
         <ImageMaterial id={"MXT_CLM_2D_SD_120_SD_FG.webp"} />
         <SimplePlane />
       </animated.mesh>
       <animated.mesh position={[0.0, 0.0, 0.0]} scale={trails[0].videoScale}>
         <ImageMaterial id={"MXT_CLM_2D_SD_120_SD_MG.webp"} />
         <SimplePlane />
-      </animated.mesh> */}
+      </animated.mesh>
     </>
   );
 });
@@ -714,7 +712,7 @@ const SixB = memo(({ trails }) => {
 const SevenA = memo(({ trails }) => {
   return (
     <>
-      <animated.mesh
+      {/* <animated.mesh
         position={[0.0, 0, 0.3]}
         // material={matEigthAFg}
         scale={trails[0].videoScale}
@@ -729,15 +727,15 @@ const SevenA = memo(({ trails }) => {
       >
         <VideoMat id={"MXT_CLM_140_MG_SD_12_hvec.mov"} />
         <planeGeometry args={[1.24, 1, 1]} />
-      </animated.mesh>
-      {/* <animated.mesh position={[0.0, 0.0, 0.2]} scale={trails[0].videoScale}>
+      </animated.mesh> */}
+      <animated.mesh position={[0.0, 0.0, 0.2]} scale={trails[0].videoScale}>
         <ImageMaterial id={"MXT_CLM_2D_SD_130_02_FG.webp"} />
         <SimplePlane />
       </animated.mesh>
       <animated.mesh position={[0.0, 0.0, 0.0]} scale={trails[0].videoScale}>
         <ImageMaterial id={"MXT_CLM_2D_SD_130_02_MG.webp"} />
         <SimplePlane />
-      </animated.mesh> */}
+      </animated.mesh>
     </>
   );
 });
@@ -811,6 +809,18 @@ const TargetWrap = (props) => {
         audioUrl={"/Read_01a.mp3"}
       >
         {latestFind === 2 ? <OneA trails={trails} /> : <></>}
+      </AnchorTargetMemo>
+
+      <AnchorTargetMemo
+        api={api}
+        resetKey={resetKey}
+        targetIndexInt={3}
+        latestFind={latestFind}
+        setLatestFind={setLatestFind}
+        posRef={posRef}
+        audioUrl={"/Read_01b.mp3"}
+      >
+        {latestFind === 3 ? <OneB trails={trails} /> : <></>}
       </AnchorTargetMemo>
 
       <AnchorTargetMemo
