@@ -1028,7 +1028,7 @@ function App() {
               id="MXT_CLM_Comp_LogoAnimation_SD_01-1.mov"
               loop
               crossOrigin="anonymous"
-              playsinline
+              playsInline={true}
               muted
               style={{ display: "none" }}
               src="/MXT_CLM_Comp_LogoAnimation_SD_01-1.mov"
@@ -1037,7 +1037,7 @@ function App() {
               id="MXT_CLM_Comp_LogoAnimation_BlueMonster_CV-1.mov"
               loop
               crossOrigin="anonymous"
-              playsinline
+              playsInline={true}
               muted
               style={{ display: "none" }}
               src="/MXT_CLM_Comp_LogoAnimation_BlueMonster_CV-1.mov"
@@ -1046,7 +1046,7 @@ function App() {
               id="MXT_CLM_Comp_LogoAnimation_YellowMonster_CV_ 3-1.mov"
               loop
               crossOrigin="anonymous"
-              playsinline
+              playsInline={true}
               muted
               style={{ display: "none" }}
               src="/MXT_CLM_Comp_LogoAnimation_YellowMonster_CV_ 3-1.mov"
@@ -1055,7 +1055,7 @@ function App() {
               id="MXT_CLM_Comp_LogoAnimation_OrangeMonster_CV_ 3-1.mov"
               loop
               crossOrigin="anonymous"
-              playsinline
+              playsInline={true}
               muted
               style={{ display: "none" }}
               src="/MXT_CLM_Comp_LogoAnimation_OrangeMonster_CV_ 3-1.mov"
@@ -1064,7 +1064,7 @@ function App() {
               id="MXT_CLM_Comp_LogoAnimtion_PinkMonster_CV_.mov"
               loop
               crossOrigin="anonymous"
-              playsinline
+              playsInline={true}
               muted
               style={{ display: "none" }}
               src="/MXT_CLM_Comp_LogoAnimtion_PinkMonster_CV_.mov"
@@ -1073,7 +1073,7 @@ function App() {
               id="MXT_CLM_Comp_LogoAnimation_GreenMonster_CV-1.mov"
               loop
               crossOrigin="anonymous"
-              playsinline
+              playsInline={true}
               muted
               style={{ display: "none" }}
               src="/MXT_CLM_Comp_LogoAnimation_GreenMonster_CV-1.mov"
@@ -1089,7 +1089,7 @@ function App() {
               id="MXT_CLM_010_MG_SD_05-1.mov"
               loop
               crossOrigin="anonymous"
-              playsinline
+              playsInline={true}
               muted
               style={{ display: "none" }}
               src="/MXT_CLM_010_MG_SD_05-1.mov"
@@ -1105,7 +1105,7 @@ function App() {
               id="MXT_CLM_COMP_FG1_150_SD_10.mp4"
               loop
               crossOrigin="anonymous"
-              playsinline
+              playsInline={true}
               muted
               style={{ display: "none" }}
               src="/MXT_CLM_COMP_FG1_150_SD_10.mp4"
@@ -1114,7 +1114,7 @@ function App() {
               id="MXT_CLM_COMP_FG2_150_SD_10.mp4"
               loop
               crossOrigin="anonymous"
-              playsinline
+              playsInline={true}
               muted
               style={{ display: "none" }}
               src="/MXT_CLM_COMP_FG2_150_SD_10.mp4"
@@ -1123,7 +1123,7 @@ function App() {
               id="MXT_CLM_COMP_MG_150_SD_10.mp4"
               loop
               crossOrigin="anonymous"
-              playsinline
+              playsInline={true}
               muted
               style={{ display: "none" }}
               src="/MXT_CLM_COMP_MG_150_SD_10.mp4"
@@ -1132,7 +1132,7 @@ function App() {
               id="MXT_CLM_COMP_BG_150_SD_10.mp4"
               loop
               crossOrigin="anonymous"
-              playsinline
+              playsInline={true}
               muted
               style={{ display: "none" }}
               src="/MXT_CLM_COMP_BG_150_SD_10.mp4"
@@ -1146,7 +1146,7 @@ function App() {
           id="MXT_CLM_030_Comp_Music_SD_01-1.mov"
           loop
           crossOrigin="anonymous"
-          playsinline
+          playsInline={true}
           muted
           style={{ display: "none" }}
           src="/MXT_CLM_030_Comp_Music_SD_01-1.mov"
@@ -1155,7 +1155,7 @@ function App() {
           id="MXT_CLM_030_Comp_Green_SD_01-1.mov"
           loop
           crossOrigin="anonymous"
-          playsinline
+          playsInline={true}
           muted
           style={{ display: "none" }}
           src="/MXT_CLM_030_Comp_Green_SD_01-1.mov"
@@ -1165,7 +1165,7 @@ function App() {
           id="MXT_CLM_120_Comp_Couch_SD_01-1.mov"
           loop
           crossOrigin="anonymous"
-          playsinline
+          playsInline={true}
           muted
           style={{ display: "none" }}
           src="/MXT_CLM_120_Comp_Couch_SD_01-1.mov"
@@ -1174,7 +1174,7 @@ function App() {
           id="MXT_CLM_120_Comp_Lamp_SD_01-1.mov"
           loop
           crossOrigin="anonymous"
-          playsinline
+          playsInline={true}
           muted
           style={{ display: "none" }}
           src="/MXT_CLM_120_Comp_Lamp_SD_01-1.mov"
@@ -1184,7 +1184,7 @@ function App() {
           id="MXT_CLM_130_FG_SD_01-1.mov"
           loop
           crossOrigin="anonymous"
-          playsinline
+          playsInline={true}
           muted
           style={{ display: "none" }}
           src="/MXT_CLM_130_FG_SD_01-1.mov"
@@ -1193,7 +1193,7 @@ function App() {
           id="MXT_CLM_130_BG_SD_01-1.mov"
           loop
           crossOrigin="anonymous"
-          playsinline
+          playsInline={true}
           muted
           style={{ display: "none" }}
           src="/MXT_CLM_130_BG_SD_01-1.mov"
@@ -1203,7 +1203,7 @@ function App() {
           id="MXT_CLM_Comp_110_Couch_1080x1080_SD_03.mp4"
           loop
           crossOrigin="anonymous"
-          playsinline
+          playsInline={true}
           muted
           style={{ display: "none" }}
           src="/MXT_CLM_Comp_110_Couch_1080x1080_SD_03.mp4"
@@ -1212,7 +1212,7 @@ function App() {
           id="MXT_CLM_Comp_110_Rocket_1080x1080_SD_03.mp4"
           loop
           crossOrigin="anonymous"
-          playsinline
+          playsInline={true}
           muted
           style={{ display: "none" }}
           src="/MXT_CLM_Comp_110_Rocket_1080x1080_SD_03.mp4"
@@ -1221,7 +1221,7 @@ function App() {
           id="MXT_CLM_Comp_110_Text_2651x1080_SD_03_1.mp4"
           loop
           crossOrigin="anonymous"
-          playsinline
+          playsInline={true}
           muted
           style={{ display: "none" }}
           src="/MXT_CLM_Comp_110_Text_2651x1080_SD_03_1.mp4"
@@ -1231,7 +1231,7 @@ function App() {
           id="MXT_CLM_140_FG_SD_06_hvec.mov"
           loop
           crossOrigin="anonymous"
-          playsinline
+          playsInline={true}
           muted
           style={{ display: "none" }}
           src="/MXT_CLM_140_FG_SD_06_hvec.mov>"
@@ -1240,7 +1240,7 @@ function App() {
           id="MXT_CLM_140_MG_SD_12_hvec.mov"
           loop
           crossOrigin="anonymous"
-          playsinline
+          playsInline={true}
           muted
           style={{ display: "none" }}
           src="/MXT_CLM_140_MG_SD_12_hvec.mov"
