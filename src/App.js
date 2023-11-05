@@ -1094,6 +1094,215 @@ function App() {
               style={{ display: "none" }}
               src="/MXT_CLM_010_MG_SD_05-1.mov"
             ></video>
+            <img
+              id="picOneAfg"
+              src="/MXT_CLM_010_FG_SD_05.png"
+              style={{ display: "none" }}
+            ></img>
+            <img
+              id="picOneAbg1"
+              src="/MXT_CLM_010_BG1_SD_05.png"
+              style={{ display: "none" }}
+            ></img>
+            <img
+              id="picOneAbg2"
+              style={{ display: "none" }}
+              src="/MXT_CLM_010_BG2_SD_05.png"
+            ></img>
+          </>
+        ) : (
+          <></>
+        )}
+
+        {latestFind === 3 ? (
+          <>
+            <img
+              id="picOneBfg"
+              src="/MXT_CLM_2D_SD_020_02_FG.webp"
+              style={{ display: "none" }}
+            ></img>
+            <img
+              id="picOneBbg"
+              src="/MXT_CLM_2D_SD_020_02_BG.webp"
+              style={{ display: "none" }}
+            ></img>
+          </>
+        ) : (
+          <></>
+        )}
+
+        {latestFind === 4 ? (
+          <>
+            <img
+              id="MXT_CLM_2D_SD_030_03_FG.webp"
+              src="/MXT_CLM_2D_SD_030_03_FG.webp"
+              style={{ display: "none" }}
+            ></img>
+            <img
+              id="MXT_CLM_2D_SD_030_03_MG.webp"
+              src="/MXT_CLM_2D_SD_030_03_MG.webp"
+              style={{ display: "none" }}
+            ></img>
+          </>
+        ) : (
+          <></>
+        )}
+
+        {latestFind === 5 ? (
+          <>
+            {" "}
+            <img
+              id="MXT_CLM_2D_SD_040_03_BG.webp"
+              src="/MXT_CLM_2D_SD_040_03_BG.webp"
+              style={{ display: "none" }}
+            ></img>
+            <img
+              id="MXT_CLM_2D_SD_040_03_FG.webp"
+              src="/MXT_CLM_2D_SD_040_03_FG.webp"
+              style={{ display: "none" }}
+            ></img>
+          </>
+        ) : (
+          <></>
+        )}
+
+        {latestFind === 6 ? (
+          <>
+            <img
+              id="MXT_CLM_2D_SD_050_BG.webp"
+              src="/MXT_CLM_2D_SD_050_BG.webp"
+              style={{ display: "none" }}
+            ></img>
+            <img
+              id="MXT_CLM_2D_SD_050_FG.webp"
+              src="/MXT_CLM_2D_SD_050_FG.webp"
+              style={{ display: "none" }}
+            ></img>
+            <img
+              id="MXT_CLM_2D_SD_050_MG.webp"
+              src="/MXT_CLM_2D_SD_050_MG.webp"
+              style={{ display: "none" }}
+            ></img>
+          </>
+        ) : (
+          <></>
+        )}
+
+        {latestFind === 7 ? (
+          <>
+            <img
+              id="MXT_CLM_2D_SD_060_02_BG.webp"
+              src="/MXT_CLM_2D_SD_060_02_BG.webp"
+              style={{ display: "none" }}
+            ></img>
+            <img
+              id="MXT_CLM_2D_SD_060_02_FG.webp"
+              src="/MXT_CLM_2D_SD_060_02_FG.webp"
+              style={{ display: "none" }}
+            ></img>
+            <img
+              id="MXT_CLM_2D_SD_060_02_MG.webp"
+              src="/MXT_CLM_2D_SD_060_02_MG.webp"
+              style={{ display: "none" }}
+            ></img>
+          </>
+        ) : (
+          <></>
+        )}
+
+        {latestFind === 8 ? (
+          <>
+            <img
+              id="MXT_CLM_2D_SD_070_02_FG.webp"
+              src="/MXT_CLM_2D_SD_070_02_FG.webp"
+              style={{ display: "none" }}
+            ></img>
+          </>
+        ) : (
+          <></>
+        )}
+
+        {latestFind === 9 ? (
+          <>
+            <img
+              id="MXT_CLM_2D_SD_080_02_FG.webp"
+              src="/MXT_CLM_2D_SD_080_02_FG.webp"
+              style={{ display: "none" }}
+            ></img>
+          </>
+        ) : (
+          <></>
+        )}
+
+        {latestFind === 10 ? (
+          <>
+            <img
+              id="MXT_CLM_2D_SD_090_02_MG.webp"
+              src="/MXT_CLM_2D_SD_090_02_MG.webp"
+              style={{ display: "none" }}
+            ></img>
+            <img
+              id="MXT_CLM_2D_SD_090_02_FG.webp"
+              src="/MXT_CLM_2D_SD_090_02_FG.webp"
+              style={{ display: "none" }}
+            ></img>
+          </>
+        ) : (
+          <></>
+        )}
+
+        {latestFind === 11 ? (
+          <>
+            <img
+              id="MXT_CLM_2D_SD_100_02_FG.webp"
+              src="/MXT_CLM_2D_SD_100_02_FG.webp"
+              style={{ display: "none" }}
+            ></img>
+          </>
+        ) : (
+          <></>
+        )}
+
+        {latestFind === 12 ? (
+          <>
+            <img
+              id="MXT_CLM_2D_SD_110_SD_FG.webp"
+              src="/MXT_CLM_2D_SD_110_SD_FG.webp"
+              style={{ display: "none" }}
+            ></img>
+          </>
+        ) : (
+          <></>
+        )}
+
+        {latestFind === 13 ? (
+          <>
+            <img
+              id="MXT_CLM_2D_SD_120_SD_FG.webp"
+              src="/MXT_CLM_2D_SD_120_SD_FG.webp"
+              style={{ display: "none" }}
+            ></img>
+            <img
+              id="MXT_CLM_2D_SD_120_SD_MG.webp"
+              src="/MXT_CLM_2D_SD_120_SD_MG.webp"
+              style={{ display: "none" }}
+            ></img>
+          </>
+        ) : (
+          <></>
+        )}
+        {latestFind === 14 ? (
+          <>
+            <img
+              id="MXT_CLM_2D_SD_130_02_FG.webp"
+              src="/MXT_CLM_2D_SD_130_02_FG.webp"
+              style={{ display: "none" }}
+            ></img>
+            <img
+              id="MXT_CLM_2D_SD_130_02_MG.webp"
+              src="/MXT_CLM_2D_SD_130_02_MG.webp"
+              style={{ display: "none" }}
+            ></img>
           </>
         ) : (
           <></>
@@ -1136,6 +1345,21 @@ function App() {
               muted
               style={{ display: "none" }}
               src="/MXT_CLM_COMP_BG_150_SD_10.mp4"
+            ></video>
+          </>
+        ) : (
+          <></>
+        )}
+        {latestFind === 2 ? (
+          <>
+            <video
+              id="MXT_CLM_010_MG_SD_05-1.mov"
+              loop
+              crossOrigin="anonymous"
+              playsInline={true}
+              muted
+              style={{ display: "none" }}
+              src="/MXT_CLM_010_MG_SD_05-1.mov"
             ></video>
           </>
         ) : (
