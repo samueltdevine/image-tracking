@@ -503,8 +503,9 @@ const SevenB = memo(({ trails }) => {
 });
 
 const TargetWrap = (props) => {
-  const { latestFind, setLatestFind } = props;
-  const { resetKey } = props;
+  const [latestFind, setLatestFind] = useState(4);
+
+  // const { resetKey } = props;
   // const [latestFind, setLatestFind] = useState(null);
   console.log("latest", latestFind);
 
@@ -528,7 +529,7 @@ const TargetWrap = (props) => {
       {/* <group scale={10}> */}
       <AnchorTargetMemo
         api={api}
-        resetKey={resetKey}
+        // resetKey={resetKey}
         targetIndexInt={0}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
@@ -540,7 +541,7 @@ const TargetWrap = (props) => {
 
       <AnchorTargetMemo
         api={api}
-        resetKey={resetKey}
+        // resetKey={resetKey}
         targetIndexInt={2}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
@@ -552,7 +553,7 @@ const TargetWrap = (props) => {
 
       <AnchorTargetMemo
         api={api}
-        resetKey={resetKey}
+        // resetKey={resetKey}
         targetIndexInt={3}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
@@ -564,7 +565,7 @@ const TargetWrap = (props) => {
 
       <AnchorTargetMemo
         api={api}
-        resetKey={resetKey}
+        // resetKey={resetKey}
         targetIndexInt={4}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
@@ -576,7 +577,7 @@ const TargetWrap = (props) => {
 
       <AnchorTargetMemo
         api={api}
-        resetKey={resetKey}
+        // resetKey={resetKey}
         targetIndexInt={5}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
@@ -588,7 +589,7 @@ const TargetWrap = (props) => {
 
       <AnchorTargetMemo
         api={api}
-        resetKey={resetKey}
+        // resetKey={resetKey}
         targetIndexInt={6}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
@@ -600,7 +601,7 @@ const TargetWrap = (props) => {
 
       <AnchorTargetMemo
         api={api}
-        resetKey={resetKey}
+        // resetKey={resetKey}
         targetIndexInt={7}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
@@ -612,7 +613,7 @@ const TargetWrap = (props) => {
 
       <AnchorTargetMemo
         api={api}
-        resetKey={resetKey}
+        // resetKey={resetKey}
         targetIndexInt={8}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
@@ -624,7 +625,7 @@ const TargetWrap = (props) => {
 
       <AnchorTargetMemo
         api={api}
-        resetKey={resetKey}
+        // resetKey={resetKey}
         targetIndexInt={9}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
@@ -636,7 +637,7 @@ const TargetWrap = (props) => {
 
       <AnchorTargetMemo
         api={api}
-        resetKey={resetKey}
+        // resetKey={resetKey}
         targetIndexInt={10}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
@@ -648,7 +649,7 @@ const TargetWrap = (props) => {
 
       <AnchorTargetMemo
         api={api}
-        resetKey={resetKey}
+        // resetKey={resetKey}
         targetIndexInt={11}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
@@ -660,7 +661,7 @@ const TargetWrap = (props) => {
 
       <AnchorTargetMemo
         api={api}
-        resetKey={resetKey}
+        // resetKey={resetKey}
         targetIndexInt={12}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
@@ -671,7 +672,7 @@ const TargetWrap = (props) => {
       </AnchorTargetMemo>
       <AnchorTargetMemo
         api={api}
-        resetKey={resetKey}
+        // resetKey={resetKey}
         targetIndexInt={13}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
@@ -682,7 +683,7 @@ const TargetWrap = (props) => {
       </AnchorTargetMemo>
       <AnchorTargetMemo
         api={api}
-        resetKey={resetKey}
+        // resetKey={resetKey}
         targetIndexInt={15}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
@@ -693,7 +694,7 @@ const TargetWrap = (props) => {
       </AnchorTargetMemo>
       <AnchorTargetMemo
         api={api}
-        resetKey={resetKey}
+        // resetKey={resetKey}
         targetIndexInt={14}
         latestFind={latestFind}
         setLatestFind={setLatestFind}
@@ -708,8 +709,6 @@ const TargetWrap = (props) => {
 };
 
 const AR = (props) => {
-  const { latestFind, setLatestFind } = props;
-  const { resetKey } = props;
   return (
     <>
       {/* <Canvas> */}
@@ -729,9 +728,7 @@ const AR = (props) => {
         linear
       >
         <TargetWrap
-          latestFind={latestFind}
-          setLatestFind={setLatestFind}
-          resetKey={resetKey}
+        // resetKey={resetKey}
         />
         {/* <TargetWrap resetKey={resetKey} /> */}
       </ARView>
@@ -744,20 +741,11 @@ const glOptions = { antialias: true, toneMapping: THREE.NoToneMapping };
 function App() {
   const [key, setKey] = useState("");
 
-  const [latestFind, setLatestFind] = useState(4);
-  const resetKey = useCallback(() => {
-    const next = Math.random();
-    console.log("resetting key to", next);
-    setKey(next);
-  }, [setKey]);
-
   return (
     <>
       <Ui>
         <AR
-          resetKey={resetKey}
-          latestFind={latestFind}
-          setLatestFind={setLatestFind}
+        // resetKey={resetKey}
         />
       </Ui>
     </>
