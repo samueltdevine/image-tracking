@@ -2,7 +2,7 @@ import { ARAnchor, ARView } from "react-three-mind";
 // import cover from "./cover.mind";
 import multiTargets from "./multiTargets7.mind";
 // import multiTargets2 from "./multiTargets_lastHalf.mind";
-import { Canvas, dispose, useThree } from "@react-three/fiber";
+import { useLoader, dispose, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import {
   useState,
@@ -21,6 +21,7 @@ import {
   useSpringRef,
 } from "@react-spring/three";
 import {
+  useFBX,
   PlaneGeometry,
   Text3D,
   useTexture,
@@ -371,7 +372,15 @@ const actionTexture = (ref, action) => {
 //     return <></>;
 // }
 
-const AnchorTarget = memo((props) => {
+const Fbx = (props) => {
+  const latestFind = props.latestFind;
+  const string = `${latestFind}.fbx`;
+  const fbx = useFBX(string);
+  console.log("string", fbx);
+  return <primitive position={[0, 0, 0]} object={fbx} scale={0.0025} />;
+};
+
+const AnchorTarget = (props) => {
   const { resetKey } = props;
   const { gl, camera } = useThree();
   const { targetIndexInt, setLatestFind, children, audioUrl, api } = props;
@@ -400,38 +409,40 @@ const AnchorTarget = memo((props) => {
       <ARAnchor
         target={targetIndexInt}
         onAnchorLost={() => {
-          resetKey();
+          // resetKey();
           // sound.pause();
           console.log("action lost");
-          let prop = { scale: 0.0 };
-          handleTrails(prop);
+          // let prop = { scale: 0.0 };
+          // handleTrails(prop);
           setLatestFind(null);
-          actionTexture(ref, "pause");
-          actionTexture(ref, "dispose");
-          gl.dispose();
+          // actionTexture(ref, "pause");
+          // actionTexture(ref, "dispose");
+          // gl.dispose();
           gl.setClearColor(0x272727, 0.0);
         }}
         onAnchorFound={() => {
           console.log("action found");
-          let prop = { scale: 0.0 };
-          handleTrails(prop);
-          prop.scale = 1.0;
-          handleTrails(prop);
-          gl.setClearColor(0x272727, 0.7);
+          // let prop = { scale: 0.0 };
+          // handleTrails(prop);
+          // prop.scale = 1.0;
+          // handleTrails(prop);
+          // gl.setClearColor(0x272727, 0.7);
           setLatestFind(targetIndexInt);
-          actionTexture(ref, "play");
+          // actionTexture(ref, "play");
           if (sound.isPlaying !== true) {
             sound.play();
           }
         }}
       >
-        <group scale={0.7} position={[0, 0, 0]} ref={ref}>
+        <group scale={1} position={[0, 0, 0]}>
+          <ambientLight intensity={0.2} />
+          <pointLight position={[-1, 1, 1]} />
           {children}
         </group>
       </ARAnchor>
     </>
   );
-});
+};
 
 const Cover = memo(({ trails }) => {
   console.log("trails", trails);
@@ -524,7 +535,7 @@ const TargetWrap = (props) => {
         posRef={posRef}
         audioUrl={"/CLM.mp3"}
       >
-        {latestFind === 0 ? <Cover trails={trails} /> : <></>}
+        {latestFind === 0 ? <Fbx latestFind={latestFind} /> : <></>}
       </AnchorTargetMemo>
 
       <AnchorTargetMemo
@@ -536,7 +547,7 @@ const TargetWrap = (props) => {
         posRef={posRef}
         audioUrl={"/Read_01a.mp3"}
       >
-        {latestFind === 2 ? <OneA trails={trails} /> : <></>}
+        {latestFind === 2 ? <Fbx latestFind={latestFind} /> : <></>}
       </AnchorTargetMemo>
 
       <AnchorTargetMemo
@@ -548,7 +559,7 @@ const TargetWrap = (props) => {
         posRef={posRef}
         audioUrl={"/Read_01b.mp3"}
       >
-        {latestFind === 3 ? <OneB trails={trails} /> : <></>}
+        {latestFind === 3 ? <Fbx latestFind={latestFind} /> : <></>}
       </AnchorTargetMemo>
 
       <AnchorTargetMemo
@@ -560,7 +571,7 @@ const TargetWrap = (props) => {
         posRef={posRef}
         audioUrl={"/Read_02a.mp3"}
       >
-        {latestFind === 4 ? <TwoA trails={trails} /> : <></>}
+        {latestFind === 4 ? <Fbx latestFind={latestFind} /> : <></>}
       </AnchorTargetMemo>
 
       <AnchorTargetMemo
@@ -572,7 +583,7 @@ const TargetWrap = (props) => {
         posRef={posRef}
         audioUrl={"/Read_02b.mp3"}
       >
-        {latestFind === 5 ? <TwoB trails={trails} /> : <></>}
+        {latestFind === 5 ? <Fbx latestFind={latestFind} /> : <></>}
       </AnchorTargetMemo>
 
       <AnchorTargetMemo
@@ -584,7 +595,7 @@ const TargetWrap = (props) => {
         posRef={posRef}
         audioUrl={"/Read_03a.mp3"}
       >
-        {latestFind === 6 ? <ThreeA trails={trails} /> : <></>}
+        {latestFind === 6 ? <Fbx latestFind={latestFind} /> : <></>}
       </AnchorTargetMemo>
 
       <AnchorTargetMemo
@@ -596,7 +607,7 @@ const TargetWrap = (props) => {
         posRef={posRef}
         audioUrl={"/Read_03b.mp3"}
       >
-        {latestFind === 7 ? <ThreeB trails={trails} /> : <></>}
+        {latestFind === 7 ? <Fbx latestFind={latestFind} /> : <></>}
       </AnchorTargetMemo>
 
       <AnchorTargetMemo
@@ -608,7 +619,7 @@ const TargetWrap = (props) => {
         posRef={posRef}
         audioUrl={"/Read_04a.mp3"}
       >
-        {latestFind === 8 ? <FourA trails={trails} /> : <></>}
+        {latestFind === 8 ? <Fbx latestFind={latestFind} /> : <></>}
       </AnchorTargetMemo>
 
       <AnchorTargetMemo
@@ -620,7 +631,7 @@ const TargetWrap = (props) => {
         posRef={posRef}
         audioUrl={"/Read_04b.mp3"}
       >
-        {latestFind === 9 ? <FourB trails={trails} /> : <></>}
+        {latestFind === 9 ? <Fbx latestFind={latestFind} /> : <></>}
       </AnchorTargetMemo>
 
       <AnchorTargetMemo
@@ -632,7 +643,7 @@ const TargetWrap = (props) => {
         posRef={posRef}
         audioUrl={"/Read_05a.mp3"}
       >
-        {latestFind === 10 ? <FiveA trails={trails} /> : <></>}
+        {latestFind === 10 ? <Fbx latestFind={latestFind} /> : <></>}
       </AnchorTargetMemo>
 
       <AnchorTargetMemo
@@ -644,7 +655,7 @@ const TargetWrap = (props) => {
         posRef={posRef}
         audioUrl={"/Read_05b.mp3"}
       >
-        {latestFind === 11 ? <FiveB trails={trails} /> : <></>}
+        {latestFind === 11 ? <Fbx latestFind={latestFind} /> : <></>}
       </AnchorTargetMemo>
 
       <AnchorTargetMemo
@@ -656,7 +667,7 @@ const TargetWrap = (props) => {
         posRef={posRef}
         audioUrl={"/Read_06a.mp3"}
       >
-        {latestFind === 12 ? <SixA trails={trails} /> : <></>}
+        {latestFind === 12 ? <Fbx latestFind={latestFind} /> : <></>}
       </AnchorTargetMemo>
       <AnchorTargetMemo
         api={api}
@@ -667,7 +678,7 @@ const TargetWrap = (props) => {
         posRef={posRef}
         audioUrl={"/Read_06b.mp3"}
       >
-        {latestFind === 13 ? <SixB trails={trails} /> : <></>}
+        {latestFind === 13 ? <Fbx latestFind={latestFind} /> : <></>}
       </AnchorTargetMemo>
       <AnchorTargetMemo
         api={api}
@@ -678,7 +689,7 @@ const TargetWrap = (props) => {
         posRef={posRef}
         audioUrl={"/Read_08b.mp3"}
       >
-        {latestFind === 15 ? <SevenB trails={trails} /> : <></>}
+        {latestFind === 15 ? <Fbx latestFind={latestFind} /> : <></>}
       </AnchorTargetMemo>
       <AnchorTargetMemo
         api={api}
@@ -689,7 +700,7 @@ const TargetWrap = (props) => {
         posRef={posRef}
         audioUrl={"/Read_08a.mp3"}
       >
-        {latestFind === 14 ? <SevenA trails={trails} /> : <></>}
+        {latestFind === 14 ? <Fbx latestFind={latestFind} /> : <></>}
       </AnchorTargetMemo>
       {/* </group> */}
     </>
