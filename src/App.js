@@ -380,7 +380,7 @@ const Fbx = (props) => {
   return <primitive position={[0, 0, 0]} object={fbx} scale={0.0025} />;
 };
 
-const AnchorTarget = (props) => {
+const AnchorTarget = memo((props) => {
   const { resetKey } = props;
   const { gl, camera } = useThree();
   const { targetIndexInt, setLatestFind, children, audioUrl, api } = props;
@@ -442,7 +442,7 @@ const AnchorTarget = (props) => {
       </ARAnchor>
     </>
   );
-};
+});
 
 const Cover = memo(({ trails }) => {
   console.log("trails", trails);
