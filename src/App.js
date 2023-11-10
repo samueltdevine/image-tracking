@@ -391,13 +391,13 @@ const AnchorTarget = memo((props) => {
 
   camera.add(listener);
 
-  const sound = new THREE.Audio(listener);
-  const audioLoader = new THREE.AudioLoader();
-  audioLoader.load(audioUrl, function (buffer) {
-    sound.setBuffer(buffer);
-    sound.setLoop(false);
-    sound.setVolume(0.2);
-  });
+  // const sound = new THREE.Audio(listener);
+  // const audioLoader = new THREE.AudioLoader();
+  // audioLoader.load(audioUrl, function (buffer) {
+  //   sound.setBuffer(buffer);
+  //   sound.setLoop(false);
+  //   sound.setVolume(0.2);
+  // });
 
   // let prop = { scale: 1 };
   const handleTrails = (prop) => {
@@ -429,9 +429,9 @@ const AnchorTarget = memo((props) => {
           // gl.setClearColor(0x272727, 0.7);
           setLatestFind(targetIndexInt);
           // actionTexture(ref, "play");
-          if (sound.isPlaying !== true) {
-            sound.play();
-          }
+          // if (sound.isPlaying !== true) {
+          //   sound.play();
+          // }
         }}
       >
         <group scale={1} position={[0, 0, 0]}>
